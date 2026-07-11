@@ -27,39 +27,37 @@ export const SITE_TAGLINE = "Só entra aqui o que eu realmente uso";
 
 export const links: LinkConfig[] = [
   {
-    slug: "echo-dot-5",
-    url: "https://www.amazon.com.br/dp/B09B8VGCR8",
-    platform: "AMAZON",
-    category: "Tech",
-    featured: true,
-    review: "Uso todo dia pra controlar as luzes e timer de treino.",
-    usingSince: "2024-11-01",
-    // Amazon bloqueia scraping — override manual garante o card
-    title: "Echo Dot 5ª geração",
-    image:
-      "https://m.media-amazon.com/images/I/71xoR4A6q-L._AC_SL1000_.jpg",
-    price: 379,
-  },
-  {
-    slug: "teclado-exemplo-ml",
-    url: "https://www.mercadolivre.com.br/teclado-mecanico-gamer-redragon-kumara-k552-rgb-switch-blue/p/MLB15825995",
+    slug: "mousepad-couro-volpe",
+    url: "https://meli.la/22Jo5tQ",
     platform: "MERCADO_LIVRE",
-    category: "Tech",
-    review: "Digito nele há mais de um ano, switch blue é vício.",
-    usingSince: "2025-03-01",
-    // Sem overrides — teste real do scraper no Mercado Livre
+    category: "Setup",
+    // TODO(Danilo): adicionar review pessoal e usingSince
+    title: "Mouse Pad Couro Legítimo Volpe — Caramelo",
+    image:
+      "https://http2.mlstatic.com/D_NQ_NP_957368-MLA110083075342_042026-O.webp",
+    price: 38.9, // conferir — preço pode variar no ML
   },
   {
-    slug: "garrafa-exemplo-shopee",
-    url: "https://shopee.com.br/product/366296833/22348777918",
-    platform: "SHOPEE",
-    category: "Fitness",
-    review: "Vai comigo pra academia desde o início do ano.",
-    usingSince: "2026-01-05",
-    // Shopee = SPA, scraper não alcança — dados manuais
-    // (imagem de exemplo; troque pela URL real do produto na Shopee)
-    title: "Garrafa Térmica Inox 1L",
-    image: "https://picsum.photos/seed/garrafa/600/600",
-    price: 49.9,
+    slug: "suporte-celular-360",
+    url: "https://meli.la/1s5Waug",
+    platform: "MERCADO_LIVRE",
+    category: "Setup",
+    // TODO(Danilo): adicionar review pessoal e usingSince
+    title: "Suporte de Mesa para Celular Alumínio Giratório 360°",
+    image:
+      "https://http2.mlstatic.com/D_NQ_NP_645748-MLB102235431879_122025-O.webp",
+    price: 57, // conferir — preço pode variar no ML
+  },
+  {
+    slug: "suporte-notebook-360",
+    url: "https://meli.la/1Ua1tQD",
+    platform: "MERCADO_LIVRE",
+    category: "Setup",
+    featured: true,
+    // TODO(Danilo): adicionar review pessoal e usingSince
+    title: "Suporte de Mesa para Notebook 360° Ajustável — Metal",
+    image:
+      "https://http2.mlstatic.com/D_NQ_NP_877748-MLB105697398301_012026-O.webp",
+    price: 129.9, // conferir — preço pode variar no ML
   },
 ];
