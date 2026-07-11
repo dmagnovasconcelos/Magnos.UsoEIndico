@@ -19,7 +19,10 @@ export interface LinkConfig {
   title?: string;
   image?: string;
   description?: string;
+  /** Preço atual (com desconto, se houver) */
   price?: number;
+  /** Preço "de" riscado, quando o item está em promoção */
+  originalPrice?: number;
 }
 
 export const SITE_NAME = "Uso e Indico";
@@ -35,7 +38,8 @@ export const links: LinkConfig[] = [
     title: "Mouse Pad Couro Legítimo Volpe — Caramelo",
     image:
       "https://http2.mlstatic.com/D_NQ_NP_957368-MLA110083075342_042026-O.webp",
-    price: 38.9, // conferir — preço pode variar no ML
+    price: 29.95, // com desconto (23% OFF) — conferir periodicamente, preço do ML varia
+    originalPrice: 38.9,
   },
   {
     slug: "suporte-celular-360",
@@ -46,7 +50,8 @@ export const links: LinkConfig[] = [
     title: "Suporte de Mesa para Celular Alumínio Giratório 360°",
     image:
       "https://http2.mlstatic.com/D_NQ_NP_645748-MLB102235431879_122025-O.webp",
-    price: 57, // conferir — preço pode variar no ML
+    price: 33.13, // com desconto (41% OFF) — conferir periodicamente, preço do ML varia
+    originalPrice: 57,
   },
   {
     slug: "suporte-notebook-360",

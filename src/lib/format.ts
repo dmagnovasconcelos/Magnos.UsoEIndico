@@ -13,6 +13,15 @@ export function formatPrice(price?: number): string | undefined {
   return price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
+export function discountPercent(
+  price?: number,
+  originalPrice?: number
+): number | undefined {
+  if (price == null || originalPrice == null || originalPrice <= price)
+    return undefined;
+  return Math.round((1 - price / originalPrice) * 100);
+}
+
 export function usingFor(usingSince?: string): string | undefined {
   if (!usingSince) return undefined;
   const start = new Date(usingSince);

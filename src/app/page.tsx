@@ -2,7 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { links, SITE_NAME, SITE_TAGLINE } from "@/lib/links";
 import { enrichAll, type EnrichedLink } from "@/lib/enrich";
-import { PLATFORM_LABEL, formatPrice, usingFor } from "@/lib/format";
+import {
+  PLATFORM_LABEL,
+  formatPrice,
+  usingFor,
+  discountPercent,
+} from "@/lib/format";
 
 // Revalida a cada 24h — scraping roda aqui, nunca por visitante
 export const revalidate = 86400;
@@ -142,8 +147,29 @@ function PlatformBadge({ platform }: { platform: EnrichedLink["platform"] }) {
   );
 }
 
-function FeaturedCard({ item }: { item: EnrichedLink }) {
+function PriceTag({ item }: { item: EnrichedLink }) {
   const price = formatPrice(item.price);
+  const originalPrice = formatPrice(item.originalPrice);
+  const discount = discountPercent(item.price, item.originalPrice);
+  if (!price) return null;
+  return (
+    <span className="inline-flex flex-wrap items-baseline gap-1.5">
+      {originalPrice && discount && (
+        <span className="text-xs text-muted line-through">
+          {originalPrice}
+        </span>
+      )}
+      <span className="font-bold text-white">{price}</span>
+      {discount && (
+        <span className="rounded bg-discount/15 px-1.5 py-0.5 text-[10px] font-bold text-discount">
+          -{discount}%
+        </span>
+      )}
+    </span>
+  );
+}
+
+function FeaturedCard({ item }: { item: EnrichedLink }) {
   const usage = usingFor(item.usingSince);
   return (
     <article className="flex flex-col gap-5 rounded-2xl border border-accent/40 bg-gradient-to-br from-surface to-surface-2 p-6 sm:flex-row">
@@ -169,9 +195,9 @@ function FeaturedCard({ item }: { item: EnrichedLink }) {
         <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted">
           <PlatformBadge platform={item.platform} />
           {usage && <span>· {usage}</span>}
-          {price && (
-            <span className="font-semibold text-white">· {price}</span>
-          )}
+        </div>
+        <div className="mt-2">
+          <PriceTag item={item} />
         </div>
         <a
           href={`/r/${item.slug}`}
@@ -187,7 +213,6 @@ function FeaturedCard({ item }: { item: EnrichedLink }) {
 }
 
 function ProductCard({ item }: { item: EnrichedLink }) {
-  const price = formatPrice(item.price);
   const usage = usingFor(item.usingSince);
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-border bg-surface transition-colors hover:border-accent-soft/50">
@@ -221,9 +246,9 @@ function ProductCard({ item }: { item: EnrichedLink }) {
           {usage && <span>{usage}</span>}
         </div>
         <div className="mt-auto pt-3">
-          {price && (
-            <p className="mb-2 text-sm font-bold text-white">{price}</p>
-          )}
+          <p className="mb-2 text-sm">
+            <PriceTag item={item} />
+          </p>
           <a
             href={`/r/${item.slug}`}
             target="_blank"
