@@ -82,12 +82,12 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Tech",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // VERIFICAR: card de destaque instável, conferir com Danilo — recarregamentos
-    // mostraram título/produto diferente ("Tripé Bastão De Selfie Inova Cases...")
-    title: "Tripé Para Celular Portátil 1.7m Universal Bastão Selfie Suporte Câmera Com Controle Remoto Bluetooth + Luz De Preenchimento Preto",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_826328-MLA112451040791_052026-T.webp",
-    price: 56.26, // conferir periodicamente, preço do ML varia
-    originalPrice: 100,
+    // CORRIGIDO 2026-07-13: título/imagem antigos vinham de um card
+    // instável; essa variante "Inova Cases" confirmada 2x com imagem limpa.
+    title: "Tripé Bastão De Selfie Inova Cases Para Celular E Câmera Com Bluetooth, 1.70 M Preto",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_778159-MLA106768457011_022026-T.webp",
+    price: 78.81, // conferir periodicamente, preço do ML varia
+    originalPrice: 112.58,
   },
   {
     slug: "microfibra-pano-de-limpeza-para-iphone-macbook-cel",
@@ -311,12 +311,12 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Vestuario",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // VERIFICAR: card de destaque instável, conferir com Danilo — recarregamento
-    // mostrou produto diferente ("Regata Americana Masculina Canelada... Branco G")
-    title: "Kit 3 Regata Masculina Americano Canelada Algodão Premium",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_856120-MLB109278068437_032026-V-kit-3-regata-masculina-americano-canelada-algodo-premium.webp",
-    price: 59.3, // conferir periodicamente, preço do ML varia
-    originalPrice: 70,
+    // CORRIGIDO 2026-07-13: card antigo instável; "Regata Americana Branco G"
+    // confirmada 3x seguidas com imagem limpa e condizente.
+    title: "Regata Americana Masculina Canelada Alta Qualidade Branco G",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_773467-MLB114050737601_072026-T.webp",
+    price: 24.2, // conferir periodicamente, preço do ML varia
+    originalPrice: 49.9,
   },
   {
     slug: "cinta-masculina-modeladora-abdominal-ajustavel-ema",
@@ -324,14 +324,15 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // VERIFICAR: imagem suspeita — parece colagem promocional (pessoa segurando
-    // as costas, operário) de um anúncio de cinta LOMBAR, não uma foto limpa da
-    // cinta modeladora abdominal. Título confirmado estável (4/5 recarregamentos),
-    // mas a foto pode estar errada. Conferir com Danilo antes de confiar.
-    title: "Cinta Masculina Modeladora Abdominal Ajustável Emagrecimento Preto GG",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_650266-MLA113054136531_062026-T.webp",
-    price: 66.84, // conferir periodicamente, preço do ML varia
-    originalPrice: 78.9,
+    // CORRIGIDO 2026-07-13: a página de recomendação do ML troca o produto em
+    // destaque até sem reload (algoritmo ativo, não é só cache). A versão
+    // anterior ("Preto GG") vinha com imagem colagem/promocional que não
+    // batia visualmente com o produto. Essa variante "Lomba Cinza G" tem foto
+    // limpa e bate com o tipo de produto (cinta abdominal).
+    title: "Cinta Modeladora Masculina Abdominal Dupla Compressão Lomba Cinza G",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_801197-MLB108656655278_032026-V.webp",
+    price: 86.33, // conferir periodicamente, preço do ML varia
+    originalPrice: 129.9,
   },
   {
     slug: "calca-tactel-masculino-jogger-com-elastano-academi",
@@ -339,12 +340,12 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // VERIFICAR: card de destaque instável, conferir com Danilo — recarregamento
-    // mostrou produto diferente ("Calça Tactel Jogger Premium... 2 Bolsos 016")
-    title: "Calça Tactel Masculino Jogger com Elastano Academia Treino",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_692315-MLB87398103458_072025-V-calca-tactel-masculino-jogger-c-elastano-academia-treino.webp",
-    price: 36.17, // conferir periodicamente, preço do ML varia
-    originalPrice: 69,
+    // CORRIGIDO 2026-07-13: card antigo instável; essa variante "2 Bolsos 016"
+    // confirmada 2x seguidas com imagem limpa condizente.
+    title: "Calça Tactel Jogger Premium Fitness Academia 2 Bolsos 016 Preto Liso M(38/40)",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_846908-MLB111902440231_052026-T.webp",
+    price: 38.21, // conferir periodicamente, preço do ML varia
+    originalPrice: 50.95,
   },
   {
     slug: "munhequeira-musculacao-crossfit-lpo-elastica-alta",
@@ -363,13 +364,13 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // VERIFICAR: card de destaque muito instável, conferir com Danilo —
-    // recarregamento mostrou um produto completamente diferente (short
-    // feminino "Selene Zero Transparência", nada a ver com o item masculino)
-    title: "Shorts 2 em 1 Térmico de Compressão com Bolso Secreto Academia",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_710628-MLB110967764522_052026-V-shorts-2-em-1-termico-de-compresso-bolso-secreto-academia.webp",
-    price: 27.77, // conferir periodicamente, preço do ML varia
-    originalPrice: 54.9,
+    // CORRIGIDO 2026-07-13: card muito instável (chegou a mostrar um short
+    // feminino sem nada a ver). Essa variante "Azul Liso G" confirmada com
+    // imagem limpa, bolso secreto visível, condiz com o título.
+    title: "Shorts 2 Em 1 Térmico De Compressão Bolso Secreto Academia Azul Liso G",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_911954-MLB111031063226_052026-T.webp",
+    price: 36.24, // conferir periodicamente, preço do ML varia
+    originalPrice: 109.9,
   },
   {
     slug: "relogio-casio-unissex-vintage-aq-230a-1dmq-pratead",
@@ -388,11 +389,13 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Vestuario",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // VERIFICAR: card de destaque instável, conferir com Danilo — recarregamento
-    // mostrou produto diferente ("Regata Americana Masculina Canelada... Branco G")
-    title: "Kit 3 Regata Oversized Machão Streetwear Lisa Casual Básicas",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_839421-MLB104333596016_012026-V-kit-3-regata-oversized-macho-streetwear-lisa-casual-basicas.webp",
-    price: 76.03, // conferir periodicamente, preço do ML varia
+    // CORRIGIDO 2026-07-13: card instável ora mostrava a mesma regata avulsa
+    // do item acima. Essa é a variante "Kit 3... Casual Lisa" (Por D2G) —
+    // preço já batia com o que estava salvo, só título/imagem migraram
+    // pro produto errado. Imagem confirmada: 3 regatas pretas iguais.
+    title: "Kit 3 Regata Oversized Machão Streetwear Casual Lisa",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_725903-MLB102673135885_122025-T-kit-3-regata-oversized-macho-streetwear-casual-lisa.webp",
+    price: 76, // conferir periodicamente, preço do ML varia
     originalPrice: 143.45,
   },
   {

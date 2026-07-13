@@ -8,6 +8,7 @@ import {
   usingFor,
   discountPercent,
 } from "@/lib/format";
+import { TrackPageview } from "./TrackPageview";
 
 // Revalida a cada 24h — scraping roda aqui, nunca por visitante
 export const revalidate = 86400;
@@ -50,6 +51,7 @@ export default async function Home({
 
   return (
     <>
+      <TrackPageview />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { links } from "@/lib/links";
+import { trackEvent } from "@/lib/analytics";
 
 export async function GET(
   req: NextRequest,
@@ -8,12 +10,13 @@ export async function GET(
   const { slug } = await params;
   const link = links.find((l) => l.slug === slug);
 
+  after(() => trackEvent("click", slug));
+
   if (!link) {
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
 
   // Log estruturado de clique — visível nos logs da Vercel
-  // (substitui o ClickEvent do plano original nesta fase sem banco)
   console.log(
     JSON.stringify({
       event: "click",
@@ -24,6 +27,8 @@ export async function GET(
       ts: new Date().toISOString(),
     })
   );
+
+  after(() => trackEvent("completion", slug));
 
   return NextResponse.redirect(link.url, 302);
 }
