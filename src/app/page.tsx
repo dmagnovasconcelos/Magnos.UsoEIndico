@@ -49,68 +49,108 @@ export default async function Home({
   };
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Hero */}
-      <header className="mb-10 text-center">
-        <h1 className="bg-gradient-to-r from-accent to-accent-soft bg-clip-text text-4xl font-extrabold text-transparent">
-          {SITE_NAME}
-        </h1>
-        <p className="mt-2 text-muted">{SITE_TAGLINE} ✦</p>
-      </header>
-
-      {/* Filtro de categorias */}
-      <nav
-        aria-label="Categorias"
-        className="mb-8 flex flex-wrap justify-center gap-2"
-      >
-        <CategoryPill label="Todos" href="/" active={!cat} />
-        {categories.map((c) => (
-          <CategoryPill
-            key={c}
-            label={c}
-            href={`/?cat=${encodeURIComponent(c)}`}
-            active={cat === c}
+      {/* Barra fixa — presença da marca visível durante o scroll */}
+      <div className="fixed inset-x-0 top-0 z-50 border-b border-border bg-bg/85 backdrop-blur">
+        <div className="mx-auto flex max-w-5xl items-center gap-2 px-4 py-2.5 sm:py-3">
+          <Image
+            src="/dmagno-emblem.png"
+            alt=""
+            width={28}
+            height={27}
+            className="h-6 w-auto sm:h-7"
           />
-        ))}
-      </nav>
+          <Image
+            src="/hero-wordmark.png"
+            alt="Uso e Indico"
+            width={1216}
+            height={71}
+            className="h-4 w-auto sm:h-[18px]"
+            priority
+          />
+        </div>
+      </div>
 
-      {/* Destaques */}
-      {featured.length > 0 && (
-        <section aria-label="Destaques" className="mb-10 space-y-4">
-          {featured.map((item) => (
-            <FeaturedCard key={item.slug} item={item} />
+      <main className="mx-auto max-w-5xl px-4 pb-10 pt-20 sm:pt-24">
+        {/* Hero */}
+        <header className="mb-10 flex flex-col items-center text-center">
+          <Image
+            src="/hero-wordmark.png"
+            alt="Uso e Indico"
+            width={1216}
+            height={71}
+            className="h-8 w-auto sm:h-10"
+            priority
+          />
+          <p className="mt-3 text-muted">{SITE_TAGLINE} ✦</p>
+        </header>
+
+        {/* Filtro de categorias */}
+        <nav
+          aria-label="Categorias"
+          className="mb-8 flex flex-wrap justify-center gap-2"
+        >
+          <CategoryPill label="Todos" href="/" active={!cat} />
+          {categories.map((c) => (
+            <CategoryPill
+              key={c}
+              label={c}
+              href={`/?cat=${encodeURIComponent(c)}`}
+              active={cat === c}
+            />
           ))}
-        </section>
-      )}
+        </nav>
 
-      {/* Grid */}
-      {regular.length > 0 ? (
-        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {regular.map((item) => (
-            <ProductCard key={item.slug} item={item} />
-          ))}
-        </section>
-      ) : (
-        featured.length === 0 && (
-          <div className="rounded-xl border border-border bg-surface p-10 text-center">
-            <p className="text-lg">Ainda não há produtos nessa categoria.</p>
-            <Link href="/" className="mt-2 inline-block text-accent underline">
-              Ver todos os produtos
-            </Link>
-          </div>
-        )
-      )}
+        {/* Destaques */}
+        {featured.length > 0 && (
+          <section aria-label="Destaques" className="mb-10 space-y-4">
+            {featured.map((item) => (
+              <FeaturedCard key={item.slug} item={item} />
+            ))}
+          </section>
+        )}
 
-      <footer className="mt-14 border-t border-border pt-6 text-center text-sm text-muted">
-        Links de afiliado — comprar por aqui apoia o meu trabalho, sem custo
-        extra pra você. 💜
-      </footer>
-    </main>
+        {/* Grid */}
+        {regular.length > 0 ? (
+          <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {regular.map((item) => (
+              <ProductCard key={item.slug} item={item} />
+            ))}
+          </section>
+        ) : (
+          featured.length === 0 && (
+            <div className="rounded-xl border border-border bg-surface p-10 text-center">
+              <p className="text-lg">Ainda não há produtos nessa categoria.</p>
+              <Link href="/" className="mt-2 inline-block text-accent underline">
+                Ver todos os produtos
+              </Link>
+            </div>
+          )
+        )}
+
+        <footer className="mt-14 border-t border-border pt-6 text-center text-sm text-muted">
+          <p>
+            Links de afiliado — comprar por aqui apoia o meu trabalho, sem
+            custo extra pra você. 💜
+          </p>
+          <p className="mt-3 flex items-center justify-center gap-1.5 text-xs">
+            <Image
+              src="/dmagno-emblem.png"
+              alt=""
+              width={14}
+              height={14}
+              className="h-3.5 w-auto opacity-60"
+            />
+            por DMAGNO
+          </p>
+        </footer>
+      </main>
+    </>
   );
 }
 

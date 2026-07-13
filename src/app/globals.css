@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0d0d10;
-  --color-surface: #16161c;
-  --color-surface-2: #1e1e26;
-  --color-border: #2a2a34;
+  --color-bg: #0a0e27;
+  --color-surface: #12172f;
+  --color-surface-2: #1a2038;
+  --color-border: #2a3050;
   --color-accent: #7c6ef7;
   --color-accent-soft: #a99fe8;
   --color-discount: #4ade80;
@@ -16,4 +16,14 @@ body {
   color: #ececf1;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/*
+  A fonte Nebula (licenciada) NÃO é embutida no site — a licença da
+  Creative Fabrica proíbe redistribuir o arquivo da fonte. O wordmark
+  estático "Uso e Indico" vira imagem (public/hero-wordmark.png); títulos
+  dinâmicos (nome de produto) usam a pilha padrão do sistema.
+*/
+h2, h3 {
+  letter-spacing: 0.01em;
 }
