@@ -82,6 +82,8 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Tech",
     // TODO(Danilo): adicionar review pessoal e usingSince
+    // VERIFICAR: card de destaque instável, conferir com Danilo — recarregamentos
+    // mostraram título/produto diferente ("Tripé Bastão De Selfie Inova Cases...")
     title: "Tripé Para Celular Portátil 1.7m Universal Bastão Selfie Suporte Câmera Com Controle Remoto Bluetooth + Luz De Preenchimento Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_826328-MLA112451040791_052026-T.webp",
     price: 56.26, // conferir periodicamente, preço do ML varia
@@ -309,6 +311,8 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Vestuario",
     // TODO(Danilo): adicionar review pessoal e usingSince
+    // VERIFICAR: card de destaque instável, conferir com Danilo — recarregamento
+    // mostrou produto diferente ("Regata Americana Masculina Canelada... Branco G")
     title: "Kit 3 Regata Masculina Americano Canelada Algodão Premium",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_856120-MLB109278068437_032026-V-kit-3-regata-masculina-americano-canelada-algodo-premium.webp",
     price: 59.3, // conferir periodicamente, preço do ML varia
@@ -320,6 +324,10 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
+    // VERIFICAR: imagem suspeita — parece colagem promocional (pessoa segurando
+    // as costas, operário) de um anúncio de cinta LOMBAR, não uma foto limpa da
+    // cinta modeladora abdominal. Título confirmado estável (4/5 recarregamentos),
+    // mas a foto pode estar errada. Conferir com Danilo antes de confiar.
     title: "Cinta Masculina Modeladora Abdominal Ajustável Emagrecimento Preto GG",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_650266-MLA113054136531_062026-T.webp",
     price: 66.84, // conferir periodicamente, preço do ML varia
@@ -331,6 +339,8 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
+    // VERIFICAR: card de destaque instável, conferir com Danilo — recarregamento
+    // mostrou produto diferente ("Calça Tactel Jogger Premium... 2 Bolsos 016")
     title: "Calça Tactel Masculino Jogger com Elastano Academia Treino",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_692315-MLB87398103458_072025-V-calca-tactel-masculino-jogger-c-elastano-academia-treino.webp",
     price: 36.17, // conferir periodicamente, preço do ML varia
@@ -353,6 +363,9 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
+    // VERIFICAR: card de destaque muito instável, conferir com Danilo —
+    // recarregamento mostrou um produto completamente diferente (short
+    // feminino "Selene Zero Transparência", nada a ver com o item masculino)
     title: "Shorts 2 em 1 Térmico de Compressão com Bolso Secreto Academia",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_710628-MLB110967764522_052026-V-shorts-2-em-1-termico-de-compresso-bolso-secreto-academia.webp",
     price: 27.77, // conferir periodicamente, preço do ML varia
@@ -375,6 +388,8 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Vestuario",
     // TODO(Danilo): adicionar review pessoal e usingSince
+    // VERIFICAR: card de destaque instável, conferir com Danilo — recarregamento
+    // mostrou produto diferente ("Regata Americana Masculina Canelada... Branco G")
     title: "Kit 3 Regata Oversized Machão Streetwear Lisa Casual Básicas",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_839421-MLB104333596016_012026-V-kit-3-regata-oversized-macho-streetwear-lisa-casual-basicas.webp",
     price: 76.03, // conferir periodicamente, preço do ML varia
