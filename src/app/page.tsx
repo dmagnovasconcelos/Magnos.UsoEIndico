@@ -122,8 +122,14 @@ export default async function Home({
 
         {/* Sobre o Danilo */}
         <section className="mb-10 flex flex-col items-center gap-4 rounded-2xl border border-border bg-surface p-6 text-center sm:flex-row sm:text-left">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-accent/40 bg-surface-2 text-lg font-bold text-accent-soft">
-            DM
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-accent/40 bg-surface-2">
+            <Image
+              src="/danilo-avatar.jpg"
+              alt="Danilo Magno"
+              fill
+              sizes="64px"
+              className="object-cover"
+            />
           </div>
           <p className="text-sm text-muted">
             Sou o Danilo Magno — filho de Deus, marido e pai de dois filhos
