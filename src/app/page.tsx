@@ -116,6 +116,20 @@ export default async function Home({
           <p className="mt-3 text-muted">{SITE_TAGLINE} ✦</p>
         </header>
 
+        {/* Sobre o Danilo */}
+        <section className="mb-10 flex flex-col items-center gap-4 rounded-2xl border border-border bg-surface p-6 text-center sm:flex-row sm:text-left">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-accent/40 bg-surface-2 text-lg font-bold text-accent-soft">
+            DM
+          </div>
+          <p className="text-sm text-muted">
+            Sou o Danilo Magno — filho de Deus, marido e pai de dois filhos
+            lindos. Estou em constante transformação de espírito, alma e
+            corpo, organizando a vida e buscando viver com mais qualidade,
+            propósito e intenção. Esse site é a minha curadoria pessoal: só
+            entra aqui o que eu realmente uso.
+          </p>
+        </section>
+
         {/* Filtro de categorias */}
         <nav
           aria-label="Categorias"

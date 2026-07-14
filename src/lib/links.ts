@@ -34,7 +34,8 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/22Jo5tQ",
     platform: "MERCADO_LIVRE",
     category: "Setup",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Elegante e compacto — levo na bolsa pros dias fora do escritório, quando preciso de algo prático sem abrir mão da qualidade.",
+    usingSince: "2026-07-01",
     title: "Mouse Pad Couro Legítimo Volpe — Caramelo",
     image:
       "https://http2.mlstatic.com/D_NQ_NP_957368-MLA110083075342_042026-O.webp",
@@ -46,7 +47,8 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1s5Waug",
     platform: "MERCADO_LIVRE",
     category: "Setup",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Uma das melhores aquisições que fiz pro escritório — robusto, firme e versátil, com ótimo acabamento.",
+    usingSince: "2026-05-13",
     title: "Suporte de Mesa para Celular Alumínio Giratório 360°",
     image:
       "https://http2.mlstatic.com/D_NQ_NP_645748-MLB102235431879_122025-O.webp",
@@ -59,7 +61,8 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Setup",
     featured: true,
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Uma das melhores aquisições que fiz pro escritório — robusto, firme e versátil. Comprei um e, dias depois, já comprei o segundo: meus dois notebooks vivem nessas bases hoje.",
+    usingSince: "2026-07-01",
     title: "Suporte de Mesa para Notebook 360° Ajustável — Metal",
     image:
       "https://http2.mlstatic.com/D_NQ_NP_877748-MLB105697398301_012026-O.webp",
@@ -70,7 +73,8 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1Yp2Psx",
     platform: "MERCADO_LIVRE",
     category: "Setup",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Simples, mas cumpre o papel — melhorou bastante as cãibras e o formigamento depois de passar de 8 a 16 horas por dia sentado no escritório.",
+    usingSince: "2026-07-01",
     title: "Apoio Para Pés Ergonômico Descanso Resistente Escritório",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_707533-MLB105717403286_012026-V.webp",
     price: 42, // conferir periodicamente, preço do ML varia
@@ -81,7 +85,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/27dtUNA",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Prático e fácil de usar — uso em todos os treinos pra gravar com o celular, e evita que ele fique largado no chão da academia.",
     // CORRIGIDO 2026-07-13: reverificado com método do container do botão
     // "Ir para produto" (o método antigo por alt-text pegava produto
     // desincronizado do destino real do link) — confirmado 2x, estável.
@@ -95,7 +99,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2iEaEPx",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Muito bom — pesquisei bastante até achar. Quem tem MacBook sabe como é difícil limpar a tela sem risco, e esse pano faz isso com maestria.",
     // CORRIGIDO 2026-07-13: reverificado com método do container do botão
     // "Ir para produto" — produto/imagem antigos não batiam com o destino
     // real do link. Confirmado 2x, estável.
@@ -109,7 +113,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2fVdxeZ",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Excelente pra organizar os cabos, tanto nas saídas quanto aqui no escritório — sempre sei onde cada um está.",
     // CORRIGIDO 2026-07-13: preço sem desconto no momento da reverificação
     title: "Bolsa Organizadora Cabos Case Estojo Bag Eletrônico Grande Cor Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_753655-MLA108762406887_032026-V.webp",
@@ -120,7 +124,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2fpNnyj",
     platform: "MERCADO_LIVRE",
     category: "Setup",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Prático e compacto — uso nas demandas fora do escritório. Foi o único realmente resistente que encontrei; o anterior quebrou em uma semana.",
     title: "Base Suporte Para PC Notebook Alumínio Portátil Articulado Dobrável Tablet Laptop Mesa Hytalux Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_719010-MLA110559363083_042026-V.webp",
     price: 24.15, // conferir periodicamente, preço do ML varia
@@ -131,7 +135,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2UAfr3i",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Comprei por dois motivos: precisava alternar rápido entre o notebook Windows e o MacBook, e a ergonomia ajuda muito nas horas que passo no computador — ficou bem mais confortável digitar.",
     title: "Teclado Ergonômico Sem Fio Logitech Wave Keys - Grafite Inglês US",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_739716-MLA99453694320_112025-V.webp",
     price: 459, // conferir periodicamente, preço do ML varia
@@ -141,7 +145,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/24JFJL6",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Todo cabo que compro é Ugreen — qualidade que dispensa comentários, sempre cumprem o que prometem.",
     title: "Cabo Thunderbolt 3 Ugreen USB-C Para HDMI 4K Reforçado - Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_852747-MLA99395901500_112025-V.webp",
     price: 124.42, // conferir periodicamente, preço do ML varia
@@ -152,7 +156,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2DDJo5k",
     platform: "MERCADO_LIVRE",
     category: "Setup",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Uma das melhores aquisições que fiz — muito bonito, dá um charme ao escritório e ainda deixa o mouse livre pra correr sem limites.",
     title: "Mousepad Extra Grande Caramelo 90x40cm Deskpad Couro Antiderrapante Mesa - Kingpad",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_701855-MLA102404626214_122025-V.webp",
     price: 47.49, // conferir periodicamente, preço do ML varia
@@ -163,7 +167,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2pRQRVh",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Protege a tela da gordura que fica no teclado e passa pro display quando fecho o MacBook — mantém tudo limpo por mais tempo. Não é qualquer pano que serve pra isso, e esse é o ideal.",
     // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
     // destino real do botão "Ir para produto" — era outro item completamente
     // diferente. Reverificado 2x, estável.
@@ -177,7 +181,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2QtskjE",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Fone bom, grave gostoso, o filtro de ruído funciona muito bem — e poder controlar quanto do ambiente eu quero ouvir foi uma baita sacada.",
     title: "Fone Bluetooth Wave Buds 2 TWS Azul",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_811984-MLA99445406304_112025-V.webp",
     price: 234.5, // conferir periodicamente, preço do ML varia
@@ -188,7 +192,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2pC6977",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Estava sofrendo com dores de cabeça pelos fones antigos e precisava de algo leve e confortável sem abrir mão da qualidade de áudio pro trabalho — esse foi o único que bateu tudo isso nas minhas pesquisas.",
     title: "Headset Sem Fio Logitech Zone Vibe 100 - Grafite",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_866279-MLA99513179228_112025-V.webp",
     price: 594.15, // conferir periodicamente, preço do ML varia
@@ -198,7 +202,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2hrMDnX",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Gosto de cuidar bem do que tenho, e esse kit ajuda exatamente nisso — protege o equipamento por completo.",
     title: "Capa Para Macbook Air 13 M4/M3/M2 Protetor Teclado + Bag Transparente Cristal",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_971777-MLA95522187642_102025-V.webp",
     price: 117.23, // conferir periodicamente, preço do ML varia
@@ -209,7 +213,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2qBZeEU",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Simples, mas muito funcional — não fico sem.",
     title: "Jogo Limpa Telas PC Notebook 120ml + Pano Microfibra Start",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_727350-MLA100087934009_122025-V.webp",
     price: 22.2, // conferir periodicamente, preço do ML varia
@@ -220,7 +224,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1nDCC7b",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Todo cabo que compro é Ugreen — qualidade que dispensa comentários, sempre cumprem o que prometem.",
     title: "Cabo Ugreen Quick Charge 4.0 USB-C 1m Blindado - Cinza",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_705800-MLA99599259526_122025-V.webp",
     price: 36.56, // conferir periodicamente, preço do ML varia
@@ -230,7 +234,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1fjWsJZ",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Solução prática pra manter os cabos enrolados e organizados.",
     // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
     // destino real do botão "Ir para produto". Reverificado 2x, estável.
     title: "Ugreen - Organizador Cabo 2 Metros - 40354 Preto",
@@ -242,7 +246,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1iZ7b9D",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Sentia dores constantes no punho, e esse mouse resolveu — hoje não fico mais sem ele.",
     title: "Mouse Sem Fio Logitech MX Vertical Ergonômico Cinza",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_926785-MLA99858509739_112025-V.webp",
     price: 533.22, // conferir periodicamente, preço do ML varia
@@ -253,7 +257,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1Fe9x1H",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Segundo teclado do nosso setup, usado pela minha esposa — muito bom e confortável.",
     title: "Teclado Sem Fio Signature K650 Grafite Logitech Cinza-Escuro",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_780490-MLA99929764499_112025-V.webp",
     price: 241.3, // conferir periodicamente, preço do ML varia
@@ -264,7 +268,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1FStUzP",
     platform: "MERCADO_LIVRE",
     category: "Casa",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Ajuda muito com o cafezinho — mantém a temperatura ideal e, com a tampa lacrada, não derrama em volta.",
     // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
     // destino real do botão "Ir para produto". Reverificado 2x, estável.
     title: "Copo Térmico Inox Café Chá Anti-vazamento Vacuum 510ml Azul Coffee",
@@ -277,7 +281,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/21KQWD3",
     platform: "MERCADO_LIVRE",
     category: "Tech",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Simples, mas muito funcional — não fico sem.",
     // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
     // destino real do botão "Ir para produto". Reverificado 2x, estável.
     title: "Kit Limpa Telas Tablet Celular Notebook Computadores Vidros",
@@ -290,7 +294,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2bjvGGT",
     platform: "MERCADO_LIVRE",
     category: "Fitness",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Essencial pra quem treina perna com carga alta — uso sempre nesses dias.",
     // CORRIGIDO 2026-07-13: método antigo lia texto/imagem soltos que
     // NÃO batiam com o destino real do botão "Ir para produto" (bug sério
     // — o Danilo clicou e caiu em produto totalmente diferente). Dado
@@ -305,7 +309,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2Y5nFAX",
     platform: "MERCADO_LIVRE",
     category: "Fitness",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Uso com menos frequência, mas é muito bom — ajuda bastante, só não pode virar muleta.",
     // CORRIGIDO 2026-07-13: mesmo bug do "cinto de fitness" — texto/imagem
     // antigos não batiam com o destino real do botão "Ir para produto".
     // Slug também mudou (era "silicone-spray", produto real é outro).
@@ -319,7 +323,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1Frc4Wu",
     platform: "MERCADO_LIVRE",
     category: "Fitness",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Depois de problemas com tendinite, esse protetor me dá segurança e ajuda a evitar lesão.",
     title: "Protetor De Punho Profissional Crossfit Munhequeira Pulso - Rosa",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_721892-MLA99598079074_122025-V.webp",
     price: 33, // conferir periodicamente, preço do ML varia
@@ -330,7 +334,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2iHrnTX",
     platform: "MERCADO_LIVRE",
     category: "Vestuário",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Muito boa — uso todos os dias pra treinar, já estou comprando mais.",
     // CORRIGIDO 2026-07-13: reverificado com método do container do botão
     // "Ir para produto" (verificação anterior usava alt-text solto, que
     // pegou produto errado). Confirmado 2x, estável.
@@ -344,7 +348,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/233NUCw",
     platform: "MERCADO_LIVRE",
     category: "Fitness",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Uso na maioria dos treinos — dá conforto e segurança.",
     // CORRIGIDO 2026-07-13: a página de recomendação do ML troca o produto em
     // destaque até sem reload (algoritmo ativo, não é só cache). A versão
     // anterior ("Preto GG") vinha com imagem colagem/promocional que não
@@ -360,7 +364,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2gr6yyi",
     platform: "MERCADO_LIVRE",
     category: "Fitness",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Me impressionei com a compra — uso quase todo dia, comprei três e hoje só treino com elas.",
     // CORRIGIDO 2026-07-13: reverificado com método do container do botão
     // "Ir para produto" (verificação anterior pegou variante errada).
     // Confirmado 2x, estável.
@@ -374,7 +378,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1KE8Dgv",
     platform: "MERCADO_LIVRE",
     category: "Fitness",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Depois de problemas com tendinite, essa munhequeira me dá segurança e ajuda a evitar lesão.",
     title: "Munhequeira Musculação Crossfit LPO Elástica Alta Compressão - Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_825097-MLA105750783064_022026-V.webp",
     price: 34.44, // conferir periodicamente, preço do ML varia
@@ -385,7 +389,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1skhdLd",
     platform: "MERCADO_LIVRE",
     category: "Fitness",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Muito bom — resolve o problema de assaduras e mantém tudo discreto durante o treino.",
     // CORRIGIDO 2026-07-13: reverificado com método do container do botão
     // "Ir para produto" (verificação anterior pegou variante desincronizada
     // do destino real do link). Confirmado 2x, estável.
@@ -399,7 +403,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2RaFbfu",
     platform: "MERCADO_LIVRE",
     category: "Acessórios",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Muito bom e elegante.",
     title: "Relógio Casio Unissex Vintage AQ-230A-1DMQ Prateado",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_638064-MLA99489095824_112025-V.webp",
     price: 204.05, // preço no Pix — conferir periodicamente, preço do ML varia
@@ -410,7 +414,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/12feN5K",
     platform: "MERCADO_LIVRE",
     category: "Vestuário",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Muito boa — uso sempre por baixo da roupa, como primeira pele.",
     // CORRIGIDO 2026-07-13: reverificado com método do container do botão
     // "Ir para produto" (mesmo vendedor D2G, imagem/título levemente
     // diferentes do que estava salvo). Confirmado 2x, estável.
@@ -424,7 +428,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2bUEgJW",
     platform: "MERCADO_LIVRE",
     category: "Vestuário",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Regata básica que uso bastante no dia a dia, confortável e sem frescura.",
     title: "Regata Oversized Masculino Tamanho Grande Básica Lisa - Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_944768-MLB94446815565_102025-V.webp",
     price: 27, // conferir periodicamente, preço do ML varia
@@ -435,7 +439,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1USEMLc",
     platform: "MERCADO_LIVRE",
     category: "Fitness",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Um dos melhores que já tomei.",
     title: "Suplemento em Pó Panic 150g Adaptogen Uva com Creatina",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_861264-MLA100080909647_122025-V.webp",
     price: 38.8, // conferir periodicamente, preço do ML varia
@@ -446,7 +450,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2vup3ow",
     platform: "MERCADO_LIVRE",
     category: "Música",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Compacto — uso com minha HX e o footswitch, cumpre bem o papel.",
     title: "Pedalboard Luxo Detalhe em Madeira Universal com Velcro Fuhrmann PB5",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_800509-MLA100008009715_122025-V.webp",
     price: 137.75, // conferir periodicamente, preço do ML varia
@@ -457,7 +461,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2pDX1qr",
     platform: "MERCADO_LIVRE",
     category: "Música",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Muito bom, facilitou o uso da HX no meu setup.",
     title: "Footswitch Cabo 50cm HXStomp Ampero NUX Loop Core Vamp FS2NL",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_949576-MLA105895323032_022026-V.webp",
     price: 209, // conferir periodicamente, preço do ML varia
@@ -467,7 +471,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2nADtNJ",
     platform: "MERCADO_LIVRE",
     category: "Música",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Um dos melhores do mercado — vale investir na durabilidade e qualidade.",
     // CORRIGIDO 2026-07-13: produto/SKU/imagem antigos não batiam com o
     // destino real do botão "Ir para produto". Reverificado 2x, estável.
     title: "Adaptador P10 Macho P2 Fêmea Estéreo D'Addario PW-P047E",
@@ -480,7 +484,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/23tv7hh",
     platform: "MERCADO_LIVRE",
     category: "Casa",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Gosto de sinalizar tudo com meus dados, e essa fita é a solução perfeita.",
     // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
     // destino real do botão "Ir para produto". Reverificado 2x, estável.
     title: "Fita Gaffer Tape Opção Cores 12mm X 5mts Fluorescente Neon",
@@ -493,7 +497,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1k5kKFp",
     platform: "MERCADO_LIVRE",
     category: "Casa",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Ótima sacada — super prática, dá pra levar pra qualquer lugar.",
     title: "Mesa Dobrável Portátil Palisad Alumínio Branco 90x60x70cm",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_879613-MLA96146063437_102025-V.webp",
     price: 119.2, // conferir periodicamente, preço do ML varia
@@ -504,7 +508,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1Sa2yEP",
     platform: "MERCADO_LIVRE",
     category: "Música",
-    // TODO(Danilo): adicionar review pessoal e usingSince
+    review: "Muito boa — protege e facilita o transporte do pedalboard.",
     // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
     // destino real do botão "Ir para produto". Reverificado 2x, estável.
     title: "Bolsa Bag Mochila Reforçada Alça Para Pedalboard Fuhrmann Preto",
