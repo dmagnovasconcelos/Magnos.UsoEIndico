@@ -121,3 +121,70 @@ parte dos itens tinha título/imagem/preço desatualizados ou
 desincronizados do destino real do link — todos corrigidos. Slugs de
 itens cujo produto mudou completamente também foram atualizados para
 refletir o produto real.
+
+## Conteúdo pessoal (`review` / `usingSince`) — preenchido em 2026-07-13
+
+Os campos `review` (frase pessoal "por que eu uso") e `usingSince` do
+`LinkConfig` estavam vazios em todos os 40 itens desde o início — o
+componente (`FeaturedCard`/`ProductCard` em `page.tsx`) já sabia
+renderizar os dois, só faltava o conteúdo. Esse foi identificado como o
+item de maior alavancagem de uma auditoria cruzada (UX/UI, visual,
+conversão, copy, marca) porque sem ele a promessa do site ("só entra
+aqui o que eu realmente uso") não aparecia em nenhum card.
+
+**Como foi coletado:** criei uma ferramenta HTML standalone (formulário
+com os 40 itens agrupados por categoria, salva em localStorage, botão
+"Gerar arquivo" que exporta um `.json`) e publiquei como Artifact pro
+Danilo preencher no próprio ritmo. Ele preencheu e colou o JSON de volta
+no chat (incluindo uma foto em base64 gigante, que não tentei
+retranscrever manualmente por risco de corromper — pedi anexo direto
+pra isso). Os textos foram então passados pela skill `/copywriter`
+(revisão de gramática/concisão, mantendo a voz pessoal) antes de entrar
+no `links.ts` via script Python (mais seguro que editar 40 blocos à
+mão).
+
+**Se for repetir esse processo pra itens novos**: esse padrão (form
+HTML → Artifact → JSON de volta → aplicar via script) funciona bem pra
+coletar conteúdo pessoal em lote; evitar pedir pra colar arquivos
+binários grandes (fotos) via texto no chat, sempre pedir anexo direto.
+
+## Lockup do header/hero (revisado 2026-07-14)
+
+Depois de iterar, o layout final ficou:
+- **Barra fixa do topo**: só emblema DMAGNO + wordmark "DMAGNO" (assinatura
+  da marca pessoal, visível durante o scroll).
+- **Hero**: só o wordmark grande "Uso e Indico" + tagline (nome do
+  produto, sem repetir DMAGNO ali).
+
+Isso substituiu uma versão anterior que mostrava as duas wordmarks nos
+dois lugares (achado redundante/repetitivo pelo Danilo). Cada área tem
+um papel único agora — não juntar as duas wordmarks de novo sem pedido
+explícito.
+
+## Melhorias de UX/conversão aplicadas (2026-07-14, fases 2 e 3)
+
+A partir de uma auditoria cruzada (UX/UI, visual, e-commerce, copy,
+marca — publicada como Artifact), foram aplicadas em 3 fases, cada uma
+testada no browser (desktop + mobile) e commitada separadamente:
+
+- **Fase 1**: reviews + `usingSince` (ver seção acima) + seção "Sobre o
+  Danilo" no topo da home.
+- **Fase 2**: ícone de linha SVG no lugar do emoji de plataforma
+  (`PlatformIcon` em `page.tsx`), "plate" claro (`#f4f2ee`) atrás das
+  fotos de produto pra não parecerem coladas no card escuro, botão de
+  compartilhar por WhatsApp (`ShareButton.tsx`, client component),
+  dropdown de ordenação por preço/desconto (`SortSelect.tsx` +
+  `?sort=` na URL), contador de itens por categoria nos pills, CTA
+  renomeado de "Ver produto" pra "Quero esse" (copy em 1ª pessoa).
+- **Fase 3**: cor do desconto recalibrada de `#4ade80` (verde genérico)
+  pra `#3ee0a8` (verde-azulado, conversa com a paleta navy/violeta),
+  destaques expandidos de 1 pra 2 itens.
+- **Adiado de propósito**: página de produto própria (contexto extra já
+  resolvido pelos reviews inline nos cards, custo de engenharia não
+  se justifica agora).
+
+**Padrão operacional**: sempre que `pnpm build` (produção) roda com o
+dev server ativo na mesma pasta, o `.next/` fica corrompido (erros tipo
+`Cannot find module './845.js'`). Depois de rodar build pra validar
+tipos, sempre `rm -rf .next` e reiniciar o dev server antes de testar
+no browser.
