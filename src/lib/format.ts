@@ -1,12 +1,19 @@
 import type { Platform } from "./links";
 
-export const PLATFORM_LABEL: Record<Platform, { icon: string; label: string }> =
-  {
-    MERCADO_LIVRE: { icon: "🛒", label: "Mercado Livre" },
-    SHOPEE: { icon: "🧡", label: "Shopee" },
-    AMAZON: { icon: "📦", label: "Amazon" },
-    OUTRO: { icon: "🔗", label: "Loja" },
-  };
+export const PLATFORM_LABEL: Record<Platform, { label: string }> = {
+  MERCADO_LIVRE: { label: "Mercado Livre" },
+  SHOPEE: { label: "Shopee" },
+  AMAZON: { label: "Amazon" },
+  OUTRO: { label: "Loja" },
+};
+
+export type SortKey = "default" | "price-asc" | "discount-desc";
+
+export const SORT_LABEL: Record<SortKey, string> = {
+  default: "Ordem padrão",
+  "price-asc": "Menor preço",
+  "discount-desc": "Maior desconto",
+};
 
 export function formatPrice(price?: number): string | undefined {
   if (price == null) return undefined;

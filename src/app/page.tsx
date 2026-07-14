@@ -7,24 +7,52 @@ import {
   formatPrice,
   usingFor,
   discountPercent,
+  type SortKey,
 } from "@/lib/format";
 import { TrackPageview } from "./TrackPageview";
+import { ShareButton } from "./ShareButton";
+import { SortSelect } from "./SortSelect";
 
 // Revalida a cada 24h — scraping roda aqui, nunca por visitante
 export const revalidate = 86400;
 
+function sortItems(items: EnrichedLink[], sort: SortKey): EnrichedLink[] {
+  if (sort === "price-asc") {
+    return [...items].sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+  }
+  if (sort === "discount-desc") {
+    return [...items].sort(
+      (a, b) =>
+        (discountPercent(b.price, b.originalPrice) ?? -1) -
+        (discountPercent(a.price, a.originalPrice) ?? -1)
+    );
+  }
+  return items;
+}
+
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ cat?: string }>;
+  searchParams: Promise<{ cat?: string; sort?: string }>;
 }) {
-  const { cat } = await searchParams;
+  const { cat, sort: sortParam } = await searchParams;
+  const sort: SortKey =
+    sortParam === "price-asc" || sortParam === "discount-desc"
+      ? sortParam
+      : "default";
   const items = await enrichAll(links);
 
   const categories = [...new Set(items.map((i) => i.category))];
+  const categoryCounts = categories.reduce<Record<string, number>>((acc, c) => {
+    acc[c] = items.filter((i) => i.category === c).length;
+    return acc;
+  }, {});
   const filtered = cat ? items.filter((i) => i.category === cat) : items;
   const featured = filtered.filter((i) => i.featured);
-  const regular = filtered.filter((i) => !i.featured);
+  const regular = sortItems(
+    filtered.filter((i) => !i.featured),
+    sort
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -133,18 +161,23 @@ export default async function Home({
         {/* Filtro de categorias */}
         <nav
           aria-label="Categorias"
-          className="mb-8 flex flex-wrap justify-center gap-2"
+          className="mb-4 flex flex-wrap justify-center gap-2"
         >
-          <CategoryPill label="Todos" href="/" active={!cat} />
+          <CategoryPill label="Todos" count={items.length} href="/" active={!cat} />
           {categories.map((c) => (
             <CategoryPill
               key={c}
               label={c}
+              count={categoryCounts[c]}
               href={`/?cat=${encodeURIComponent(c)}`}
               active={cat === c}
             />
           ))}
         </nav>
+
+        <div className="mb-8 flex justify-center">
+          <SortSelect current={sort} />
+        </div>
 
         {/* Destaques */}
         {featured.length > 0 && (
@@ -196,10 +229,12 @@ export default async function Home({
 
 function CategoryPill({
   label,
+  count,
   href,
   active,
 }: {
   label: string;
+  count: number;
   href: string;
   active: boolean;
 }) {
@@ -213,16 +248,54 @@ function CategoryPill({
           : "border-border text-muted hover:border-accent-soft hover:text-white"
       }`}
     >
-      {label}
+      {label} <span className="opacity-60">({count})</span>
     </Link>
   );
 }
 
+function PlatformIcon({ platform }: { platform: EnrichedLink["platform"] }) {
+  const common = {
+    width: 12,
+    height: 12,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+  if (platform === "MERCADO_LIVRE" || platform === "SHOPEE") {
+    return (
+      <svg {...common}>
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+        <path d="M3 6h18" />
+        <path d="M16 10a4 4 0 0 1-8 0" />
+      </svg>
+    );
+  }
+  if (platform === "AMAZON") {
+    return (
+      <svg {...common}>
+        <path d="M21 8V7l-3-3H3v4" />
+        <path d="M3 8h18v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+        <path d="M3 8V7l3-3" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...common}>
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+    </svg>
+  );
+}
+
 function PlatformBadge({ platform }: { platform: EnrichedLink["platform"] }) {
-  const { icon, label } = PLATFORM_LABEL[platform];
+  const { label } = PLATFORM_LABEL[platform];
   return (
     <span className="inline-flex items-center gap-1 rounded bg-surface-2 px-2 py-0.5 text-xs font-medium text-muted">
-      <span aria-hidden>{icon}</span> {label}
+      <PlatformIcon platform={platform} /> {label}
     </span>
   );
 }
@@ -254,14 +327,16 @@ function FeaturedCard({ item }: { item: EnrichedLink }) {
   return (
     <article className="flex flex-col gap-5 rounded-2xl border border-accent/40 bg-gradient-to-br from-surface to-surface-2 p-6 sm:flex-row">
       {item.image && (
-        <div className="relative h-44 w-full shrink-0 overflow-hidden rounded-xl bg-surface-2 sm:w-44">
-          <Image
-            src={item.image}
-            alt={item.title}
-            fill
-            sizes="(max-width: 640px) 100vw, 176px"
-            className="object-contain"
-          />
+        <div className="relative h-44 w-full shrink-0 overflow-hidden rounded-xl bg-surface-2 p-3 sm:w-44">
+          <div className="relative h-full w-full overflow-hidden rounded-lg bg-[#f4f2ee]">
+            <Image
+              src={item.image}
+              alt={item.title}
+              fill
+              sizes="(max-width: 640px) 100vw, 176px"
+              className="object-contain p-2"
+            />
+          </div>
         </div>
       )}
       <div className="flex flex-col">
@@ -279,14 +354,17 @@ function FeaturedCard({ item }: { item: EnrichedLink }) {
         <div className="mt-2">
           <PriceTag item={item} />
         </div>
-        <a
-          href={`/r/${item.slug}`}
-          target="_blank"
-          rel="noopener"
-          className="mt-4 inline-flex min-h-11 w-fit items-center rounded-lg bg-accent px-6 py-2.5 font-semibold text-white transition-opacity hover:opacity-90"
-        >
-          Ver produto →
-        </a>
+        <div className="mt-4 flex gap-2">
+          <a
+            href={`/r/${item.slug}`}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex min-h-11 w-fit items-center rounded-lg bg-accent px-6 py-2.5 font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            Quero esse →
+          </a>
+          <ShareButton title={item.title} slug={item.slug} />
+        </div>
       </div>
     </article>
   );
@@ -296,15 +374,17 @@ function ProductCard({ item }: { item: EnrichedLink }) {
   const usage = usingFor(item.usingSince);
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-border bg-surface transition-colors hover:border-accent-soft/50">
-      <div className="relative h-40 bg-surface-2">
+      <div className="relative h-40 bg-surface-2 p-3">
         {item.image ? (
-          <Image
-            src={item.image}
-            alt={item.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-contain"
-          />
+          <div className="relative h-full w-full overflow-hidden rounded-lg bg-[#f4f2ee]">
+            <Image
+              src={item.image}
+              alt={item.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-contain p-2"
+            />
+          </div>
         ) : (
           <div
             aria-hidden
@@ -329,14 +409,17 @@ function ProductCard({ item }: { item: EnrichedLink }) {
           <p className="mb-2 text-sm">
             <PriceTag item={item} />
           </p>
-          <a
-            href={`/r/${item.slug}`}
-            target="_blank"
-            rel="noopener"
-            className="flex min-h-11 items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-          >
-            Ver produto →
-          </a>
+          <div className="flex gap-2">
+            <a
+              href={`/r/${item.slug}`}
+              target="_blank"
+              rel="noopener"
+              className="flex min-h-11 flex-1 items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              Quero esse →
+            </a>
+            <ShareButton title={item.title} slug={item.slug} />
+          </div>
         </div>
       </div>
     </article>
