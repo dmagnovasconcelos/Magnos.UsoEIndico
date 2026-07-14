@@ -135,6 +135,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2UAfr3i",
     platform: "MERCADO_LIVRE",
     category: "Tech",
+    featured: true,
     review: "Comprei por dois motivos: precisava alternar rápido entre o notebook Windows e o MacBook, e a ergonomia ajuda muito nas horas que passo no computador — ficou bem mais confortável digitar.",
     title: "Teclado Ergonômico Sem Fio Logitech Wave Keys - Grafite Inglês US",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_739716-MLA99453694320_112025-V.webp",
