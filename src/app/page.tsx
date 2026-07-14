@@ -68,6 +68,14 @@ export default async function Home({
             className="h-6 w-auto sm:h-7"
           />
           <Image
+            src="/dmagno-wordmark.png"
+            alt="DMAGNO"
+            width={533}
+            height={52}
+            className="hidden h-3.5 w-auto sm:block"
+          />
+          <span className="hidden text-border sm:inline">·</span>
+          <Image
             src="/hero-wordmark.png"
             alt="Uso e Indico"
             width={1216}
@@ -81,6 +89,22 @@ export default async function Home({
       <main className="mx-auto max-w-5xl px-4 pb-10 pt-20 sm:pt-24">
         {/* Hero */}
         <header className="mb-10 flex flex-col items-center text-center">
+          <div className="mb-3 flex items-center gap-1.5 opacity-80">
+            <Image
+              src="/dmagno-emblem.png"
+              alt=""
+              width={28}
+              height={27}
+              className="h-4 w-auto"
+            />
+            <Image
+              src="/dmagno-wordmark.png"
+              alt="DMAGNO"
+              width={533}
+              height={52}
+              className="h-3 w-auto"
+            />
+          </div>
           <Image
             src="/hero-wordmark.png"
             alt="Uso e Indico"
