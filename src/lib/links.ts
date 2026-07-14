@@ -82,12 +82,13 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Tech",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // CORRIGIDO 2026-07-13: título/imagem antigos vinham de um card
-    // instável; essa variante "Inova Cases" confirmada 2x com imagem limpa.
-    title: "Tripé Bastão De Selfie Inova Cases Para Celular E Câmera Com Bluetooth, 1.70 M Preto",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_778159-MLA106768457011_022026-T.webp",
-    price: 78.81, // conferir periodicamente, preço do ML varia
-    originalPrice: 112.58,
+    // CORRIGIDO 2026-07-13: reverificado com método do container do botão
+    // "Ir para produto" (o método antigo por alt-text pegava produto
+    // desincronizado do destino real do link) — confirmado 2x, estável.
+    title: "Tripé / Bastão Para Celular Portátil Até 1,70 M Com Controle Preto",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_921091-MLB109972041025_042026-V.webp",
+    price: 71.07, // conferir periodicamente, preço do ML varia
+    originalPrice: 78.97,
   },
   {
     slug: "microfibra-pano-de-limpeza-para-iphone-macbook-cel",
@@ -95,10 +96,13 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Tech",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Microfibra Pano De Limpeza Para iPhone Macbook Celular",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_739106-MLB69641898360_052023-T.webp",
+    // CORRIGIDO 2026-07-13: reverificado com método do container do botão
+    // "Ir para produto" — produto/imagem antigos não batiam com o destino
+    // real do link. Confirmado 2x, estável.
+    title: "Pano De Polimento Limpeza Polishing Para Macbook iPhone iPad",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_904278-MLB75329506010_032024-V.webp",
     price: 29.73, // conferir periodicamente, preço do ML varia
-    originalPrice: 36.9,
+    originalPrice: 30.97,
   },
   {
     slug: "bolsa-organizadora-cabos-case-estojo-bag-eletronic",
@@ -106,10 +110,10 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Tech",
     // TODO(Danilo): adicionar review pessoal e usingSince
+    // CORRIGIDO 2026-07-13: preço sem desconto no momento da reverificação
     title: "Bolsa Organizadora Cabos Case Estojo Bag Eletrônico Grande Cor Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_753655-MLA108762406887_032026-V.webp",
-    price: 32.01, // conferir periodicamente, preço do ML varia
-    originalPrice: 37.5,
+    price: 37.5, // conferir periodicamente, preço do ML varia
   },
   {
     slug: "base-suporte-para-pc-notebook-aluminio-portatil-ar",
@@ -140,8 +144,8 @@ export const links: LinkConfig[] = [
     // TODO(Danilo): adicionar review pessoal e usingSince
     title: "Cabo Thunderbolt 3 Ugreen USB-C Para HDMI 4K Reforçado - Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_852747-MLA99395901500_112025-V.webp",
-    price: 121.91, // conferir periodicamente, preço do ML varia
-    originalPrice: 153.39,
+    price: 124.42, // conferir periodicamente, preço do ML varia
+    originalPrice: 299,
   },
   {
     slug: "mousepad-extra-grande-caramelo-90x40cm-deskpad-cou",
@@ -155,15 +159,18 @@ export const links: LinkConfig[] = [
     originalPrice: 49.99,
   },
   {
-    slug: "capa-protetora-e-case-para-teclado-laptop-16-poleg",
+    slug: "flanela-pano-protecao-tela-e-teclado-apple-macbook",
     url: "https://meli.la/2pRQRVh",
     platform: "MERCADO_LIVRE",
     category: "Tech",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Capa Protetora e Case Para Teclado Laptop 16 Polegadas Transparente",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_851724-CBT112605370048_062026-T.webp",
-    price: 158.88, // conferir periodicamente, preço do ML varia
-    originalPrice: 371.98,
+    // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
+    // destino real do botão "Ir para produto" — era outro item completamente
+    // diferente. Reverificado 2x, estável.
+    title: "Flanela Pano Proteção Tela E Teclado Apple Macbook 13 A 16",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_612151-MLB92259649659_092025-V-flanela-pano-proteco-tela-e-teclado-apple-macbook-13-a-16.webp",
+    price: 63.79, // conferir periodicamente, preço do ML varia
+    originalPrice: 78.28,
   },
   {
     slug: "fone-bluetooth-wave-buds-2-tws-azul",
@@ -173,8 +180,8 @@ export const links: LinkConfig[] = [
     // TODO(Danilo): adicionar review pessoal e usingSince
     title: "Fone Bluetooth Wave Buds 2 TWS Azul",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_811984-MLA99445406304_112025-V.webp",
-    price: 219, // conferir periodicamente, preço do ML varia
-    originalPrice: 299,
+    price: 234.5, // conferir periodicamente, preço do ML varia
+    originalPrice: 369,
   },
   {
     slug: "headset-sem-fio-logitech-zone-vibe-100-grafite",
@@ -184,8 +191,7 @@ export const links: LinkConfig[] = [
     // TODO(Danilo): adicionar review pessoal e usingSince
     title: "Headset Sem Fio Logitech Zone Vibe 100 - Grafite",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_866279-MLA99513179228_112025-V.webp",
-    price: 546.62, // conferir periodicamente, preço do ML varia
-    originalPrice: 699,
+    price: 594.15, // conferir periodicamente, preço do ML varia
   },
   {
     slug: "capa-para-macbook-air-13-m4-m3-m2-protetor-teclado",
@@ -195,7 +201,7 @@ export const links: LinkConfig[] = [
     // TODO(Danilo): adicionar review pessoal e usingSince
     title: "Capa Para Macbook Air 13 M4/M3/M2 Protetor Teclado + Bag Transparente Cristal",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_971777-MLA95522187642_102025-V.webp",
-    price: 118.65, // conferir periodicamente, preço do ML varia
+    price: 117.23, // conferir periodicamente, preço do ML varia
     originalPrice: 169.9,
   },
   {
@@ -220,15 +226,16 @@ export const links: LinkConfig[] = [
     price: 36.56, // conferir periodicamente, preço do ML varia
   },
   {
-    slug: "organizador-de-cabos-ugreen-fita-de-velcro-5-metro",
+    slug: "ugreen-organizador-cabo-2-metros-40354",
     url: "https://meli.la/1fjWsJZ",
     platform: "MERCADO_LIVRE",
     category: "Tech",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Organizador De Cabos Ugreen Fita De Velcro - 5 Metros Preto",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_683944-MLA100092977825_122025-T.webp",
-    price: 23.91, // conferir periodicamente, preço do ML varia
-    originalPrice: 49,
+    // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
+    // destino real do botão "Ir para produto". Reverificado 2x, estável.
+    title: "Ugreen - Organizador Cabo 2 Metros - 40354 Preto",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_626476-MLB92317605521_092025-V.webp",
+    price: 24.9, // conferir periodicamente, preço do ML varia
   },
   {
     slug: "mouse-sem-fio-logitech-mx-vertical-ergonomico-cinz",
@@ -238,7 +245,7 @@ export const links: LinkConfig[] = [
     // TODO(Danilo): adicionar review pessoal e usingSince
     title: "Mouse Sem Fio Logitech MX Vertical Ergonômico Cinza",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_926785-MLA99858509739_112025-V.webp",
-    price: 378.2, // conferir periodicamente, preço do ML varia
+    price: 533.22, // conferir periodicamente, preço do ML varia
     originalPrice: 579.9,
   },
   {
@@ -253,26 +260,30 @@ export const links: LinkConfig[] = [
     originalPrice: 289.9,
   },
   {
-    slug: "termolar-uniq-copo-termico-380ml-cafe-cha-preto-li",
+    slug: "copo-termico-inox-cafe-cha-antivazamento-vacuum",
     url: "https://meli.la/1FStUzP",
     platform: "MERCADO_LIVRE",
     category: "Casa",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Termolar Uniq Copo Térmico 380ml Café Chá Preto Liso",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_697340-MLA99533261448_122025-T.webp",
-    price: 81, // conferir periodicamente, preço do ML varia
-    originalPrice: 119.64,
+    // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
+    // destino real do botão "Ir para produto". Reverificado 2x, estável.
+    title: "Copo Térmico Inox Café Chá Anti-vazamento Vacuum 510ml Azul Coffee",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_642290-MLB113406160621_062026-V.webp",
+    price: 27.06, // conferir periodicamente, preço do ML varia
+    originalPrice: 69.9,
   },
   {
-    slug: "espuma-de-limpeza-para-teclado-kit-de-limpeza-home",
+    slug: "kit-limpa-telas-tablet-celular-notebook-computadore",
     url: "https://meli.la/21KQWD3",
     platform: "MERCADO_LIVRE",
     category: "Tech",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Espuma de Limpeza para Teclado - Kit de Limpeza Home Office",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_675575-CBT113084551439_062026-T.webp",
-    price: 108.71, // conferir periodicamente, preço do ML varia
-    originalPrice: 164.43,
+    // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
+    // destino real do botão "Ir para produto". Reverificado 2x, estável.
+    title: "Kit Limpa Telas Tablet Celular Notebook Computadores Vidros",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_806895-MLB73331229509_122023-V.webp",
+    price: 30.99, // conferir periodicamente, preço do ML varia
+    originalPrice: 32.99,
   },
   {
     slug: "cinto-de-fitness-com-alavanca-lever-buckle",
@@ -280,19 +291,28 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Cinto de Fitness com Alavanca (Lever Buckle)",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_920294-CBT80867282903_112024-T.webp",
-    price: 283.27, // conferir periodicamente, preço do ML varia
+    // CORRIGIDO 2026-07-13: método antigo lia texto/imagem soltos que
+    // NÃO batiam com o destino real do botão "Ir para produto" (bug sério
+    // — o Danilo clicou e caiu em produto totalmente diferente). Dado
+    // extraído agora do mesmo container do botão, garantindo consistência.
+    title: "Cinturão De Musculação Rudel Rdl2-151 Pride Red",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_898954-MLB78818567107_082024-V-cinturo-de-musculaco-rudel-rdl2-151-pride-red.webp",
+    price: 144.65, // conferir periodicamente, preço do ML varia
+    originalPrice: 153.26,
   },
   {
-    slug: "silicone-spray-lubrificar-esteira-ergometrica-acad",
+    slug: "straps-fitness-rudel-h-8-204-preto",
     url: "https://meli.la/2Y5nFAX",
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Silicone Spray Lubrificar Esteira Ergométrica Academia 400ml",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_957923-MLA109946459038_042026-T.webp",
-    price: 29.29, // conferir periodicamente, preço do ML varia
+    // CORRIGIDO 2026-07-13: mesmo bug do "cinto de fitness" — texto/imagem
+    // antigos não batiam com o destino real do botão "Ir para produto".
+    // Slug também mudou (era "silicone-spray", produto real é outro).
+    title: "Straps Fitness Rudel H-8 204 Preto",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_769827-MLB95776743023_102025-V.webp",
+    price: 35.89, // conferir periodicamente, preço do ML varia
+    originalPrice: 37,
   },
   {
     slug: "protetor-de-punho-profissional-crossfit-munhequeir",
@@ -309,14 +329,15 @@ export const links: LinkConfig[] = [
     slug: "kit-3-regata-masculina-americano-canelada-algodao",
     url: "https://meli.la/2iHrnTX",
     platform: "MERCADO_LIVRE",
-    category: "Vestuario",
+    category: "Vestuário",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // CORRIGIDO 2026-07-13: card antigo instável; "Regata Americana Branco G"
-    // confirmada 3x seguidas com imagem limpa e condizente.
-    title: "Regata Americana Masculina Canelada Alta Qualidade Branco G",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_773467-MLB114050737601_072026-T.webp",
-    price: 24.2, // conferir periodicamente, preço do ML varia
-    originalPrice: 49.9,
+    // CORRIGIDO 2026-07-13: reverificado com método do container do botão
+    // "Ir para produto" (verificação anterior usava alt-text solto, que
+    // pegou produto errado). Confirmado 2x, estável.
+    title: "Kit 3 Regata Masculina Americano Canelada Algodão Premium",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_856120-MLB109278068437_032026-V-kit-3-regata-masculina-americano-canelada-algodo-premium.webp",
+    price: 59.3, // conferir periodicamente, preço do ML varia
+    originalPrice: 70,
   },
   {
     slug: "cinta-masculina-modeladora-abdominal-ajustavel-ema",
@@ -340,12 +361,13 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // CORRIGIDO 2026-07-13: card antigo instável; essa variante "2 Bolsos 016"
-    // confirmada 2x seguidas com imagem limpa condizente.
-    title: "Calça Tactel Jogger Premium Fitness Academia 2 Bolsos 016 Preto Liso M(38/40)",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_846908-MLB111902440231_052026-T.webp",
-    price: 38.21, // conferir periodicamente, preço do ML varia
-    originalPrice: 50.95,
+    // CORRIGIDO 2026-07-13: reverificado com método do container do botão
+    // "Ir para produto" (verificação anterior pegou variante errada).
+    // Confirmado 2x, estável.
+    title: "Calça Tactel Masculino Jogger C/ Elastano Academia Treino",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_692315-MLB87398103458_072025-V-calca-tactel-masculino-jogger-c-elastano-academia-treino.webp",
+    price: 36.17, // conferir periodicamente, preço do ML varia
+    originalPrice: 69,
   },
   {
     slug: "munhequeira-musculacao-crossfit-lpo-elastica-alta",
@@ -364,45 +386,44 @@ export const links: LinkConfig[] = [
     platform: "MERCADO_LIVRE",
     category: "Fitness",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // CORRIGIDO 2026-07-13: card muito instável (chegou a mostrar um short
-    // feminino sem nada a ver). Essa variante "Azul Liso G" confirmada com
-    // imagem limpa, bolso secreto visível, condiz com o título.
-    title: "Shorts 2 Em 1 Térmico De Compressão Bolso Secreto Academia Azul Liso G",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_911954-MLB111031063226_052026-T.webp",
-    price: 36.24, // conferir periodicamente, preço do ML varia
-    originalPrice: 109.9,
+    // CORRIGIDO 2026-07-13: reverificado com método do container do botão
+    // "Ir para produto" (verificação anterior pegou variante desincronizada
+    // do destino real do link). Confirmado 2x, estável.
+    title: "Shorts 2 Em 1 Térmico De Compressão Bolso Secreto Academia",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_710628-MLB110967764522_052026-V-shorts-2-em-1-termico-de-compresso-bolso-secreto-academia.webp",
+    price: 27.77, // conferir periodicamente, preço do ML varia
+    originalPrice: 54.9,
   },
   {
     slug: "relogio-casio-unissex-vintage-aq-230a-1dmq-pratead",
     url: "https://meli.la/2RaFbfu",
     platform: "MERCADO_LIVRE",
-    category: "Acessorios",
+    category: "Acessórios",
     // TODO(Danilo): adicionar review pessoal e usingSince
     title: "Relógio Casio Unissex Vintage AQ-230A-1DMQ Prateado",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_638064-MLA99489095824_112025-V.webp",
-    price: 145.53, // conferir periodicamente, preço do ML varia
-    originalPrice: 298.77,
+    price: 204.05, // preço no Pix — conferir periodicamente, preço do ML varia
+    originalPrice: 454.36,
   },
   {
     slug: "kit-3-regata-oversized-machao-streetwear-lisa-casu",
     url: "https://meli.la/12feN5K",
     platform: "MERCADO_LIVRE",
-    category: "Vestuario",
+    category: "Vestuário",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    // CORRIGIDO 2026-07-13: card instável ora mostrava a mesma regata avulsa
-    // do item acima. Essa é a variante "Kit 3... Casual Lisa" (Por D2G) —
-    // preço já batia com o que estava salvo, só título/imagem migraram
-    // pro produto errado. Imagem confirmada: 3 regatas pretas iguais.
-    title: "Kit 3 Regata Oversized Machão Streetwear Casual Lisa",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_725903-MLB102673135885_122025-T-kit-3-regata-oversized-macho-streetwear-casual-lisa.webp",
-    price: 76, // conferir periodicamente, preço do ML varia
+    // CORRIGIDO 2026-07-13: reverificado com método do container do botão
+    // "Ir para produto" (mesmo vendedor D2G, imagem/título levemente
+    // diferentes do que estava salvo). Confirmado 2x, estável.
+    title: "Kit 3 Regata Oversized Machão Streetwear Lisa Casual Básicas",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_839421-MLB104333596016_012026-V-kit-3-regata-oversized-macho-streetwear-lisa-casual-basicas.webp",
+    price: 76.03, // conferir periodicamente, preço do ML varia
     originalPrice: 143.45,
   },
   {
     slug: "regata-oversized-masculino-tamanho-grande-basica-l",
     url: "https://meli.la/2bUEgJW",
     platform: "MERCADO_LIVRE",
-    category: "Vestuario",
+    category: "Vestuário",
     // TODO(Danilo): adicionar review pessoal e usingSince
     title: "Regata Oversized Masculino Tamanho Grande Básica Lisa - Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_944768-MLB94446815565_102025-V.webp",
@@ -424,7 +445,7 @@ export const links: LinkConfig[] = [
     slug: "pedalboard-luxo-detalhe-em-madeira-universal-com-v",
     url: "https://meli.la/2vup3ow",
     platform: "MERCADO_LIVRE",
-    category: "Musica",
+    category: "Música",
     // TODO(Danilo): adicionar review pessoal e usingSince
     title: "Pedalboard Luxo Detalhe em Madeira Universal com Velcro Fuhrmann PB5",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_800509-MLA100008009715_122025-V.webp",
@@ -435,32 +456,37 @@ export const links: LinkConfig[] = [
     slug: "footswitch-cabo-50cm-hxstomp-ampero-nux-loop-core",
     url: "https://meli.la/2pDX1qr",
     platform: "MERCADO_LIVRE",
-    category: "Musica",
+    category: "Música",
     // TODO(Danilo): adicionar review pessoal e usingSince
     title: "Footswitch Cabo 50cm HXStomp Ampero NUX Loop Core Vamp FS2NL",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_949576-MLA105895323032_022026-V.webp",
     price: 209, // conferir periodicamente, preço do ML varia
   },
   {
-    slug: "adaptador-p10-femea-estereo-d-addario-pw-p047t",
+    slug: "adaptador-p10-macho-p2-femea-estereo-daddario-pwp0",
     url: "https://meli.la/2nADtNJ",
     platform: "MERCADO_LIVRE",
-    category: "Musica",
+    category: "Música",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Adaptador P10 Fêmea Estéreo D'Addario PW-P047T",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_758937-MLA95878477340_102025-T.webp",
-    price: 119.99, // conferir periodicamente, preço do ML varia
+    // CORRIGIDO 2026-07-13: produto/SKU/imagem antigos não batiam com o
+    // destino real do botão "Ir para produto". Reverificado 2x, estável.
+    title: "Adaptador P10 Macho P2 Fêmea Estéreo D'Addario PW-P047E",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_895564-MLB84762878925_052025-V.webp",
+    price: 123.18, // conferir periodicamente, preço do ML varia
+    originalPrice: 126.99,
   },
   {
-    slug: "kit-4-rolos-fita-tecido-gaffer-tesa-12mm-x-5m-fluo",
+    slug: "fita-gaffer-tape-opcao-cores-12mm-x-5mts-fluoresce",
     url: "https://meli.la/23tv7hh",
     platform: "MERCADO_LIVRE",
     category: "Casa",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Kit 4 Rolos Fita Tecido Gaffer Tesa 12mm x 5m Fluorescente",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_686085-MLA103900568386_012026-T.webp",
-    price: 58.69, // conferir periodicamente, preço do ML varia
-    originalPrice: 72.61,
+    // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
+    // destino real do botão "Ir para produto". Reverificado 2x, estável.
+    title: "Fita Gaffer Tape Opção Cores 12mm X 5mts Fluorescente Neon",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_817424-MLB93932215678_102025-V-fita-gaffer-tape-opcao-cores-12mm-x-5mts-fluorescente-neon.webp",
+    price: 23.45, // conferir periodicamente, preço do ML varia
+    originalPrice: 25.22,
   },
   {
     slug: "mesa-dobravel-portatil-palisad-aluminio-branco-90x",
@@ -474,14 +500,16 @@ export const links: LinkConfig[] = [
     originalPrice: 149,
   },
   {
-    slug: "bag-pedaleira-avs-gt10-gt100-preto-acolchoado-term",
+    slug: "bolsa-bag-mochila-reforcada-alca-para-pedalboard-f",
     url: "https://meli.la/1Sa2yEP",
     platform: "MERCADO_LIVRE",
-    category: "Musica",
+    category: "Música",
     // TODO(Danilo): adicionar review pessoal e usingSince
-    title: "Bag Pedaleira AVS GT10 GT100 Preto Acolchoado Térmico 55x28x11cm",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_674157-MLA99459138414_112025-T.webp",
-    price: 91.98, // conferir periodicamente, preço do ML varia
-    originalPrice: 99.98,
+    // CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o
+    // destino real do botão "Ir para produto". Reverificado 2x, estável.
+    title: "Bolsa Bag Mochila Reforçada Alça Para Pedalboard Fuhrmann Preto",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_878806-MLB92394662567_092025-V.webp",
+    price: 253, // conferir periodicamente, preço do ML varia
+    originalPrice: 302.5,
   },
 ];

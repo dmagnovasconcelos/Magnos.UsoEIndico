@@ -19,17 +19,29 @@ certo**.
 
 ## Como validar antes de salvar
 
-1. Carregar o link do afiliado e extrair título + imagem do card em
-   destaque via JS (`img.alt === title`, não pegar imagem solta pela
-   posição no DOM).
-2. **Recarregar a mesma URL pelo menos mais 1 vez** e conferir se o
-   título/MLB code do produto em destaque continua o mesmo. Se mudar
-   entre recarregamentos, **não confiar no scraping automático** — marcar
-   o item para conferência manual do Danilo em vez de adivinhar.
-3. Nunca usar imagem de um "produto similar" ou de recomendação da
+**IMPORTANTE (2026-07-13): o método antigo de extração (achar link
+`/p/MLB` + imagem por `alt === title`) já causou produto ERRADO no site em
+produção — o texto/imagem encontrados por esse método podem estar
+desincronizados do destino real do botão "Ir para produto" (bug grave,
+confirmado com o Danilo clicando e caindo em produto diferente do
+anunciado). **Não usar mais o método antigo.** Usar sempre o método do
+container do botão, descrito abaixo em "Método de extração".
+
+1. Carregar o link do afiliado e localizar o elemento cujo texto é
+   exatamente "Ir para produto" — esse é o destino real que o usuário vai
+   clicar.
+2. Subir pelos `parentElement` a partir desse botão até achar o primeiro
+   container que tenha uma `<img>` dentro — título, preço e imagem
+   extraídos **desse mesmo container** (nunca de um elemento solto
+   encontrado por busca global no DOM).
+3. **Recarregar a mesma URL pelo menos mais 1 vez** e conferir se o
+   `href` do botão (MLB/MLBU id) continua o mesmo. Se mudar entre
+   recarregamentos, **não confiar no scraping automático** — marcar o
+   item para conferência manual do Danilo em vez de adivinhar.
+4. Nunca usar imagem de um "produto similar" ou de recomendação da
    mesma categoria só porque o título parece parecido — tem que ser o
    exato SKU/variante do anúncio.
-4. Navegar direto pela URL do produto (`/p/MLB...`) costuma cair em wall
+5. Navegar direto pela URL do produto (`/p/MLB...`) costuma cair em wall
    de login do Mercado Livre — não é um sinal confiável pra verificação.
    Preferir clicar no link real dentro da página carregada (evita o
    bloqueio na maioria dos casos).
@@ -57,32 +69,42 @@ em uso no projeto (usar exatamente esses nomes, sem acento/variação nova):
 Antes de criar uma categoria nova, checar se um item parecido já existe
 numa dessas — evita fragmentar em "Vestuario" vs "Roupas" vs "Moda" etc.
 
-## Método de extração (script JS testado)
+## Método de extração (script JS testado — método correto, baseado no botão)
 
 Rodar isso via `javascript_tool` na página carregada do link `meli.la/...`
-pra pegar título, preço (com desconto) e imagem certa do card em destaque:
+pra pegar título, preço (com desconto) e imagem certa, **garantidos
+consistentes com o destino real do clique**:
 
 ```js
 (function() {
-  const link = document.querySelector('a[href*="/p/MLB"]') || document.querySelector('a[href*="/up/MLBU"]');
-  const title = link ? link.textContent.trim() : null;
-  const img = title ? [...document.querySelectorAll('img')].find(i => i.alt === title) : null;
-  const bodyText = document.body.innerText;
-  const idx = title ? bodyText.indexOf(title) : -1;
-  const nearText = idx >= 0 ? bodyText.slice(idx, idx + 200) : null; // tem preço "de/por" e % OFF
-  return JSON.stringify({ title, imgSrc: img ? img.src : null, nearText, productUrl: link ? link.href.split('?')[0] : null });
+  const btn = [...document.querySelectorAll('a,button')].find(el => /ir para produto/i.test(el.textContent));
+  if (!btn) return JSON.stringify({ error: "botao nao encontrado" });
+  let node = btn;
+  let container = null;
+  for (let i = 0; i < 8 && node; i++) {
+    node = node.parentElement;
+    if (node && node.querySelector('img')) { container = node; break; }
+  }
+  const img = container ? container.querySelector('img') : null;
+  return JSON.stringify({
+    href: btn.href,                                  // destino real do clique
+    imgSrc: img ? img.src : null,
+    containerText: container ? container.innerText : null, // tem título e preço "de/por R$ ... % OFF"
+  });
 })()
 ```
 
-Alguns links não usam `/p/MLB...` (produtos com variação/cor usam
-`/up/MLBU...` ou até `produto.mercadolivre.com.br/MLB-...`). Se o seletor
-não achar nada, usar fallback: procurar a primeira linha do texto da
-página depois de `"1 seguidor"` pra achar o título manualmente.
+Por que não usar mais `document.querySelector('a[href*="/p/MLB"]')` +
+`img.alt === title`: esse método antigo pode encontrar um `<a>`/`<img>`
+soltos no DOM que **não pertencem ao mesmo card** do botão "Ir para
+produto" — resultando em título/imagem de um produto e link de clique de
+outro completamente diferente. Já causou pelo menos 2 casos confirmados
+de produto errado em produção (cinto de fitness e straps/silicone-spray).
 
-**Preço**: pegar da `nearText` — formato é `R$ [de] R$ [por] [%] OFF`. Se
-tiver "no Pix" / "em outros meios", usar o valor do Pix como `price` e o
-valor riscado como `originalPrice`. Se não tiver desconto visível, usar
-o único preço mostrado e omitir `originalPrice`.
+**Preço**: pegar do `containerText` — formato é `R$ [de] R$ [por] [%]
+OFF`. Se tiver "no Pix" / "em outros meios", usar o valor do Pix como
+`price` e o valor riscado como `originalPrice`. Se não tiver desconto
+visível, usar o único preço mostrado e omitir `originalPrice`.
 
 **Nunca navegar direto pra URL do produto** (`/p/MLB...` fora da página
 de recomendações) — cai em wall de login do Mercado Livre quase sempre.
@@ -90,14 +112,12 @@ de recomendações) — cai em wall de login do Mercado Livre quase sempre.
 funciona carregando a página de recomendações (`meli.la/...`) e lendo o
 card em destaque nela mesma.
 
-## Itens pendentes de conferência manual (2026-07-13)
+## Reverificação completa (2026-07-13)
 
-Estes 6 itens foram marcados com `// VERIFICAR` no `links.ts` porque o
-card de destaque mostrou produtos diferentes em recarregamentos — o
-Danilo precisa confirmar manualmente qual é o produto/imagem correto:
-`tripe-para-celular-portatil-1-7m-universal-bastao`,
-`kit-3-regata-masculina-americano-canelada-algodao`,
-`cinta-masculina-modeladora-abdominal-ajustavel-ema` (imagem suspeita),
-`calca-tactel-masculino-jogger-com-elastano-academi`,
-`shorts-2-em-1-termico-de-compressao-com-bolso-secr`,
-`kit-3-regata-oversized-machao-streetwear-lisa-casu`.
+Todos os 40 itens de `links.ts` foram reverificados com o método do
+container do botão "Ir para produto" (acima), após descoberta de que o
+método antigo por `alt`-text causava produto errado em produção. Boa
+parte dos itens tinha título/imagem/preço desatualizados ou
+desincronizados do destino real do link — todos corrigidos. Slugs de
+itens cujo produto mudou completamente também foram atualizados para
+refletir o produto real.
