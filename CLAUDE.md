@@ -53,8 +53,11 @@ em vez de deixar silenciosamente errado.
 
 ## Categorias em uso — reutilizar, não inventar variação
 
-Todo item de `links.ts` precisa ter `category` preenchido. Categorias já
-em uso no projeto (usar exatamente esses nomes, sem acento/variação nova):
+Todo item de `links.ts` precisa ter `categories` preenchido (array de
+string, **não** `category` — mudou em 2026-07-22 pra permitir um item
+pertencer a mais de uma categoria, ex: a calça de treino aparece em
+`Fitness` E `Vestuário`). Categorias já em uso no projeto (usar exatamente
+esses nomes, sem acento/variação nova):
 
 | Categoria | Exemplos |
 |---|---|
@@ -68,6 +71,33 @@ em uso no projeto (usar exatamente esses nomes, sem acento/variação nova):
 
 Antes de criar uma categoria nova, checar se um item parecido já existe
 numa dessas — evita fragmentar em "Vestuario" vs "Roupas" vs "Moda" etc.
+
+## Painel de edição local (`/admin`, criado 2026-07-22)
+
+Existe um painel de edição em `/admin` (`src/app/admin/`) que lê e escreve
+direto em `src/lib/links.ts` via API route (`src/app/api/admin/links/route.ts`),
+usando o formatter em `src/lib/linksFormat.ts` — **só funciona rodando
+localmente** (`pnpm dev`); em produção a rota da API retorna 403 e a página
+mostra um aviso, porque o filesystem da Vercel é read-only e porque não há
+autenticação (não deve ficar navegável/editável publicamente).
+
+Uso: `pnpm dev` → abrir `http://localhost:3000/admin` → editar/adicionar/
+excluir itens (inclui multi-categoria via botões toggle) → o arquivo
+`src/lib/links.ts` é reescrito na hora. Depois disso, o fluxo normal
+continua igual: conferir `git diff`, rodar `pnpm build`, testar no browser,
+e só então commit/push.
+
+**Cuidado ao reescrever `links.ts` manualmente depois de usar o painel**:
+o formatter (`formatLinksFile`) é a fonte da verdade do formato do arquivo
+— se editar o arquivo à mão, seguir a mesma ordem de campos que ele gera
+(`slug, url, platform, categories, featured, review, usingSince, verifiedAt,
+verificationNote, title, image, description, price, originalPrice`) pra
+não gerar diffs gigantes desnecessários da próxima vez que o painel salvar.
+
+As antigas notas de verificação em comentário (`// CORRIGIDO 2026-07-13:
+...`) foram migradas pra campos estruturados `verifiedAt` (data) e
+`verificationNote` (texto livre) nessa mesma mudança — nenhuma informação
+foi perdida, só reformatada pra ser editável pelo painel.
 
 ## Método de extração (script JS testado — método correto, baseado no botão)
 

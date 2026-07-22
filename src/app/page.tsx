@@ -44,17 +44,17 @@ export default async function Home({
       : "default";
   const items = await enrichAll(links);
 
-  const categories = [...new Set(items.map((i) => i.category))];
+  const categories = [...new Set(items.flatMap((i) => i.categories))];
   const categoryCounts = categories.reduce<Record<string, number>>((acc, c) => {
-    acc[c] = items.filter((i) => i.category === c).length;
+    acc[c] = items.filter((i) => i.categories.includes(c)).length;
     return acc;
   }, {});
-  const byCategory = cat ? items.filter((i) => i.category === cat) : items;
+  const byCategory = cat ? items.filter((i) => i.categories.includes(cat)) : items;
   const query = q?.trim() ? normalizeText(q.trim()) : "";
   const filtered = query
     ? byCategory.filter((i) =>
         normalizeText(
-          `${i.title ?? ""} ${i.description ?? ""} ${i.category}`
+          `${i.title ?? ""} ${i.description ?? ""} ${i.categories.join(" ")}`
         ).includes(query)
       )
     : byCategory;
