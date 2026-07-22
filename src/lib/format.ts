@@ -29,6 +29,13 @@ export function discountPercent(
   return Math.round((1 - price / originalPrice) * 100);
 }
 
+export function normalizeText(text: string): string {
+  return text
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase();
+}
+
 export function usingFor(usingSince?: string): string | undefined {
   if (!usingSince) return undefined;
   const start = new Date(usingSince);

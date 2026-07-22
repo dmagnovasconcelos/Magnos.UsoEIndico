@@ -7,11 +7,13 @@ import {
   formatPrice,
   usingFor,
   discountPercent,
+  normalizeText,
   type SortKey,
 } from "@/lib/format";
 import { TrackPageview } from "./TrackPageview";
 import { ShareButton } from "./ShareButton";
 import { SortSelect } from "./SortSelect";
+import { SearchInput } from "./SearchInput";
 
 // Revalida a cada 24h — scraping roda aqui, nunca por visitante
 export const revalidate = 86400;
@@ -33,9 +35,9 @@ function sortItems(items: EnrichedLink[], sort: SortKey): EnrichedLink[] {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ cat?: string; sort?: string }>;
+  searchParams: Promise<{ cat?: string; sort?: string; q?: string }>;
 }) {
-  const { cat, sort: sortParam } = await searchParams;
+  const { cat, sort: sortParam, q } = await searchParams;
   const sort: SortKey =
     sortParam === "price-asc" || sortParam === "discount-desc"
       ? sortParam
@@ -47,7 +49,15 @@ export default async function Home({
     acc[c] = items.filter((i) => i.category === c).length;
     return acc;
   }, {});
-  const filtered = cat ? items.filter((i) => i.category === cat) : items;
+  const byCategory = cat ? items.filter((i) => i.category === cat) : items;
+  const query = q?.trim() ? normalizeText(q.trim()) : "";
+  const filtered = query
+    ? byCategory.filter((i) =>
+        normalizeText(
+          `${i.title ?? ""} ${i.description ?? ""} ${i.category}`
+        ).includes(query)
+      )
+    : byCategory;
   const featured = filtered.filter((i) => i.featured);
   const regular = sortItems(
     filtered.filter((i) => !i.featured),
@@ -157,7 +167,8 @@ export default async function Home({
           ))}
         </nav>
 
-        <div className="mb-8 flex justify-center">
+        <div className="mb-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <SearchInput current={q ?? ""} />
           <SortSelect current={sort} />
         </div>
 
@@ -180,7 +191,11 @@ export default async function Home({
         ) : (
           featured.length === 0 && (
             <div className="rounded-xl border border-border bg-surface p-10 text-center">
-              <p className="text-lg">Ainda não há produtos nessa categoria.</p>
+              <p className="text-lg">
+                {query
+                  ? `Nenhum produto encontrado para "${q}".`
+                  : "Ainda não há produtos nessa categoria."}
+              </p>
               <Link href="/" className="mt-2 inline-block text-accent underline">
                 Ver todos os produtos
               </Link>
