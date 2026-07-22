@@ -517,4 +517,28 @@ export const links: LinkConfig[] = [
     price: 253, // conferir periodicamente, preço do ML varia
     originalPrice: 302.5,
   },
+  {
+    slug: "colete-corretor-postural-cervical-alinha-postura",
+    url: "https://meli.la/1ALbTSX",
+    platform: "MERCADO_LIVRE",
+    category: "Fitness",
+    // Verificado 2026-07-22 com o método do container do botão "Ir para
+    // produto" — confirmado 2x, estável.
+    title: "Colete Corretor Postural Para Coluna Cervical Alinha Postura",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_749929-MLB101159772275_122025-V.webp",
+    price: 33.7, // conferir periodicamente, preço do ML varia
+    originalPrice: 47.9,
+  },
+  {
+    slug: "kit-6-regata-americano-canelada-premium-masculina",
+    url: "https://meli.la/2XntxKN",
+    platform: "MERCADO_LIVRE",
+    category: "Vestuário",
+    // Verificado 2026-07-22 com o método do container do botão "Ir para
+    // produto" — confirmado 2x, estável.
+    title: "Kit 6 Regata Modelo Americano Canelada Premium Masculina",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_774032-MLB109630771191_032026-V-kit-6-regata-modelo-americano-canelada-premium-masculina.webp",
+    price: 117, // conferir periodicamente, preço do ML varia
+    originalPrice: 236.18,
+  },
 ];
