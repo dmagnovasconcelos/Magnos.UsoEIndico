@@ -541,4 +541,38 @@ export const links: LinkConfig[] = [
     price: 117, // conferir periodicamente, preço do ML varia
     originalPrice: 236.18,
   },
+  {
+    slug: "kit-apoio-de-copo-4-porta-copos-bambu",
+    url: "https://meli.la/2GRtf2r",
+    platform: "MERCADO_LIVRE",
+    category: "Casa",
+    // Verificado 2026-07-22 com o método do container do botão "Ir para
+    // produto" — confirmado 2x, estável.
+    title: "Kit Apoio De Copo 4 Porta Copos Bambu Quadrado Redondo",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_951678-MLB114714260747_072026-V.webp",
+    price: 27.9, // conferir periodicamente, preço do ML varia
+  },
+  {
+    slug: "porta-retrato-duplo-10x15-madeira-decoracao-moldura-foto",
+    url: "https://meli.la/2ijTHAV",
+    platform: "MERCADO_LIVRE",
+    category: "Casa",
+    // Verificado 2026-07-22 com o método do container do botão "Ir para
+    // produto" — confirmado 2x, estável.
+    title: "Porta Retrato Duplo 10x15 Madeira Decoração Moldura Foto Marrom",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_607838-MLB92880090739_092025-V.webp",
+    price: 35.23, // conferir periodicamente, preço do ML varia
+    originalPrice: 55.91,
+  },
+  {
+    slug: "suporte-para-celular-mesa-organizador",
+    url: "https://meli.la/1Y6Fwvf",
+    platform: "MERCADO_LIVRE",
+    category: "Setup",
+    // Verificado 2026-07-22 com o método do container do botão "Ir para
+    // produto" — confirmado 2x, estável.
+    title: "Suporte Para Celular Mesa Com Organizador",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_761700-MLB93148237428_092025-V.webp",
+    price: 79, // conferir periodicamente, preço do ML varia
+  },
 ];
