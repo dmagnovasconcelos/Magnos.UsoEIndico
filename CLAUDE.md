@@ -72,6 +72,42 @@ esses nomes, sem acento/variação nova):
 Antes de criar uma categoria nova, checar se um item parecido já existe
 numa dessas — evita fragmentar em "Vestuario" vs "Roupas" vs "Moda" etc.
 
+## Duas prateleiras: "Eu uso" e "Na minha lista" (`kind`, criado 2026-07-24)
+
+O site nasceu com a promessa "Só entra aqui o que eu realmente uso". Quando o
+Danilo quis incluir produtos que ele **não usa**, isso quebraria a promessa em
+4 lugares (tagline, seção Sobre, `<title>`, e os reviews em 1ª pessoa) e —
+pior — jogaria suspeita sobre os itens verificados ("se tem coisa que ele não
+usa, será que usa os outros?").
+
+Solução aprovada por ele: o nome da marca já tem **dois verbos** ("Uso" E
+"Indico"). A prateleira nova ativa a segunda metade do nome em vez de
+contradizer a primeira. Decisões:
+
+- `kind?: "uso" | "lista"` em `LinkConfig`. **Ausente = "uso"** (padrão
+  histórico dos 47 itens; nunca precisa preencher pra item que ele usa).
+- Tagline mudou pra **"O que eu uso. E o que eu indico."** (hero, `<title>`,
+  OG description, e o final do texto da seção Sobre).
+- Filtro `?tipo=lista` — eixo **acima** das categorias, não misturado nelas.
+- **O filtro só aparece quando as duas prateleiras têm item** (`hasBothKinds`).
+  Com a lista vazia o site se comporta exatamente como antes — foi assim que
+  deu pra fazer deploy antes de existir qualquer item na lista.
+- Contadores de categoria e destaques **respeitam a prateleira ativa** (senão
+  "Tech (15)" mostrando 2 itens confunde).
+- Busca opera dentro da prateleira ativa, MAS se não achar nada ali e achar na
+  outra, o estado vazio vira um botão "Ver N resultados em '{outra}' →". Sem
+  isso, metade do acervo sumiria pra quem busca na aba errada.
+- Selo `NA MINHA LISTA` (âmbar `--color-wish: #eeb04a`, com ícone de marcador)
+  **só nos itens da lista**. O "eu uso" é a norma e não leva selo — marcar só
+  a exceção evita poluir 47 cards e identifica o item mesmo fora da aba.
+- Texto de contexto no topo da lista: "Esses eu ainda não comprei — pesquisei,
+  gostei e estão na minha lista. Não posso dizer 'eu uso', mas posso dizer
+  'eu quero'." Honestidade explícita, não letra miúda.
+
+**Regra dura:** item com `kind: "lista"` **não pode ter `review`** em 1ª pessoa
+de uso ("uso todo dia…"), porque o review é justamente a prova de que ele usa.
+Se for escrever algo, é no registro do desejo ("quero pra…", "vou testar…").
+
 ## Ofertas multiplataforma (`offers`, criado 2026-07-23)
 
 Cada item pode ter `offers: Offer[]` — o mesmo produto em outra plataforma

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { links, SITE_NAME, SITE_TAGLINE } from "@/lib/links";
+import { links, SITE_NAME, SITE_TAGLINE, KIND_LABEL } from "@/lib/links";
 import { enrichAll, type EnrichedLink } from "@/lib/enrich";
 import {
   PLATFORM_LABEL,
@@ -17,6 +17,29 @@ import { SearchInput } from "./SearchInput";
 
 // Revalida a cada 24h — scraping roda aqui, nunca por visitante
 export const revalidate = 86400;
+
+type ItemKind = "uso" | "lista";
+
+/** Itens sem `kind` são da prateleira "eu uso" — padrão histórico do catálogo. */
+function kindOf(item: EnrichedLink): ItemKind {
+  return item.kind ?? "uso";
+}
+
+/** Monta a URL preservando só os filtros que continuam fazendo sentido. */
+function buildHref(params: {
+  cat?: string;
+  sort?: SortKey;
+  q?: string;
+  kind?: ItemKind;
+}): string {
+  const sp = new URLSearchParams();
+  if (params.kind === "lista") sp.set("tipo", "lista");
+  if (params.cat) sp.set("cat", params.cat);
+  if (params.q) sp.set("q", params.q);
+  if (params.sort && params.sort !== "default") sp.set("sort", params.sort);
+  const qs = sp.toString();
+  return qs ? `/?${qs}` : "/";
+}
 
 function sortItems(items: EnrichedLink[], sort: SortKey): EnrichedLink[] {
   if (sort === "price-asc") {
@@ -35,29 +58,56 @@ function sortItems(items: EnrichedLink[], sort: SortKey): EnrichedLink[] {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ cat?: string; sort?: string; q?: string }>;
+  searchParams: Promise<{
+    cat?: string;
+    sort?: string;
+    q?: string;
+    tipo?: string;
+  }>;
 }) {
-  const { cat, sort: sortParam, q } = await searchParams;
+  const { cat, sort: sortParam, q, tipo } = await searchParams;
   const sort: SortKey =
     sortParam === "price-asc" || sortParam === "discount-desc"
       ? sortParam
       : "default";
   const items = await enrichAll(links);
 
-  const categories = [...new Set(items.flatMap((i) => i.categories))];
+  // Prateleira ativa: "uso" (padrão) ou "lista" (quero comprar, ainda não usei)
+  const kind: ItemKind = tipo === "lista" ? "lista" : "uso";
+  const kindCounts = {
+    uso: items.filter((i) => kindOf(i) === "uso").length,
+    lista: items.filter((i) => kindOf(i) === "lista").length,
+  };
+  // O filtro só existe quando as duas prateleiras têm conteúdo — enquanto a
+  // lista estiver vazia, o site se comporta exatamente como antes.
+  const hasBothKinds = kindCounts.uso > 0 && kindCounts.lista > 0;
+  const inKind = hasBothKinds
+    ? items.filter((i) => kindOf(i) === kind)
+    : items;
+
+  const categories = [...new Set(inKind.flatMap((i) => i.categories))];
   const categoryCounts = categories.reduce<Record<string, number>>((acc, c) => {
-    acc[c] = items.filter((i) => i.categories.includes(c)).length;
+    acc[c] = inKind.filter((i) => i.categories.includes(c)).length;
     return acc;
   }, {});
-  const byCategory = cat ? items.filter((i) => i.categories.includes(cat)) : items;
+  const byCategory = cat
+    ? inKind.filter((i) => i.categories.includes(cat))
+    : inKind;
   const query = q?.trim() ? normalizeText(q.trim()) : "";
-  const filtered = query
-    ? byCategory.filter((i) =>
-        normalizeText(
-          `${i.title ?? ""} ${i.description ?? ""} ${i.categories.join(" ")}`
-        ).includes(query)
-      )
-    : byCategory;
+  const matchesQuery = (i: EnrichedLink) =>
+    normalizeText(
+      `${i.title ?? ""} ${i.description ?? ""} ${i.categories.join(" ")}`
+    ).includes(query);
+  const filtered = query ? byCategory.filter(matchesQuery) : byCategory;
+
+  // Busca sem resultado aqui, mas com resultado na outra prateleira: em vez de
+  // "nada encontrado", aponta pro outro lado (senão metade do acervo some).
+  const otherKind: ItemKind = kind === "uso" ? "lista" : "uso";
+  const otherKindHits =
+    query && hasBothKinds
+      ? items.filter((i) => kindOf(i) === otherKind && matchesQuery(i)).length
+      : 0;
+
   const featured = filtered.filter((i) => i.featured);
   const regular = sortItems(
     filtered.filter((i) => !i.featured),
@@ -145,23 +195,65 @@ export default async function Home({
             Sou o Danilo Magno — filho de Deus, marido e pai de dois filhos
             lindos. Estou em constante transformação de espírito, alma e
             corpo, organizando a vida e buscando viver com mais qualidade,
-            propósito e intenção. Esse site é a minha curadoria pessoal: só
-            entra aqui o que eu realmente uso.
+            propósito e intenção. Esse site é a minha curadoria pessoal: o que
+            eu uso no dia a dia — e o que ainda está na minha lista pra comprar.
           </p>
         </section>
+
+        {/* Prateleira: eixo acima das categorias (só existe se as duas têm itens) */}
+        {hasBothKinds && (
+          <nav
+            aria-label="Prateleira"
+            className="mb-5 flex justify-center"
+          >
+            <div className="inline-flex rounded-full border border-border bg-surface p-1">
+              {(["uso", "lista"] as const).map((k) => (
+                <Link
+                  key={k}
+                  href={buildHref({ kind: k, q, sort })}
+                  aria-current={kind === k ? "page" : undefined}
+                  className={`min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
+                    kind === k
+                      ? k === "lista"
+                        ? "bg-wish text-bg"
+                        : "bg-accent text-white"
+                      : "text-muted hover:text-white"
+                  }`}
+                >
+                  {KIND_LABEL[k].label}{" "}
+                  <span className="opacity-60">({kindCounts[k]})</span>
+                </Link>
+              ))}
+            </div>
+          </nav>
+        )}
+
+        {/* Contexto da prateleira "lista" — honestidade explícita, não letra miúda */}
+        {hasBothKinds && kind === "lista" && (
+          <p className="mx-auto mb-5 max-w-xl rounded-xl border border-wish/30 bg-wish/10 px-4 py-3 text-center text-sm text-muted">
+            Esses eu <strong className="text-wish">ainda não comprei</strong> —
+            pesquisei, gostei e estão na minha lista. Não posso dizer “eu uso”,
+            mas posso dizer “eu quero”.
+          </p>
+        )}
 
         {/* Filtro de categorias */}
         <nav
           aria-label="Categorias"
           className="mb-4 flex flex-wrap justify-center gap-2"
         >
-          <CategoryPill label="Todos" count={items.length} href="/" active={!cat} />
+          <CategoryPill
+            label="Todos"
+            count={inKind.length}
+            href={buildHref({ kind, q, sort })}
+            active={!cat}
+          />
           {categories.map((c) => (
             <CategoryPill
               key={c}
               label={c}
               count={categoryCounts[c]}
-              href={`/?cat=${encodeURIComponent(c)}`}
+              href={buildHref({ cat: c, kind, q, sort })}
               active={cat === c}
             />
           ))}
@@ -193,12 +285,28 @@ export default async function Home({
             <div className="rounded-xl border border-border bg-surface p-10 text-center">
               <p className="text-lg">
                 {query
-                  ? `Nenhum produto encontrado para "${q}".`
+                  ? `Nenhum produto encontrado para “${q}”${
+                      hasBothKinds ? ` em “${KIND_LABEL[kind].label}”` : ""
+                    }.`
                   : "Ainda não há produtos nessa categoria."}
               </p>
-              <Link href="/" className="mt-2 inline-block text-accent underline">
-                Ver todos os produtos
-              </Link>
+              {otherKindHits > 0 ? (
+                <Link
+                  href={buildHref({ kind: otherKind, q, sort })}
+                  className="mt-3 inline-block rounded-lg bg-accent px-5 py-2.5 font-semibold text-white transition-opacity hover:opacity-90"
+                >
+                  Ver {otherKindHits}{" "}
+                  {otherKindHits === 1 ? "resultado" : "resultados"} em “
+                  {KIND_LABEL[otherKind].label}” →
+                </Link>
+              ) : (
+                <Link
+                  href={buildHref({ kind })}
+                  className="mt-2 inline-block text-accent underline"
+                >
+                  Ver todos os produtos
+                </Link>
+              )}
             </div>
           )
         )}
@@ -319,6 +427,33 @@ function PriceTag({ item }: { item: EnrichedLink }) {
   );
 }
 
+/**
+ * Selo só nos itens da lista de desejo. O "eu uso" é a norma do site e não
+ * precisa de rótulo — marcar a exceção evita poluir 47 cards e deixa claro,
+ * mesmo fora da aba, que aquele item não é um "eu uso".
+ */
+function KindBadge({ item }: { item: EnrichedLink }) {
+  if (kindOf(item) !== "lista") return null;
+  return (
+    <span className="mb-1 inline-flex w-fit items-center gap-1 rounded bg-wish/20 px-2 py-0.5 text-xs font-bold tracking-wide text-wish">
+      <svg
+        width="11"
+        height="11"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+      </svg>
+      {KIND_LABEL.lista.badge}
+    </span>
+  );
+}
+
 function OfferLinks({ item }: { item: EnrichedLink }) {
   if (!item.offers || item.offers.length === 0) return null;
   return (
@@ -368,6 +503,7 @@ function FeaturedCard({ item }: { item: EnrichedLink }) {
         <span className="mb-1 w-fit rounded bg-accent/20 px-2 py-0.5 text-xs font-bold tracking-wide text-accent-soft">
           ★ DESTAQUE
         </span>
+        <KindBadge item={item} />
         <h2 className="text-xl font-bold">{item.title}</h2>
         {item.review && (
           <p className="mt-1 italic text-accent-soft">“{item.review}”</p>
@@ -421,6 +557,7 @@ function ProductCard({ item }: { item: EnrichedLink }) {
         )}
       </div>
       <div className="flex flex-1 flex-col p-4">
+        <KindBadge item={item} />
         <h2 className="font-semibold leading-snug">{item.title}</h2>
         {item.review && (
           <p className="mt-1 text-sm italic text-accent-soft">

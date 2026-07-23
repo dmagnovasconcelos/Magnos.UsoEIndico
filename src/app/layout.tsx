@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: `${SITE_NAME} — ${SITE_TAGLINE}`,
   description:
-    "Vitrine pessoal de produtos que eu realmente uso no dia a dia, com o porquê de cada recomendação.",
+    "Curadoria pessoal do Danilo Magno: os produtos que eu uso no dia a dia, com o porquê de cada um — e os que ainda quero comprar.",
   icons: { icon: "/favicon-emblem.png" },
   openGraph: {
     title: SITE_NAME,

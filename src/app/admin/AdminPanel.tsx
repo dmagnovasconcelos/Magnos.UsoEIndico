@@ -212,6 +212,11 @@ export function AdminPanel() {
               <div className="min-w-0 flex-1">
                 <p className="truncate font-semibold">{item.title || item.slug}</p>
                 <p className="truncate text-xs text-muted">
+                  {item.kind === "lista" && (
+                    <span className="mr-1 font-bold text-[#eeb04a]">
+                      [na minha lista]
+                    </span>
+                  )}
                   {item.categories.join(", ")}
                   {item.price != null && ` · R$ ${item.price}`}
                 </p>
@@ -312,6 +317,18 @@ function EditForm({
                 {p}
               </option>
             ))}
+          </select>
+        </Field>
+        <Field label="Prateleira">
+          <select
+            value={draft.kind ?? "uso"}
+            onChange={(e) =>
+              onChange("kind", e.target.value as "uso" | "lista")
+            }
+            className="input"
+          >
+            <option value="uso">Eu uso (padrão)</option>
+            <option value="lista">Na minha lista (ainda não usei)</option>
           </select>
         </Field>
         <Field label="Destaque">

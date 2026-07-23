@@ -19,6 +19,12 @@ export interface LinkConfig {
   platform: Platform;
   /** Um item pode pertencer a mais de uma categoria */
   categories: string[];
+  /**
+   * Prateleira do item. "uso" (padrão) = produto que o Danilo usa de verdade,
+   * com review em 1ª pessoa. "lista" = ainda não comprou, está na lista de
+   * desejo — nunca misturar os dois na mesma listagem sem rótulo visível.
+   */
+  kind?: "uso" | "lista";
   featured?: boolean;
   /** "Por que eu uso" — 1 frase, voz pessoal */
   review?: string;
@@ -44,7 +50,13 @@ export interface LinkConfig {
 }
 
 export const SITE_NAME = "Uso e Indico";
-export const SITE_TAGLINE = "Só entra aqui o que eu realmente uso";
+export const SITE_TAGLINE = "O que eu uso. E o que eu indico.";
+
+/** Rótulos das duas prateleiras — usados no filtro, nos selos e nos textos */
+export const KIND_LABEL = {
+  uso: { label: "Eu uso", badge: "EU USO" },
+  lista: { label: "Na minha lista", badge: "NA MINHA LISTA" },
+} as const;
 
 export const links: LinkConfig[] = [
   {

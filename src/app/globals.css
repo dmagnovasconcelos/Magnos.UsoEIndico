@@ -8,6 +8,8 @@
   --color-accent: #7c6ef7;
   --color-accent-soft: #a99fe8;
   --color-discount: #3ee0a8;
+  /* Âmbar da prateleira "Na minha lista" — quente, distinto do accent e do desconto */
+  --color-wish: #eeb04a;
   --color-muted: #8b8b96;
 }
 
