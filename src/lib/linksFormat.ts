@@ -1,4 +1,4 @@
-import type { LinkConfig } from "./links";
+import type { LinkConfig, Offer } from "./links";
 
 function esc(s: string): string {
   return s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
@@ -31,12 +31,40 @@ export function formatLinkItem(item: LinkConfig): string {
   if (item.price != null) lines.push(`    price: ${item.price},`);
   if (item.originalPrice != null)
     lines.push(`    originalPrice: ${item.originalPrice},`);
+  if (item.offers && item.offers.length > 0) {
+    lines.push(`    offers: [`);
+    for (const offer of item.offers) {
+      lines.push(`      ${formatOffer(offer)},`);
+    }
+    lines.push(`    ],`);
+  }
   lines.push("  },");
   return lines.join("\n");
 }
 
+function formatOffer(offer: Offer): string {
+  const parts = [
+    `platform: ${str(offer.platform)}`,
+    `url: ${str(offer.url)}`,
+  ];
+  if (offer.price != null) parts.push(`price: ${offer.price}`);
+  if (offer.note) parts.push(`note: ${str(offer.note)}`);
+  return `{ ${parts.join(", ")} }`;
+}
+
 export function formatLinksFile(items: LinkConfig[]): string {
-  const header = `export type Platform = "MERCADO_LIVRE" | "SHOPEE" | "AMAZON" | "OUTRO";
+  const header = `export type Platform = "MERCADO_LIVRE" | "SHOPEE" | "AMAZON" | "TIKTOK" | "OUTRO";
+
+/** Oferta alternativa do mesmo produto em outra plataforma (ou outra entrega no ML) */
+export interface Offer {
+  platform: Platform;
+  /** URL de afiliado da oferta */
+  url: string;
+  /** Preço na plataforma no momento do cadastro — conferir periodicamente */
+  price?: number;
+  /** Nota curta exibível (ex: "kit 4 cores", "cor preta", "entrega Full") */
+  note?: string;
+}
 
 export interface LinkConfig {
   /** Usado em /r/:slug — não mude depois de compartilhar */
@@ -66,6 +94,8 @@ export interface LinkConfig {
   price?: number;
   /** Preço "de" riscado, quando o item está em promoção */
   originalPrice?: number;
+  /** Ofertas do mesmo produto em outras plataformas — o visitante escolhe onde comprar */
+  offers?: Offer[];
 }
 
 export const SITE_NAME = "Uso e Indico";

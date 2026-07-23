@@ -319,6 +319,34 @@ function PriceTag({ item }: { item: EnrichedLink }) {
   );
 }
 
+function OfferLinks({ item }: { item: EnrichedLink }) {
+  if (!item.offers || item.offers.length === 0) return null;
+  return (
+    <div className="mt-2 flex flex-col gap-1.5">
+      {item.offers.map((offer) => (
+        <a
+          key={offer.platform + offer.url}
+          href={`/r/${item.slug}?p=${offer.platform}`}
+          target="_blank"
+          rel="noopener"
+          className="inline-flex min-h-9 items-center justify-between gap-2 rounded-lg border border-border bg-surface-2 px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent-soft hover:text-white"
+        >
+          <span className="inline-flex items-center gap-1.5">
+            <PlatformIcon platform={offer.platform} />
+            Também na {PLATFORM_LABEL[offer.platform].label}
+            {offer.note ? ` · ${offer.note}` : ""}
+          </span>
+          {offer.price != null && (
+            <span className="font-bold text-white">
+              {formatPrice(offer.price)}
+            </span>
+          )}
+        </a>
+      ))}
+    </div>
+  );
+}
+
 function FeaturedCard({ item }: { item: EnrichedLink }) {
   const usage = usingFor(item.usingSince);
   return (
@@ -362,6 +390,7 @@ function FeaturedCard({ item }: { item: EnrichedLink }) {
           </a>
           <ShareButton title={item.title} slug={item.slug} />
         </div>
+        <OfferLinks item={item} />
       </div>
     </article>
   );
@@ -417,6 +446,7 @@ function ProductCard({ item }: { item: EnrichedLink }) {
             </a>
             <ShareButton title={item.title} slug={item.slug} />
           </div>
+          <OfferLinks item={item} />
         </div>
       </div>
     </article>

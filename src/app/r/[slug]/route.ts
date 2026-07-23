@@ -16,12 +16,19 @@ export async function GET(
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
 
+  // ?p=AMAZON etc. escolhe uma oferta alternativa; sem ?p= vai pro link principal
+  const offerPlatform = req.nextUrl.searchParams.get("p");
+  const offer = offerPlatform
+    ? link.offers?.find((o) => o.platform === offerPlatform)
+    : undefined;
+  const destination = offer?.url ?? link.url;
+
   // Log estruturado de clique — visível nos logs da Vercel
   console.log(
     JSON.stringify({
       event: "click",
       slug,
-      platform: link.platform,
+      platform: offer?.platform ?? link.platform,
       referrer: req.headers.get("referer") ?? undefined,
       ua: req.headers.get("user-agent") ?? undefined,
       ts: new Date().toISOString(),
@@ -30,5 +37,5 @@ export async function GET(
 
   after(() => trackEvent("completion", slug));
 
-  return NextResponse.redirect(link.url, 302);
+  return NextResponse.redirect(destination, 302);
 }

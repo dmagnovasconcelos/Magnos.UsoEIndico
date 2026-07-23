@@ -31,7 +31,7 @@ function isValidLink(item: unknown): item is LinkConfig {
     typeof i.url === "string" &&
     i.url.trim().length > 0 &&
     typeof i.platform === "string" &&
-    ["MERCADO_LIVRE", "SHOPEE", "AMAZON", "OUTRO"].includes(i.platform) &&
+    ["MERCADO_LIVRE", "SHOPEE", "AMAZON", "TIKTOK", "OUTRO"].includes(i.platform) &&
     Array.isArray(i.categories) &&
     i.categories.length > 0 &&
     i.categories.every((c) => typeof c === "string" && c.trim().length > 0)

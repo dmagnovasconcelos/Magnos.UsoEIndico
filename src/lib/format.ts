@@ -4,6 +4,7 @@ export const PLATFORM_LABEL: Record<Platform, { label: string }> = {
   MERCADO_LIVRE: { label: "Mercado Livre" },
   SHOPEE: { label: "Shopee" },
   AMAZON: { label: "Amazon" },
+  TIKTOK: { label: "TikTok Shop" },
   OUTRO: { label: "Loja" },
 };
 

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { LinkConfig, Platform } from "@/lib/links";
 
-const PLATFORMS: Platform[] = ["MERCADO_LIVRE", "SHOPEE", "AMAZON", "OUTRO"];
+const PLATFORMS: Platform[] = ["MERCADO_LIVRE", "SHOPEE", "AMAZON", "TIKTOK", "OUTRO"];
 
 const EMPTY_ITEM: LinkConfig = {
   slug: "",

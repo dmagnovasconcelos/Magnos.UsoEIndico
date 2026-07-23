@@ -1,4 +1,15 @@
-export type Platform = "MERCADO_LIVRE" | "SHOPEE" | "AMAZON" | "OUTRO";
+export type Platform = "MERCADO_LIVRE" | "SHOPEE" | "AMAZON" | "TIKTOK" | "OUTRO";
+
+/** Oferta alternativa do mesmo produto em outra plataforma (ou outra entrega no ML) */
+export interface Offer {
+  platform: Platform;
+  /** URL de afiliado da oferta */
+  url: string;
+  /** Preço na plataforma no momento do cadastro — conferir periodicamente */
+  price?: number;
+  /** Nota curta exibível (ex: "kit 4 cores", "cor preta", "entrega Full") */
+  note?: string;
+}
 
 export interface LinkConfig {
   /** Usado em /r/:slug — não mude depois de compartilhar */
@@ -28,6 +39,8 @@ export interface LinkConfig {
   price?: number;
   /** Preço "de" riscado, quando o item está em promoção */
   originalPrice?: number;
+  /** Ofertas do mesmo produto em outras plataformas — o visitante escolhe onde comprar */
+  offers?: Offer[];
 }
 
 export const SITE_NAME = "Uso e Indico";
@@ -45,6 +58,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_NQ_NP_957368-MLA110083075342_042026-O.webp",
     price: 29.95,
     originalPrice: 38.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0BM3ZDRRY?tag=dmagno04-20", price: 49.9 },
+    ],
   },
   {
     slug: "suporte-celular-360",
@@ -57,6 +73,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_NQ_NP_645748-MLB102235431879_122025-O.webp",
     price: 33.13,
     originalPrice: 57,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0H4NQZQYQ?tag=dmagno04-20", price: 6.9 },
+    ],
   },
   {
     slug: "suporte-notebook-360",
@@ -69,6 +88,9 @@ export const links: LinkConfig[] = [
     title: "Suporte de Mesa para Notebook 360° Ajustável — Metal",
     image: "https://http2.mlstatic.com/D_NQ_NP_877748-MLB105697398301_012026-O.webp",
     price: 129.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0FTHB3H48?tag=dmagno04-20", price: 85.9 },
+    ],
   },
   {
     slug: "apoio-para-pes-ergonomico-descanso-resistente-escr",
@@ -81,6 +103,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_707533-MLB105717403286_012026-V.webp",
     price: 42,
     originalPrice: 59.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B075SKB5DH?tag=dmagno04-20", price: 42.99 },
+    ],
   },
   {
     slug: "tripe-para-celular-portatil-1-7m-universal-bastao",
@@ -94,6 +119,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_921091-MLB109972041025_042026-V.webp",
     price: 71.07,
     originalPrice: 78.97,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0GSCCPL35?tag=dmagno04-20", price: 69.9 },
+    ],
   },
   {
     slug: "microfibra-pano-de-limpeza-para-iphone-macbook-cel",
@@ -107,6 +135,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_904278-MLB75329506010_032024-V.webp",
     price: 29.73,
     originalPrice: 30.97,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0DWHQ93T8?tag=dmagno04-20", price: 36.97 },
+    ],
   },
   {
     slug: "bolsa-organizadora-cabos-case-estojo-bag-eletronic",
@@ -119,6 +150,9 @@ export const links: LinkConfig[] = [
     title: "Bolsa Organizadora Cabos Case Estojo Bag Eletrônico Grande Cor Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_753655-MLA108762406887_032026-V.webp",
     price: 37.5,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0CCFX2TCV?tag=dmagno04-20", price: 29.9 },
+    ],
   },
   {
     slug: "base-suporte-para-pc-notebook-aluminio-portatil-ar",
@@ -130,6 +164,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_719010-MLA110559363083_042026-V.webp",
     price: 24.15,
     originalPrice: 32.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0H3788T72?tag=dmagno04-20", price: 18.9 },
+    ],
   },
   {
     slug: "teclado-ergonomico-sem-fio-logitech-wave-keys-graf",
@@ -141,6 +178,9 @@ export const links: LinkConfig[] = [
     title: "Teclado Ergonômico Sem Fio Logitech Wave Keys - Grafite Inglês US",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_739716-MLA99453694320_112025-V.webp",
     price: 459,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0CHB9PD4M?tag=dmagno04-20", price: 409.9 },
+    ],
   },
   {
     slug: "cabo-thunderbolt-3-ugreen-usb-c-para-hdmi-4k-refor",
@@ -152,6 +192,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_852747-MLA99395901500_112025-V.webp",
     price: 124.42,
     originalPrice: 299,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B07G5691LJ?tag=dmagno04-20", price: 107.9 },
+    ],
   },
   {
     slug: "mousepad-extra-grande-caramelo-90x40cm-deskpad-cou",
@@ -163,6 +206,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_701855-MLA102404626214_122025-V.webp",
     price: 47.49,
     originalPrice: 49.99,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B09HSQBYY1?tag=dmagno04-20", price: 51.14 },
+    ],
   },
   {
     slug: "flanela-pano-protecao-tela-e-teclado-apple-macbook",
@@ -176,6 +222,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_612151-MLB92259649659_092025-V-flanela-pano-proteco-tela-e-teclado-apple-macbook-13-a-16.webp",
     price: 63.79,
     originalPrice: 78.28,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0D9WPRCH8?tag=dmagno04-20", price: 79.97 },
+    ],
   },
   {
     slug: "fone-bluetooth-wave-buds-2-tws-azul",
@@ -187,6 +236,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_811984-MLA99445406304_112025-V.webp",
     price: 234.5,
     originalPrice: 369,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0DKJKTPWJ?tag=dmagno04-20", price: 219 },
+    ],
   },
   {
     slug: "headset-sem-fio-logitech-zone-vibe-100-grafite",
@@ -197,6 +249,9 @@ export const links: LinkConfig[] = [
     title: "Headset Sem Fio Logitech Zone Vibe 100 - Grafite",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_866279-MLA99513179228_112025-V.webp",
     price: 594.15,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0B8C31YXR?tag=dmagno04-20", price: 529.99 },
+    ],
   },
   {
     slug: "capa-para-macbook-air-13-m4-m3-m2-protetor-teclado",
@@ -208,6 +263,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_971777-MLA95522187642_102025-V.webp",
     price: 117.23,
     originalPrice: 169.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0FC2JFQ2K?tag=dmagno04-20", price: 88 },
+    ],
   },
   {
     slug: "jogo-limpa-telas-pc-notebook-120ml-pano-microfibra",
@@ -219,6 +277,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_727350-MLA100087934009_122025-V.webp",
     price: 22.2,
     originalPrice: 28.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0D5BXC1JL?tag=dmagno04-20", price: 25.78 },
+    ],
   },
   {
     slug: "cabo-ugreen-quick-charge-4-0-usb-c-1m-blindado-cin",
@@ -229,6 +290,9 @@ export const links: LinkConfig[] = [
     title: "Cabo Ugreen Quick Charge 4.0 USB-C 1m Blindado - Cinza",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_705800-MLA99599259526_122025-V.webp",
     price: 36.56,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B07PP2QHZD?tag=dmagno04-20", price: 48.9 },
+    ],
   },
   {
     slug: "ugreen-organizador-cabo-2-metros-40354",
@@ -241,6 +305,9 @@ export const links: LinkConfig[] = [
     title: "Ugreen - Organizador Cabo 2 Metros - 40354 Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_626476-MLB92317605521_092025-V.webp",
     price: 24.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B07ZC346SK?tag=dmagno04-20", price: 27.69 },
+    ],
   },
   {
     slug: "mouse-sem-fio-logitech-mx-vertical-ergonomico-cinz",
@@ -252,6 +319,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_926785-MLA99858509739_112025-V.webp",
     price: 533.22,
     originalPrice: 579.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B07PNKGKBX?tag=dmagno04-20", price: 479.9 },
+    ],
   },
   {
     slug: "teclado-sem-fio-signature-k650-grafite-logitech-ci",
@@ -263,6 +333,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_780490-MLA99929764499_112025-V.webp",
     price: 241.3,
     originalPrice: 289.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0BK9YLKPM?tag=dmagno04-20", price: 239.18 },
+    ],
   },
   {
     slug: "copo-termico-inox-cafe-cha-antivazamento-vacuum",
@@ -276,6 +349,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_642290-MLB113406160621_062026-V.webp",
     price: 27.06,
     originalPrice: 69.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0FFBN14CB?tag=dmagno04-20", price: 49.9 },
+    ],
   },
   {
     slug: "kit-limpa-telas-tablet-celular-notebook-computadore",
@@ -289,6 +365,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_806895-MLB73331229509_122023-V.webp",
     price: 30.99,
     originalPrice: 32.99,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0DQL9YDG3?tag=dmagno04-20", price: 15.9 },
+    ],
   },
   {
     slug: "cinto-de-fitness-com-alavanca-lever-buckle",
@@ -326,6 +405,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_721892-MLA99598079074_122025-V.webp",
     price: 33,
     originalPrice: 45.54,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0DRMPZ27W?tag=dmagno04-20", price: 40.45 },
+    ],
   },
   {
     slug: "kit-3-regata-masculina-americano-canelada-algodao",
@@ -352,6 +434,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_801197-MLB108656655278_032026-V.webp",
     price: 86.33,
     originalPrice: 129.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0GSHJYPCZ?tag=dmagno04-20", price: 109 },
+    ],
   },
   {
     slug: "calca-tactel-masculino-jogger-com-elastano-academi",
@@ -365,6 +450,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_692315-MLB87398103458_072025-V-calca-tactel-masculino-jogger-c-elastano-academia-treino.webp",
     price: 36.17,
     originalPrice: 69,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0GSCM9KSG?tag=dmagno04-20", price: 35.91 },
+    ],
   },
   {
     slug: "munhequeira-musculacao-crossfit-lpo-elastica-alta",
@@ -376,6 +464,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_825097-MLA105750783064_022026-V.webp",
     price: 34.44,
     originalPrice: 39.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0CV18Q36K?tag=dmagno04-20", price: 42.9 },
+    ],
   },
   {
     slug: "shorts-2-em-1-termico-de-compressao-com-bolso-secr",
@@ -413,6 +504,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_839421-MLB104333596016_012026-V-kit-3-regata-oversized-macho-streetwear-lisa-casual-basicas.webp",
     price: 76.03,
     originalPrice: 143.45,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0DHLX9Y9F?tag=dmagno04-20", price: 129.9 },
+    ],
   },
   {
     slug: "regata-oversized-masculino-tamanho-grande-basica-l",
@@ -424,6 +518,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_944768-MLB94446815565_102025-V.webp",
     price: 27,
     originalPrice: 64.14,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0FPNN2PCS?tag=dmagno04-20", price: 56.9 },
+    ],
   },
   {
     slug: "suplemento-em-po-panic-150g-adaptogen-uva-com-crea",
@@ -435,6 +532,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_861264-MLA100080909647_122025-V.webp",
     price: 38.8,
     originalPrice: 66,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0B2J5KQB7?tag=dmagno04-20", price: 50 },
+    ],
   },
   {
     slug: "pedalboard-luxo-detalhe-em-madeira-universal-com-v",
@@ -482,6 +582,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_817424-MLB93932215678_102025-V-fita-gaffer-tape-opcao-cores-12mm-x-5mts-fluorescente-neon.webp",
     price: 23.45,
     originalPrice: 25.22,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0DWB9Y591?tag=dmagno04-20", price: 86.97 },
+    ],
   },
   {
     slug: "mesa-dobravel-portatil-palisad-aluminio-branco-90x",
@@ -493,6 +596,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_879613-MLA96146063437_102025-V.webp",
     price: 119.2,
     originalPrice: 149,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0777QNWGL?tag=dmagno04-20", price: 159.9 },
+    ],
   },
   {
     slug: "bolsa-bag-mochila-reforcada-alca-para-pedalboard-f",
@@ -518,6 +624,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_749929-MLB101159772275_122025-V.webp",
     price: 33.7,
     originalPrice: 47.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0F74P6KNR?tag=dmagno04-20", price: 42.99 },
+    ],
   },
   {
     slug: "kit-6-regata-americano-canelada-premium-masculina",
@@ -541,6 +650,9 @@ export const links: LinkConfig[] = [
     title: "Kit Apoio De Copo 4 Porta Copos Bambu Quadrado Redondo",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_951678-MLB114714260747_072026-V.webp",
     price: 27.9,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0GSCVQLCV?tag=dmagno04-20", price: 26.89 },
+    ],
   },
   {
     slug: "porta-retrato-duplo-10x15-madeira-decoracao-moldura-foto",
@@ -564,5 +676,8 @@ export const links: LinkConfig[] = [
     title: "Suporte Para Celular Mesa Com Organizador",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_761700-MLB93148237428_092025-V.webp",
     price: 79,
+    offers: [
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0GRBYNWM3?tag=dmagno04-20", price: 32.9 },
+    ],
   },
 ];

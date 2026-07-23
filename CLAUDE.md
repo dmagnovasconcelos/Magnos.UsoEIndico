@@ -72,6 +72,29 @@ esses nomes, sem acento/variação nova):
 Antes de criar uma categoria nova, checar se um item parecido já existe
 numa dessas — evita fragmentar em "Vestuario" vs "Roupas" vs "Moda" etc.
 
+## Ofertas multiplataforma (`offers`, criado 2026-07-23)
+
+Cada item pode ter `offers: Offer[]` — o mesmo produto em outra plataforma
+(Amazon, Shopee, TikTok) ou outra entrega no ML. O card mostra "Também na
+{plataforma} · R$ X" abaixo do CTA, e o clique passa por
+`/r/{slug}?p={PLATFORM}` (mantém o tracking; fallback pro link principal se
+a plataforma não existir no item).
+
+**Amazon (2026-07-23):** 34 dos 45 itens têm oferta Amazon cadastrada. Links
+construídos como `https://www.amazon.com.br/dp/{ASIN}?tag=dmagno04-20`
+(tag de Associado do Danilo, extraída do SiteStripe — formato oficial do
+"link completo"). Cada ASIN foi verificado abrindo a página real do produto
+e comparando título/tipo com o item do catálogo. **11 itens ficaram SEM
+oferta Amazon de propósito** (produto não existe lá ou só havia
+marca/modelo/direção diferente — ex: cinturão Rudel só tinha Pentágono,
+Casio prateado só tinha dourado, adaptador D'Addario só tinha genérico de
+R$ 4). Não cadastrar "equivalente de outra marca" — contradiz a curadoria.
+
+Shopee/TikTok: bloqueiam automação mesmo logado (renderização virtualizada
+anti-bot). O mapeamento pro Danilo preencher manualmente está no Artifact
+"Mapa multiplataforma". Preços das ofertas seguem a mesma regra do `price`
+principal: conferir periodicamente.
+
 ## Painel de edição local (`/admin`, criado 2026-07-22)
 
 Existe um painel de edição em `/admin` (`src/app/admin/`) que lê e escreve
