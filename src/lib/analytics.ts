@@ -78,6 +78,29 @@ async function writeStats(stats: Stats): Promise<void> {
   cachedUrl = result.url;
 }
 
+/**
+ * Um redirect = click + completion no MESMO momento (o handler sempre
+ * completa se chegou aqui). Contabiliza os dois numa ÚNICA escrita, em vez
+ * de dois `trackEvent` concorrentes que se atropelam no lê-soma-grava
+ * (bug de subcontagem confirmado em produção). Bônus: metade das escritas
+ * — importa no teto de 2k advanced-ops/mês do Hobby.
+ */
+export async function trackRedirect(itemSlug: string) {
+  if (!isConfigured()) return;
+  try {
+    const stats = await readStats();
+    stats.lastUpdated = new Date().toISOString();
+    stats.clicks += 1;
+    stats.completions += 1;
+    stats.byItem[itemSlug] ??= { clicks: 0, completions: 0 };
+    stats.byItem[itemSlug].clicks += 1;
+    stats.byItem[itemSlug].completions += 1;
+    await writeStats(stats);
+  } catch {
+    // best-effort
+  }
+}
+
 /** Fire-and-forget — nunca lançar erro nem bloquear quem chamou. */
 export async function trackEvent(type: EventType, itemSlug?: string) {
   if (!isConfigured()) return;
