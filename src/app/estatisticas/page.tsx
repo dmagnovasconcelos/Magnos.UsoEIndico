@@ -18,8 +18,8 @@ export default async function Estatisticas() {
       <main className="mx-auto max-w-3xl px-4 py-16 text-center">
         <h1 className="text-xl font-bold">Estatísticas indisponíveis</h1>
         <p className="mt-2 text-muted">
-          Não consegui ler o arquivo de estatísticas — confira se
-          `GITHUB_TOKEN` está configurado na Vercel.
+          Não consegui ler o arquivo de estatísticas — confira se o store do
+          Vercel Blob está conectado ao projeto (env `BLOB_READ_WRITE_TOKEN`).
         </p>
       </main>
     );

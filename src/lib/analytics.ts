@@ -1,16 +1,22 @@
 /**
- * Analytics leve — sem banco de dados. Os contadores vivem num arquivo
- * JSON versionado no branch `analytics-data` do próprio repo (não o
- * `main`, pra não disparar deploy na Vercel a cada evento).
+ * Analytics leve — sem banco de dados. Os contadores vivem num único
+ * arquivo JSON (`stats.json`) no Vercel Blob: um storage de verdade,
+ * gravável em runtime (o filesystem do deploy é read-only na Vercel).
  *
- * Best-effort: se der conflito de concorrência (dois eventos ao mesmo
- * tempo) ou o token não estiver configurado, falha silenciosamente —
- * analytics nunca pode quebrar o funil real do site.
+ * Padrão: lê o JSON → soma +1 → grava o JSON (mesmo modelo do antigo
+ * backend no GitHub, só que Vercel-native). Best-effort: se o store não
+ * estiver configurado ou der qualquer erro, falha em silêncio — analytics
+ * nunca pode quebrar o funil real do site.
+ *
+ * Provisionar em produção: Vercel → Storage → Create → Blob → conectar ao
+ * projeto. Isso injeta a env `BLOB_READ_WRITE_TOKEN` automaticamente
+ * (nada de colar token na mão). Sem a env, o site funciona igual, só não
+ * contabiliza.
  */
 
-const REPO = "dmagnovasconcelos/Magnos.UsoEIndico";
-const BRANCH = "analytics-data";
-const PATH = "stats.json";
+import { put, list } from "@vercel/blob";
+
+const BLOB_PATH = "stats.json";
 
 interface Stats {
   pageviews: number;
@@ -22,53 +28,61 @@ interface Stats {
 
 type EventType = "pageview" | "click" | "completion";
 
-async function githubRequest(path: string, init?: RequestInit) {
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) return null;
-  const res = await fetch(`https://api.github.com${path}`, {
-    ...init,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-      ...init?.headers,
-    },
-  });
-  if (!res.ok) return null;
-  return res.json();
+function emptyStats(): Stats {
+  return {
+    pageviews: 0,
+    clicks: 0,
+    completions: 0,
+    byItem: {},
+    lastUpdated: null,
+  };
 }
 
-async function readStats(): Promise<{ stats: Stats; sha: string } | null> {
-  const data = await githubRequest(
-    `/repos/${REPO}/contents/${PATH}?ref=${BRANCH}`
-  );
-  if (!data?.content) return null;
-  const decoded = Buffer.from(data.content, "base64").toString("utf-8");
-  return { stats: JSON.parse(decoded), sha: data.sha };
+function isConfigured(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 }
 
-async function writeStats(stats: Stats, sha: string): Promise<boolean> {
-  const content = Buffer.from(JSON.stringify(stats, null, 2)).toString(
-    "base64"
-  );
-  const result = await githubRequest(`/repos/${REPO}/contents/${PATH}`, {
-    method: "PUT",
-    body: JSON.stringify({
-      message: `analytics: +1 ${stats.lastUpdated}`,
-      content,
-      sha,
-      branch: BRANCH,
-    }),
+/**
+ * URL pública do blob, cacheada entre invocações quentes da função. Sem
+ * isso, cada leitura chamaria `list()` (advanced operation, cota mais
+ * escassa). Com o cache, o `list()` só roda no cold start; as leituras
+ * seguintes são um fetch simples da URL.
+ */
+let cachedUrl: string | null = null;
+
+async function resolveUrl(): Promise<string | null> {
+  if (cachedUrl) return cachedUrl;
+  const { blobs } = await list({ prefix: BLOB_PATH, limit: 1 });
+  const found = blobs.find((b) => b.pathname === BLOB_PATH);
+  cachedUrl = found?.url ?? null;
+  return cachedUrl;
+}
+
+async function readStats(): Promise<Stats> {
+  const url = await resolveUrl();
+  if (!url) return emptyStats();
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) return emptyStats();
+  return (await res.json()) as Stats;
+}
+
+async function writeStats(stats: Stats): Promise<void> {
+  const result = await put(BLOB_PATH, JSON.stringify(stats, null, 2), {
+    access: "public",
+    contentType: "application/json",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    // sem cache de CDN: o próximo evento precisa ler o valor recém-gravado
+    cacheControlMaxAge: 0,
   });
-  return result !== null;
+  cachedUrl = result.url;
 }
 
 /** Fire-and-forget — nunca lançar erro nem bloquear quem chamou. */
 export async function trackEvent(type: EventType, itemSlug?: string) {
+  if (!isConfigured()) return;
   try {
-    const current = await readStats();
-    if (!current) return;
-    const { stats, sha } = current;
+    const stats = await readStats();
 
     stats.lastUpdated = new Date().toISOString();
     if (type === "pageview") stats.pageviews += 1;
@@ -87,13 +101,23 @@ export async function trackEvent(type: EventType, itemSlug?: string) {
       }
     }
 
-    await writeStats(stats, sha);
+    await writeStats(stats);
   } catch {
-    // best-effort — silencia qualquer falha (conflito de concorrência, rede, etc.)
+    // best-effort — silencia qualquer falha (store indisponível, rede, etc.)
   }
 }
 
 export async function getStats(): Promise<Stats | null> {
-  const current = await readStats();
-  return current?.stats ?? null;
+  // Store não configurado → null (a página mostra o estado "indisponível").
+  if (!isConfigured()) return null;
+  try {
+    const url = await resolveUrl();
+    // Configurado mas sem nenhum evento ainda → zeros, não "indisponível".
+    if (!url) return emptyStats();
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) return null;
+    return (await res.json()) as Stats;
+  } catch {
+    return null;
+  }
 }

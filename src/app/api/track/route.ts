@@ -7,6 +7,6 @@ export async function POST(req: NextRequest) {
   if (type === "pageview") {
     after(() => trackEvent("pageview"));
   }
-  // 204 imediato — não espera o commit no GitHub terminar
+  // 204 imediato — não espera a escrita no Vercel Blob terminar
   return new NextResponse(null, { status: 204 });
 }
