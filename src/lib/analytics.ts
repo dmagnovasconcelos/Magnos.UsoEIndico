@@ -1,22 +1,27 @@
 /**
- * Analytics leve — sem banco de dados. Os contadores vivem num único
- * arquivo JSON (`stats.json`) no Vercel Blob: um storage de verdade,
- * gravável em runtime (o filesystem do deploy é read-only na Vercel).
+ * Analytics leve — sem banco relacional. Contadores no Upstash Redis
+ * (via marketplace da Vercel), com incremento ATÔMICO (`INCR`/`HINCRBY`).
  *
- * Padrão: lê o JSON → soma +1 → grava o JSON (mesmo modelo do antigo
- * backend no GitHub, só que Vercel-native). Best-effort: se o store não
- * estiver configurado ou der qualquer erro, falha em silêncio — analytics
- * nunca pode quebrar o funil real do site.
+ * Por que Redis e não um arquivo JSON: contador em arquivo faz
+ * "lê-soma-grava", que perde incrementos quando dois eventos batem juntos
+ * (comprovado em produção com o Blob: 5 cliques viraram 2). `INCR` soma no
+ * servidor, sem race — conta exato mesmo em rajada.
  *
- * Provisionar em produção: Vercel → Storage → Create → Blob → conectar ao
- * projeto. Isso injeta a env `BLOB_READ_WRITE_TOKEN` automaticamente
- * (nada de colar token na mão). Sem a env, o site funciona igual, só não
- * contabiliza.
+ * Provisionar: Vercel → Storage → Upstash for Redis (grátis) → conectar ao
+ * projeto. Injeta `KV_REST_API_URL` + `KV_REST_API_TOKEN` sozinho. Sem
+ * essas envs, tudo é best-effort silencioso (site funciona, só não conta).
  */
 
-import { put, list } from "@vercel/blob";
+import { Redis } from "@upstash/redis";
 
-const BLOB_PATH = "stats.json";
+const K = {
+  pageviews: "analytics:pageviews",
+  clicks: "analytics:clicks",
+  completions: "analytics:completions",
+  itemClicks: "analytics:item:clicks",
+  itemCompletions: "analytics:item:completions",
+  lastUpdated: "analytics:lastUpdated",
+} as const;
 
 interface Stats {
   pageviews: number;
@@ -28,76 +33,42 @@ interface Stats {
 
 type EventType = "pageview" | "click" | "completion";
 
-function emptyStats(): Stats {
-  return {
-    pageviews: 0,
-    clicks: 0,
-    completions: 0,
-    byItem: {},
-    lastUpdated: null,
-  };
-}
-
 function isConfigured(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  return Boolean(
+    process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
+  );
 }
 
-/**
- * URL pública do blob, cacheada entre invocações quentes da função. Sem
- * isso, cada leitura chamaria `list()` (advanced operation, cota mais
- * escassa). Com o cache, o `list()` só roda no cold start; as leituras
- * seguintes são um fetch simples da URL.
- */
-let cachedUrl: string | null = null;
-
-async function resolveUrl(): Promise<string | null> {
-  if (cachedUrl) return cachedUrl;
-  const { blobs } = await list({ prefix: BLOB_PATH, limit: 1 });
-  const found = blobs.find((b) => b.pathname === BLOB_PATH);
-  cachedUrl = found?.url ?? null;
-  return cachedUrl;
-}
-
-async function readStats(): Promise<Stats> {
-  const url = await resolveUrl();
-  if (!url) return emptyStats();
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) return emptyStats();
-  return (await res.json()) as Stats;
-}
-
-async function writeStats(stats: Stats): Promise<void> {
-  const result = await put(BLOB_PATH, JSON.stringify(stats, null, 2), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    // sem cache de CDN: o próximo evento precisa ler o valor recém-gravado
-    cacheControlMaxAge: 0,
+let client: Redis | null = null;
+function redis(): Redis {
+  client ??= new Redis({
+    url: process.env.KV_REST_API_URL!,
+    token: process.env.KV_REST_API_TOKEN!,
   });
-  cachedUrl = result.url;
+  return client;
+}
+
+function toNum(v: unknown): number {
+  const n = typeof v === "number" ? v : Number(v);
+  return Number.isFinite(n) ? n : 0;
 }
 
 /**
- * Um redirect = click + completion no MESMO momento (o handler sempre
- * completa se chegou aqui). Contabiliza os dois numa ÚNICA escrita, em vez
- * de dois `trackEvent` concorrentes que se atropelam no lê-soma-grava
- * (bug de subcontagem confirmado em produção). Bônus: metade das escritas
- * — importa no teto de 2k advanced-ops/mês do Hobby.
+ * Um redirect = click + completion no mesmo momento. Incrementa os dois de
+ * forma atômica (INCR/HINCRBY) numa pipeline — sem race, sem subcontagem.
  */
 export async function trackRedirect(itemSlug: string) {
   if (!isConfigured()) return;
   try {
-    const stats = await readStats();
-    stats.lastUpdated = new Date().toISOString();
-    stats.clicks += 1;
-    stats.completions += 1;
-    stats.byItem[itemSlug] ??= { clicks: 0, completions: 0 };
-    stats.byItem[itemSlug].clicks += 1;
-    stats.byItem[itemSlug].completions += 1;
-    await writeStats(stats);
+    const p = redis().pipeline();
+    p.incr(K.clicks);
+    p.incr(K.completions);
+    p.hincrby(K.itemClicks, itemSlug, 1);
+    p.hincrby(K.itemCompletions, itemSlug, 1);
+    p.set(K.lastUpdated, new Date().toISOString());
+    await p.exec();
   } catch {
-    // best-effort
+    // best-effort — analytics nunca quebra o funil real
   }
 }
 
@@ -105,28 +76,27 @@ export async function trackRedirect(itemSlug: string) {
 export async function trackEvent(type: EventType, itemSlug?: string) {
   if (!isConfigured()) return;
   try {
-    const stats = await readStats();
-
-    stats.lastUpdated = new Date().toISOString();
-    if (type === "pageview") stats.pageviews += 1;
-    if (type === "click") {
-      stats.clicks += 1;
-      if (itemSlug) {
-        stats.byItem[itemSlug] ??= { clicks: 0, completions: 0 };
-        stats.byItem[itemSlug].clicks += 1;
-      }
+    const r = redis();
+    if (type === "pageview") {
+      const p = r.pipeline();
+      p.incr(K.pageviews);
+      p.set(K.lastUpdated, new Date().toISOString());
+      await p.exec();
+    } else if (type === "click" && itemSlug) {
+      const p = r.pipeline();
+      p.incr(K.clicks);
+      p.hincrby(K.itemClicks, itemSlug, 1);
+      p.set(K.lastUpdated, new Date().toISOString());
+      await p.exec();
+    } else if (type === "completion" && itemSlug) {
+      const p = r.pipeline();
+      p.incr(K.completions);
+      p.hincrby(K.itemCompletions, itemSlug, 1);
+      p.set(K.lastUpdated, new Date().toISOString());
+      await p.exec();
     }
-    if (type === "completion") {
-      stats.completions += 1;
-      if (itemSlug) {
-        stats.byItem[itemSlug] ??= { clicks: 0, completions: 0 };
-        stats.byItem[itemSlug].completions += 1;
-      }
-    }
-
-    await writeStats(stats);
   } catch {
-    // best-effort — silencia qualquer falha (store indisponível, rede, etc.)
+    // best-effort
   }
 }
 
@@ -134,12 +104,33 @@ export async function getStats(): Promise<Stats | null> {
   // Store não configurado → null (a página mostra o estado "indisponível").
   if (!isConfigured()) return null;
   try {
-    const url = await resolveUrl();
-    // Configurado mas sem nenhum evento ainda → zeros, não "indisponível".
-    if (!url) return emptyStats();
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) return null;
-    return (await res.json()) as Stats;
+    const r = redis();
+    const [pageviews, clicks, completions, itemClicks, itemCompletions, lastUpdated] =
+      await Promise.all([
+        r.get<number>(K.pageviews),
+        r.get<number>(K.clicks),
+        r.get<number>(K.completions),
+        r.hgetall<Record<string, number>>(K.itemClicks),
+        r.hgetall<Record<string, number>>(K.itemCompletions),
+        r.get<string>(K.lastUpdated),
+      ]);
+
+    const byItem: Stats["byItem"] = {};
+    for (const [slug, n] of Object.entries(itemClicks ?? {})) {
+      byItem[slug] = { clicks: toNum(n), completions: 0 };
+    }
+    for (const [slug, n] of Object.entries(itemCompletions ?? {})) {
+      byItem[slug] ??= { clicks: 0, completions: 0 };
+      byItem[slug].completions = toNum(n);
+    }
+
+    return {
+      pageviews: toNum(pageviews),
+      clicks: toNum(clicks),
+      completions: toNum(completions),
+      byItem,
+      lastUpdated: lastUpdated ?? null,
+    };
   } catch {
     return null;
   }

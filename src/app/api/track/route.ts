@@ -7,6 +7,6 @@ export async function POST(req: NextRequest) {
   if (type === "pageview") {
     after(() => trackEvent("pageview"));
   }
-  // 204 imediato — não espera a escrita no Vercel Blob terminar
+  // 204 imediato — não espera o incremento no Redis terminar
   return new NextResponse(null, { status: 204 });
 }

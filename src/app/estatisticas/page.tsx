@@ -18,8 +18,9 @@ export default async function Estatisticas() {
       <main className="mx-auto max-w-3xl px-4 py-16 text-center">
         <h1 className="text-xl font-bold">Estatísticas indisponíveis</h1>
         <p className="mt-2 text-muted">
-          Não consegui ler o arquivo de estatísticas — confira se o store do
-          Vercel Blob está conectado ao projeto (env `BLOB_READ_WRITE_TOKEN`).
+          Não consegui ler os contadores — confira se o Redis (Upstash) está
+          conectado ao projeto na Vercel (envs `KV_REST_API_URL` e
+          `KV_REST_API_TOKEN`).
         </p>
       </main>
     );
