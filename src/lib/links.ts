@@ -936,4 +936,16 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_NQ_NP_603983-MLA111195441771_052026-O.webp",
     price: 59.9,
   },
+  {
+    slug: "fita-led-neon-5m-rgb-ip65-bluetooth",
+    url: "https://meli.la/2dJPm3m",
+    platform: "MERCADO_LIVRE",
+    categories: ["Casa"],
+    verifiedAt: "2026-07-28",
+    verificationNote: "Verificado 2026-07-28 com o método do container do botão \"Ir para produto\" — destino MLB6763896520, título/preço/imagem batendo, confirmado 2x estável. Sem oferta Amazon: as fitas neon 5m de lá são listagens multi-variante ambíguas e mais caras que o ML — não há equivalente fiel e melhor.",
+    title: "Fita LED Neon 5m RGB IP65 À Prova d'Água Bluetooth + Fonte",
+    image: "https://http2.mlstatic.com/D_NQ_NP_962393-MLB110663147588_052026-O.webp",
+    price: 76,
+    originalPrice: 127.6,
+  },
 ];
