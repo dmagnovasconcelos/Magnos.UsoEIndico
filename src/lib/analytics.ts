@@ -1,42 +1,48 @@
 /**
- * Analytics leve — sem banco relacional. Contadores no Upstash Redis
- * (via marketplace da Vercel), com incremento ATÔMICO (`INCR`/`HINCRBY`).
+ * Analytics leve — Upstash Redis (via marketplace da Vercel), incremento
+ * ATÔMICO (`INCR`/`HINCRBY`), agora com HISTÓRICO POR DIA.
  *
- * Por que Redis e não um arquivo JSON: contador em arquivo faz
- * "lê-soma-grava", que perde incrementos quando dois eventos batem juntos
- * (comprovado em produção com o Blob: 5 cliques viraram 2). `INCR` soma no
- * servidor, sem race — conta exato mesmo em rajada.
+ * Modelo: um balde de contadores por dia (fuso de Brasília), pra permitir
+ * filtro por data na página. Chaves:
+ *   av:pv:{YYYY-MM-DD}   -> visitas na home no dia            (INCR)
+ *   av:ck:{YYYY-MM-DD}   -> cliques em produto no dia         (INCR)
+ *   av:it:{YYYY-MM-DD}   -> hash slug->cliques no dia         (HINCRBY)
+ *   av:days              -> sorted set dos dias com dado      (ZADD)
+ *   av:lastUpdated       -> ISO do último evento              (SET)
  *
- * Provisionar: Vercel → Storage → Upstash for Redis (grátis) → conectar ao
- * projeto. Injeta `KV_REST_API_URL` + `KV_REST_API_TOKEN` sozinho. Sem
- * essas envs, tudo é best-effort silencioso (site funciona, só não conta).
+ * Por que Redis e não arquivo JSON: contador em arquivo faz lê-soma-grava,
+ * que perde incrementos em rajada (comprovado com o Blob: 5 cliques → 2).
+ * `INCR`/`HINCRBY` somam no servidor, sem race.
+ *
+ * O modelo antigo (chaves `analytics:*`, só total acumulado, sem data)
+ * ficou órfão — este usa prefixo `av:*`, então nasce do zero.
+ *
+ * Sem `KV_REST_API_URL`/`KV_REST_API_TOKEN`, tudo é best-effort silencioso.
  */
 
 import { Redis } from "@upstash/redis";
 
-const K = {
-  pageviews: "analytics:pageviews",
-  clicks: "analytics:clicks",
-  completions: "analytics:completions",
-  itemClicks: "analytics:item:clicks",
-  itemCompletions: "analytics:item:completions",
-  lastUpdated: "analytics:lastUpdated",
-} as const;
+const KEY_DAYS = "av:days";
+const KEY_LAST = "av:lastUpdated";
+const TZ = "America/Sao_Paulo";
 
-interface Stats {
+export interface RangeStats {
   pageviews: number;
   clicks: number;
-  completions: number;
-  byItem: Record<string, { clicks: number; completions: number }>;
+  /** slug -> cliques no período */
+  byItem: Record<string, number>;
+  /** intervalo efetivamente somado (YYYY-MM-DD) */
+  from: string;
+  to: string;
+  /** menor dia com dado registrado (pra limitar o seletor); null se vazio */
+  firstDay: string | null;
+  /** hoje no fuso de Brasília (limite superior do seletor) */
+  today: string;
   lastUpdated: string | null;
 }
 
-type EventType = "pageview" | "click" | "completion";
-
 function isConfigured(): boolean {
-  return Boolean(
-    process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
-  );
+  return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
 }
 
 let client: Redis | null = null;
@@ -53,84 +59,129 @@ function toNum(v: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+/** YYYY-MM-DD no fuso de Brasília (pra "hoje" ser o dia do Danilo). */
+export function bucketDate(d: Date): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(d);
+}
+
+export function getToday(): string {
+  return bucketDate(new Date());
+}
+
+/** Soma/subtrai dias de um YYYY-MM-DD sem sofrer com fuso (usa UTC ao meio-dia). */
+export function shiftDate(s: string, delta: number): string {
+  const [y, m, d] = s.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d, 12));
+  dt.setUTCDate(dt.getUTCDate() + delta);
+  return dt.toISOString().slice(0, 10);
+}
+
+function score(dateStr: string): number {
+  return Number(dateStr.replace(/-/g, ""));
+}
+
 /**
- * Um redirect = click + completion no mesmo momento. Incrementa os dois de
- * forma atômica (INCR/HINCRBY) numa pipeline — sem race, sem subcontagem.
+ * Detecta acesso não-humano (crawler, bot de preview de link do WhatsApp/
+ * Telegram, monitor, etc.). Sem user-agent também conta como bot. Usado nas
+ * rotas pra não inflar a contagem com robô.
+ */
+export function isBot(userAgent: string | null | undefined): boolean {
+  if (!userAgent) return true;
+  return /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|slackbot|discordbot|embedly|preview|monitor|headless|phantom|python-requests|curl|wget|axios|node-fetch|go-http|okhttp|java\/|bingpreview|googlebot|bingbot|yandex|baidu|duckduck|semrush|ahrefs|mj12|petalbot|applebot|pingdom|uptimerobot|lighthouse|gtmetrix/i.test(
+    userAgent
+  );
+}
+
+/** Visita na home — 1 evento por pageview real (client chama /api/track). */
+export async function trackPageview() {
+  if (!isConfigured()) return;
+  try {
+    const day = getToday();
+    const p = redis().pipeline();
+    p.incr(`av:pv:${day}`);
+    p.zadd(KEY_DAYS, { score: score(day), member: day });
+    p.set(KEY_LAST, new Date().toISOString());
+    await p.exec();
+  } catch {
+    // best-effort — analytics nunca quebra o funil
+  }
+}
+
+/**
+ * Um redirect = 1 clique no produto (sempre completa se chegou aqui).
+ * Uma escrita atômica por dia, sem race nem subcontagem.
  */
 export async function trackRedirect(itemSlug: string) {
   if (!isConfigured()) return;
   try {
+    const day = getToday();
     const p = redis().pipeline();
-    p.incr(K.clicks);
-    p.incr(K.completions);
-    p.hincrby(K.itemClicks, itemSlug, 1);
-    p.hincrby(K.itemCompletions, itemSlug, 1);
-    p.set(K.lastUpdated, new Date().toISOString());
+    p.incr(`av:ck:${day}`);
+    p.hincrby(`av:it:${day}`, itemSlug, 1);
+    p.zadd(KEY_DAYS, { score: score(day), member: day });
+    p.set(KEY_LAST, new Date().toISOString());
     await p.exec();
-  } catch {
-    // best-effort — analytics nunca quebra o funil real
-  }
-}
-
-/** Fire-and-forget — nunca lançar erro nem bloquear quem chamou. */
-export async function trackEvent(type: EventType, itemSlug?: string) {
-  if (!isConfigured()) return;
-  try {
-    const r = redis();
-    if (type === "pageview") {
-      const p = r.pipeline();
-      p.incr(K.pageviews);
-      p.set(K.lastUpdated, new Date().toISOString());
-      await p.exec();
-    } else if (type === "click" && itemSlug) {
-      const p = r.pipeline();
-      p.incr(K.clicks);
-      p.hincrby(K.itemClicks, itemSlug, 1);
-      p.set(K.lastUpdated, new Date().toISOString());
-      await p.exec();
-    } else if (type === "completion" && itemSlug) {
-      const p = r.pipeline();
-      p.incr(K.completions);
-      p.hincrby(K.itemCompletions, itemSlug, 1);
-      p.set(K.lastUpdated, new Date().toISOString());
-      await p.exec();
-    }
   } catch {
     // best-effort
   }
 }
 
-export async function getStats(): Promise<Stats | null> {
-  // Store não configurado → null (a página mostra o estado "indisponível").
+/**
+ * Lê o intervalo [from, to] (YYYY-MM-DD). Sem argumentos → tudo (do primeiro
+ * dia registrado até hoje). Só lê os dias que existem no intervalo, então é
+ * barato mesmo com janela grande.
+ */
+export async function getStats(range?: {
+  from?: string;
+  to?: string;
+}): Promise<RangeStats | null> {
   if (!isConfigured()) return null;
   try {
     const r = redis();
-    const [pageviews, clicks, completions, itemClicks, itemCompletions, lastUpdated] =
-      await Promise.all([
-        r.get<number>(K.pageviews),
-        r.get<number>(K.clicks),
-        r.get<number>(K.completions),
-        r.hgetall<Record<string, number>>(K.itemClicks),
-        r.hgetall<Record<string, number>>(K.itemCompletions),
-        r.get<string>(K.lastUpdated),
-      ]);
+    const today = getToday();
 
-    const byItem: Stats["byItem"] = {};
-    for (const [slug, n] of Object.entries(itemClicks ?? {})) {
-      byItem[slug] = { clicks: toNum(n), completions: 0 };
-    }
-    for (const [slug, n] of Object.entries(itemCompletions ?? {})) {
-      byItem[slug] ??= { clicks: 0, completions: 0 };
-      byItem[slug].completions = toNum(n);
+    const allDays = ((await r.zrange(KEY_DAYS, 0, -1)) as string[]) ?? [];
+    const firstDay = allDays.length ? allDays[0] : null;
+
+    let from = range?.from || firstDay || today;
+    let to = range?.to || today;
+    if (from > to) [from, to] = [to, from];
+
+    const daysInRange =
+      ((await r.zrange(KEY_DAYS, score(from), score(to), {
+        byScore: true,
+      })) as string[]) ?? [];
+
+    const perDay = await Promise.all(
+      daysInRange.map(async (d) => {
+        const [pv, ck, items] = await Promise.all([
+          r.get<number>(`av:pv:${d}`),
+          r.get<number>(`av:ck:${d}`),
+          r.hgetall<Record<string, number>>(`av:it:${d}`),
+        ]);
+        return { pv: toNum(pv), ck: toNum(ck), items: items ?? {} };
+      })
+    );
+
+    let pageviews = 0;
+    let clicks = 0;
+    const byItem: Record<string, number> = {};
+    for (const { pv, ck, items } of perDay) {
+      pageviews += pv;
+      clicks += ck;
+      for (const [slug, n] of Object.entries(items)) {
+        byItem[slug] = (byItem[slug] ?? 0) + toNum(n);
+      }
     }
 
-    return {
-      pageviews: toNum(pageviews),
-      clicks: toNum(clicks),
-      completions: toNum(completions),
-      byItem,
-      lastUpdated: lastUpdated ?? null,
-    };
+    const lastUpdated = (await r.get<string>(KEY_LAST)) ?? null;
+
+    return { pageviews, clicks, byItem, from, to, firstDay, today, lastUpdated };
   } catch {
     return null;
   }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { after } from "next/server";
 import { links } from "@/lib/links";
-import { trackRedirect } from "@/lib/analytics";
+import { trackRedirect, isBot } from "@/lib/analytics";
 
 export async function GET(
   req: NextRequest,
@@ -14,8 +14,11 @@ export async function GET(
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
 
-  // Uma única escrita por redirect (click + completion juntos) — ver trackRedirect.
-  after(() => trackRedirect(slug));
+  // Só conta acesso humano — crawler/preview de link (WhatsApp, Telegram,
+  // indexadores) não infla a contagem.
+  if (!isBot(req.headers.get("user-agent"))) {
+    after(() => trackRedirect(slug));
+  }
 
   // ?p=AMAZON etc. escolhe uma oferta alternativa; sem ?p= vai pro link principal
   const offerPlatform = req.nextUrl.searchParams.get("p");
