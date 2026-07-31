@@ -10,13 +10,16 @@ import {
   normalizeText,
   type SortKey,
 } from "@/lib/format";
+import { coupons, isExpired, isLastDay } from "@/lib/coupons";
 import { TrackPageview } from "./TrackPageview";
 import { ShareButton } from "./ShareButton";
 import { SortSelect } from "./SortSelect";
 import { SearchInput } from "./SearchInput";
 
-// Revalida a cada 24h — scraping roda aqui, nunca por visitante
-export const revalidate = 86400;
+// Revalida a cada 1h para a faixa de cupom expirar em tempo hábil (senão a home
+// anunciaria um desconto morto por até um dia). Não aumenta o scraping: cada
+// fetch do enrich tem cache próprio de 24h, então isso só re-renderiza o HTML.
+export const revalidate = 3600;
 
 type ItemKind = "uso" | "lista";
 
@@ -71,6 +74,7 @@ export default async function Home({
       ? sortParam
       : "default";
   const items = await enrichAll(links);
+  const activeCoupon = coupons.find((c) => !isExpired(c));
 
   // Prateleira ativa: "uso" (padrão) ou "lista" (quero comprar, ainda não usei)
   const kind: ItemKind = tipo === "lista" ? "lista" : "uso";
@@ -179,6 +183,25 @@ export default async function Home({
           />
           <p className="mt-3 text-muted">{SITE_TAGLINE} ✦</p>
         </header>
+
+        {/* Faixa de cupom — só existe enquanto houver cupom válido. Some sozinha
+            quando expira, então a home nunca anuncia desconto que já acabou. */}
+        {activeCoupon && (
+          <Link
+            href="/cupons"
+            className="mb-8 flex flex-col items-center justify-center gap-1.5 rounded-xl border border-discount/40 bg-discount/10 px-4 py-3 text-center transition-colors hover:bg-discount/20 sm:flex-row sm:gap-3"
+          >
+            <span className="text-sm font-bold text-discount">
+              🎟️ {activeCoupon.discountLabel} com o cupom{" "}
+              <span className="font-mono">{activeCoupon.code}</span>
+            </span>
+            <span className="text-xs text-muted">
+              {isLastDay(activeCoupon)
+                ? "último dia — ver como usar →"
+                : "ver como usar →"}
+            </span>
+          </Link>
+        )}
 
         {/* Sobre o Danilo */}
         <section className="mb-10 flex flex-col items-center gap-4 rounded-2xl border border-border bg-surface p-6 text-center sm:flex-row sm:text-left">

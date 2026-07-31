@@ -158,6 +158,85 @@ As antigas notas de verificação em comentário (`// CORRIGIDO 2026-07-13:
 `verificationNote` (texto livre) nessa mesma mudança — nenhuma informação
 foi perdida, só reformatada pra ser editável pelo painel.
 
+## Página de cupons (`/cupons`, criada 2026-07-31)
+
+Vitrine de cupons de desconto (`src/lib/coupons.ts` + `src/app/cupons/`).
+Pesquisa de mercado antes de construir apontou o erro nº 1 dessas páginas:
+**o cupom do ML NÃO vai colado no link de afiliado — o visitante digita o
+código no carrinho.** Por isso a seção "Como usar" (3 passos) vem ANTES dos
+produtos, e cada card repete "use {CÓDIGO} no carrinho".
+
+**Achados de promo NÃO entram no `links.ts`.** `PromoPick` vive em
+`coupons.ts` porque o catálogo é curadoria pessoal ("eu uso" / "na minha
+lista") e achado de promoção não é nenhum dos dois — misturar jogaria
+suspeita sobre os itens verificados. Slugs levam prefixo `promo-` pra
+separar no analytics; o `/r/[slug]` resolve `links` **e** `promoPicks`
+(fallback), então o clique continua sendo contado.
+
+**Auto-expiração é a peça de segurança — não mexer sem entender.**
+`validUntil` (YYYY-MM-DD, inclusive, fuso de Brasília) faz a página trocar
+de estado sozinha: passou a data, o código some, vira "Nenhum cupom ativo"
+e a faixa da home desaparece. Testado simulando data passada. Por isso o
+`revalidate` da home caiu de 24h pra 1h (senão a home anunciaria desconto
+morto por até um dia); isso **não** aumenta scraping, porque cada `fetch`
+do `enrich` tem cache próprio de 24h.
+
+Outras decisões:
+- **Compra mínima**: se algum achado custa menos que `minPurchase`, a página
+  avisa e sugere levar dois (só se a dupla realmente passar do mínimo). Sem
+  isso o cupom é recusado no carrinho e o visitante culpa o site — os
+  mousepads de R$ 19,90 com mínimo de R$ 29 são exatamente esse caso.
+- **Copiar código** (`CopyCode.tsx`, client): `navigator.clipboard` com
+  fallback `execCommand` — o tráfego vem do navegador interno do
+  Instagram/WhatsApp, que às vezes bloqueia a Clipboard API. Se os dois
+  falharem, mostra "selecione e copie" em vez de fingir sucesso.
+- **CTA pro catálogo**: o cupom vale em qualquer item do ML, então a página
+  é porta de entrada pros 66 produtos, não vitrine de 4.
+- Urgência é derivada da data real (`isLastDay`/`daysLeft`), nunca inventada.
+
+## Analytics (`src/lib/analytics.ts`, Upstash Redis — histórico por dia)
+
+Contador de pageviews/cliques **sem banco relacional**, no Upstash Redis
+(via marketplace da Vercel). **Por que Redis e não arquivo:** o filesystem
+do deploy na Vercel é read-only, e contador em arquivo (JSON no Blob/GitHub)
+faz lê-soma-grava, que **perde incrementos em rajada** (comprovado em prod:
+5 cliques → 2). `INCR`/`HINCRBY` somam no servidor, atômico. Histórico de
+backends abandonados: GitHub Contents API (token nunca persistiu escrita) →
+Vercel Blob (subconta) → **Redis (atual, correto)**.
+
+**Modelo por DIA (chaves `av:*`, fuso de Brasília via `bucketDate`):**
+`av:pv:{data}` (visitas), `av:ck:{data}` (cliques), `av:it:{data}` (hash
+slug→cliques), sorted set `av:days` pra enumerar. Somar um intervalo = ler
+só os dias que existem nele (barato). As chaves antigas `analytics:*` (total
+acumulado, sem data) são legado — não usar.
+
+- Funções: `trackRedirect(slug)` (1 clique/dia, chamada no `/r/[slug]`),
+  `trackPageview()` (`/api/track`, disparada pelo client `TrackPageview`),
+  `getStats({from,to})` (soma o intervalo), `isBot(ua)`.
+- **Filtro de bot:** `/r/[slug]` e `/api/track` só contam se `!isBot(ua)` —
+  crawler e preview de link (WhatsApp/Telegram/indexador) NÃO inflam. Sem
+  user-agent também é tratado como bot.
+- `/estatisticas` (server-render, `force-dynamic`): atalhos Hoje/7/30/Tudo +
+  seletor de/até (`?preset=` ou `?from=&to=`). Sem client JS — presets são
+  `<Link>`, o intervalo é um `<form method=get>`.
+- **Envs:** `KV_REST_API_URL` + `KV_REST_API_TOKEN`, injetadas pela
+  integração Upstash na Vercel. Sem elas, tudo é best-effort silencioso
+  (site funciona, `getStats` retorna null → página mostra "indisponível").
+- **Reset dos contadores:** REPL do store no painel Upstash (Storage →
+  o store → REPL). Executa com **Cmd/Ctrl+Enter** (Enter só quebra linha), e
+  **Safe Mode bloqueia `DEL`** — desligar o toggle antes.
+
+## Destaque (`featured`) — poucos, ou vira "destaque de nada"
+
+`featured: true` joga o item na seção "Destaques" do topo como um card
+grande (`FeaturedCard`). **Regra prática: manter ~2-4 destaques.** Featurar
+muita coisa (ex: 7 roupas de uma vez) faz um paredão de ~2500px no topo que
+empurra o grid pra baixo e esvazia o sentido de destaque — o Danilo pediu
+"tudo em destaque" uma vez, mostrei o efeito, e ele preferiu enxugar pra
+calça + 1 regata. **Preferir destacar itens COM `review`** (o card grande
+mostra a frase pessoal; sem review fica um card vazio e fraco). Destaques
+respeitam a prateleira/categoria ativa (ver seção das prateleiras).
+
 ## Método de extração (script JS testado — método correto, baseado no botão)
 
 Rodar isso via `javascript_tool` na página carregada do link `meli.la/...`
