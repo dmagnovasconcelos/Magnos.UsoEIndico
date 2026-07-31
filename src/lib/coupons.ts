@@ -59,7 +59,10 @@ export const coupons: Coupon[] = [
     discountLabel: "até 25% OFF",
     minPurchase: 29,
     maxDiscount: 100,
-    validUntil: "2026-07-31",
+    // O ML informou "expira 03/08 às 00h" — ou seja, morre na virada de 02 pra
+    // 03. Como `validUntil` é o último dia INCLUSIVE, o valor certo é 02/08.
+    // Pôr 03/08 deixaria a página anunciando o cupom o dia todo depois de morto.
+    validUntil: "2026-08-02",
     terms: [
       "Compra mínima de R$ 29.",
       "Desconto máximo de R$ 100.",
