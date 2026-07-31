@@ -7,6 +7,7 @@ import {
   isLastDay,
   daysLeft,
   formatValidUntil,
+  priceWithCoupon,
   type Coupon,
   type PromoPick,
 } from "@/lib/coupons";
@@ -26,7 +27,10 @@ export const metadata: Metadata = {
 };
 
 export default function CuponsPage() {
-  const active = coupons.filter((c) => !isExpired(c));
+  // Mais urgente primeiro: quem está prestes a expirar precisa ser visto antes.
+  const active = coupons
+    .filter((c) => !isExpired(c))
+    .sort((a, b) => a.validUntil.localeCompare(b.validUntil));
   const expired = coupons.filter((c) => isExpired(c));
 
   return (
@@ -131,8 +135,17 @@ function ActiveCoupon({ coupon }: { coupon: Coupon }) {
           <p className="mt-4 text-3xl font-bold text-discount sm:text-4xl">
             {coupon.discountLabel}
           </p>
+          {/* Escopo na frente, não na letra miúda: cupom preso a uma loja usado
+              em outro produto é recusado no carrinho. */}
           <p className="mt-1 text-sm text-muted">
-            em qualquer produto do {platformLabel}
+            {coupon.seller ? (
+              <>
+                só em produtos da{" "}
+                <strong className="text-white">{coupon.seller}</strong>
+              </>
+            ) : (
+              <>em qualquer produto do {platformLabel}</>
+            )}
           </p>
 
           <div className="mt-6 flex w-full justify-center">
@@ -161,7 +174,9 @@ function ActiveCoupon({ coupon }: { coupon: Coupon }) {
       <Terms coupon={coupon} />
       <MinPurchaseHelper coupon={coupon} />
       <Picks coupon={coupon} />
-      <CatalogCta coupon={coupon} />
+      {/* Só faz sentido oferecer o catálogo inteiro quando o cupom não está
+          preso a um vendedor — senão manda o visitante pra uma recusa. */}
+      {!coupon.seller && <CatalogCta coupon={coupon} />}
     </section>
   );
 }
@@ -181,7 +196,15 @@ function HowToUse({ coupon }: { coupon: Coupon }) {
     },
     {
       title: "Escolha o produto",
-      body: <>Abra qualquer item desta página ou do meu catálogo.</>,
+      body: coupon.seller ? (
+        <>
+          Tem que ser da{" "}
+          <strong className="text-white">{coupon.seller}</strong> — os de baixo
+          já são.
+        </>
+      ) : (
+        <>Abra qualquer item desta página ou do meu catálogo.</>
+      ),
     },
     {
       title: "Cole no carrinho",
@@ -313,17 +336,19 @@ function Picks({ coupon }: { coupon: Coupon }) {
       </p>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {coupon.picks.map((pick) => (
-          <PickCard key={pick.slug} pick={pick} code={coupon.code} />
+          <PickCard key={pick.slug} pick={pick} coupon={coupon} />
         ))}
       </div>
     </div>
   );
 }
 
-function PickCard({ pick, code }: { pick: PromoPick; code: string }) {
+function PickCard({ pick, coupon }: { pick: PromoPick; coupon: Coupon }) {
   const price = formatPrice(pick.price);
   const originalPrice = formatPrice(pick.originalPrice);
   const discount = discountPercent(pick.price, pick.originalPrice);
+  const finalPrice = priceWithCoupon(coupon, pick.price);
+  const code = coupon.code;
 
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-border bg-surface">
@@ -356,9 +381,29 @@ function PickCard({ pick, code }: { pick: PromoPick; code: string }) {
               {originalPrice}
             </span>
           )}
-          {price && <span className="font-bold text-white">{price}</span>}
+          {price && (
+            <span
+              className={
+                finalPrice != null
+                  ? "text-sm text-muted line-through"
+                  : "font-bold text-white"
+              }
+            >
+              {price}
+            </span>
+          )}
         </div>
-        <p className="mt-0.5 text-xs text-muted">antes do cupom</p>
+
+        {finalPrice != null ? (
+          <p className="mt-0.5 text-sm">
+            <strong className="text-discount">
+              {formatPrice(finalPrice)}
+            </strong>{" "}
+            <span className="text-xs text-muted">com o cupom</span>
+          </p>
+        ) : (
+          <p className="mt-0.5 text-xs text-muted">antes do cupom</p>
+        )}
 
         <Link
           href={`/r/${pick.slug}`}
