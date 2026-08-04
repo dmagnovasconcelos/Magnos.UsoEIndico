@@ -950,4 +950,41 @@ export const links: LinkConfig[] = [
     price: 76,
     originalPrice: 127.6,
   },
+  {
+    slug: "microfone-hollyland-lark-m2s-duo-usb-c-2-pessoas",
+    url: "https://meli.la/26sGXNK",
+    platform: "MERCADO_LIVRE",
+    categories: ["Tech"],
+    review:
+      "Resolveu meu maior problema de gravação: som limpo longe da câmera, sem cabo e sem depender do microfone do celular.",
+    verifiedAt: "2026-07-31",
+    verificationNote:
+      "Verificado 2026-07-31 com o método do container do botão \"Ir para produto\" — destino MLB45445679, título/preço/imagem batendo, confirmado 2x estável. Sem oferta Amazon de propósito: lá só existe o M2S de 1 transmissor (B0DNQ8CLXR) e o M2 Duo (modelo anterior) — nenhum é o M2S Duo deste anúncio.",
+    title: "Microfone Hollyland Lark M2s Duo USB-C Duplo P/ 2 Pessoas - Preto",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_982902-MLA99561736536_122025-V.webp",
+    price: 772.9,
+    originalPrice: 1310,
+  },
+  {
+    slug: "teclado-sem-fio-logitech-ergo-k860-layout-dividido",
+    url: "https://meli.la/2F92oEd",
+    platform: "MERCADO_LIVRE",
+    categories: ["Tech"],
+    kind: "lista",
+    verifiedAt: "2026-07-31",
+    verificationNote:
+      "Verificado 2026-07-31 com o método do container do botão \"Ir para produto\" — destino MLB16593313, título/preço/imagem batendo, confirmado 2x estável. Amazon B08ZRC6LP4 é o mesmo modelo (ERGO K860, layout dividido) e está MAIS BARATO que o ML.",
+    title:
+      "Teclado Sem Fio Logitech Ergo K860 Com Layout Dividido Preto - Inglês US Qwerty",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_622563-MLA99529535854_122025-V.webp",
+    price: 682.24,
+    originalPrice: 847.6,
+    offers: [
+      {
+        platform: "AMAZON",
+        url: "https://www.amazon.com.br/dp/B08ZRC6LP4?tag=dmagno04-20",
+        price: 609.9,
+      },
+    ],
+  },
 ];
