@@ -975,7 +975,7 @@ export const links: LinkConfig[] = [
     verificationNote:
       "Verificado 2026-07-31 com o método do container do botão \"Ir para produto\" — destino MLB16593313, título/preço/imagem batendo, confirmado 2x estável. Amazon B08ZRC6LP4 é o mesmo modelo (ERGO K860, layout dividido) e está MAIS BARATO que o ML.",
     title:
-      "Teclado Sem Fio Logitech Ergo K860 Com Layout Dividido Preto - Inglês US Qwerty",
+      "Teclado Sem Fio Logitech Ergo K860 Com Layout Dividido Preto — Inglês US Qwerty",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_622563-MLA99529535854_122025-V.webp",
     price: 682.24,
     originalPrice: 847.6,
@@ -986,5 +986,17 @@ export const links: LinkConfig[] = [
         price: 609.9,
       },
     ],
+  },
+  {
+    slug: "microfone-lark-a1-hollyland-mini-usb-c-preto",
+    url: "https://meli.la/2xMEsnb",
+    platform: "MERCADO_LIVRE",
+    categories: ["Tech"],
+    kind: "lista",
+    verifiedAt: "2026-08-04",
+    verificationNote: "Verificado 2026-08-04 com o método do container do botão \"Ir para produto\" — destino MLB51857731, título/preço/imagem batendo, confirmado 2x estável. Entra como indicação: é a versão mini/1 transmissor do mesmo fabricante do Lark M2s Duo que o Danilo usa, então ele indica sem ter este modelo.",
+    title: "Microfone Lark A1 Hollyland Mini USB-C — Preto",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_836376-MLA99418800236_112025-V.webp",
+    price: 315,
   },
 ];

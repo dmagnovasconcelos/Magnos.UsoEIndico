@@ -108,6 +108,60 @@ export const coupons: Coupon[] = [
       },
     ],
   },
+  {
+    code: "#DMAGNOMVP25",
+    platform: "MERCADO_LIVRE",
+    discountLabel: "R$ 25 OFF",
+    seller: "MVP Fitness",
+    discountAmount: 25,
+    // Mínimo alto (R$ 200), mas os três tênis passam folgado — conferido em
+    // "Condições do cupom", não deduzido do nome do container.
+    minPurchase: 200,
+    maxDiscount: 25,
+    validUntil: "2026-08-20",
+    terms: [
+      "Vale só em produtos da MVP Fitness.",
+      "Compra mínima de R$ 200.",
+      "Os R$ 25 são de verdade — o teto do cupom é o próprio valor.",
+      "1 uso por CPF.",
+    ],
+    picks: [
+      {
+        slug: "promo-tenis-crossfit-mvp-rx-fly-black-white",
+        url: "https://meli.la/21YTX39",
+        platform: "MERCADO_LIVRE",
+        title: "Tênis Crossfit MVP RX Fly Black/White — Treino e Academia",
+        image:
+          "https://http2.mlstatic.com/D_Q_NP_2X_903382-MLB82639769065_022025-E-tnis-para-crossfit-mvp-rx-fly-black-white-treino-academia.webp",
+        price: 357,
+        originalPrice: 670.8,
+        verifiedAt: "2026-08-04",
+      },
+      {
+        slug: "promo-tenis-crossfit-mvp-4x4-lpo-grip",
+        url: "https://meli.la/135X69m",
+        platform: "MERCADO_LIVRE",
+        title: "Tênis Crossfit MVP 4x4 LPO Grip — Rope Climb",
+        image:
+          "https://http2.mlstatic.com/D_Q_NP_2X_961194-MLB74330213005_012024-E-tnis-para-crossfit-mvp-4x4-lpo-grip-confortavel-rope-climb.webp",
+        price: 436.02,
+        originalPrice: 670.8,
+        note: "4.8 ★ · +100 vendidos",
+        verifiedAt: "2026-08-04",
+      },
+      {
+        slug: "promo-tenis-crossfit-mvp-6x6-white-lpo",
+        url: "https://meli.la/1KpQCu8",
+        platform: "MERCADO_LIVRE",
+        title: "Tênis Crossfit MVP Fitness 6x6 White LPO — Academia",
+        image:
+          "https://http2.mlstatic.com/D_Q_NP_2X_833779-MLB113362096263_062026-E--tenis-para-crossfit--mvp-fitness-6x6-white-lpo-academia.webp",
+        price: 529.28,
+        originalPrice: 790.8,
+        verifiedAt: "2026-08-04",
+      },
+    ],
+  },
 ];
 
 /**
