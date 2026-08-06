@@ -426,7 +426,6 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/2iHrnTX",
     platform: "MERCADO_LIVRE",
     categories: ["Vestuário", "Fitness"],
-    featured: true,
     review: "Muito boa — uso todos os dias pra treinar, já estou comprando mais.",
     verifiedAt: "2026-07-13",
     verificationNote: "CORRIGIDO 2026-07-13: reverificado com método do container do botão \"Ir para produto\" (verificação anterior usava alt-text solto, que pegou produto errado). Confirmado 2x, estável.",
@@ -511,6 +510,7 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/12feN5K",
     platform: "MERCADO_LIVRE",
     categories: ["Vestuário", "Fitness"],
+    featured: true,
     review: "Muito boa — uso sempre por baixo da roupa, como primeira pele.",
     verifiedAt: "2026-07-13",
     verificationNote: "CORRIGIDO 2026-07-13: reverificado com método do container do botão \"Ir para produto\" (mesmo vendedor D2G, imagem/título levemente diferentes do que estava salvo). Confirmado 2x, estável.",
@@ -711,6 +711,8 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/1crhYbc",
     platform: "MERCADO_LIVRE",
     categories: ["Vestuário", "Fitness"],
+    featured: true,
+    review: "Essa é a que eu uso pra treino pesado — bem cavada, libera o ombro e não incomoda em nenhum movimento.",
     verifiedAt: "2026-07-29",
     verificationNote: "SUBSTITUÍDO 2026-07-29: link trocado (era meli.la/2QgHLEc) por uma listagem do mesmo vendedor (Éved) com mais variações. Verificado 2x com o método do container do botão \"Ir para produto\" — destino MLB4595165300, título/preço/imagem batendo, estável. Slug mantido pra não quebrar links /r/ já compartilhados.",
     title: "Kit 3 Camiseta Regata Masculina Cavadas Treino Machão",
@@ -955,11 +957,9 @@ export const links: LinkConfig[] = [
     url: "https://meli.la/26sGXNK",
     platform: "MERCADO_LIVRE",
     categories: ["Tech"],
-    review:
-      "Resolveu meu maior problema de gravação: som limpo longe da câmera, sem cabo e sem depender do microfone do celular.",
+    review: "Resolveu meu maior problema de gravação: som limpo longe da câmera, sem cabo e sem depender do microfone do celular.",
     verifiedAt: "2026-07-31",
-    verificationNote:
-      "Verificado 2026-07-31 com o método do container do botão \"Ir para produto\" — destino MLB45445679, título/preço/imagem batendo, confirmado 2x estável. Sem oferta Amazon de propósito: lá só existe o M2S de 1 transmissor (B0DNQ8CLXR) e o M2 Duo (modelo anterior) — nenhum é o M2S Duo deste anúncio.",
+    verificationNote: "Verificado 2026-07-31 com o método do container do botão \"Ir para produto\" — destino MLB45445679, título/preço/imagem batendo, confirmado 2x estável. Sem oferta Amazon de propósito: lá só existe o M2S de 1 transmissor (B0DNQ8CLXR) e o M2 Duo (modelo anterior) — nenhum é o M2S Duo deste anúncio.",
     title: "Microfone Hollyland Lark M2s Duo USB-C Duplo P/ 2 Pessoas - Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_982902-MLA99561736536_122025-V.webp",
     price: 772.9,
@@ -972,19 +972,13 @@ export const links: LinkConfig[] = [
     categories: ["Tech"],
     kind: "lista",
     verifiedAt: "2026-07-31",
-    verificationNote:
-      "Verificado 2026-07-31 com o método do container do botão \"Ir para produto\" — destino MLB16593313, título/preço/imagem batendo, confirmado 2x estável. Amazon B08ZRC6LP4 é o mesmo modelo (ERGO K860, layout dividido) e está MAIS BARATO que o ML.",
-    title:
-      "Teclado Sem Fio Logitech Ergo K860 Com Layout Dividido Preto — Inglês US Qwerty",
+    verificationNote: "Verificado 2026-07-31 com o método do container do botão \"Ir para produto\" — destino MLB16593313, título/preço/imagem batendo, confirmado 2x estável. Amazon B08ZRC6LP4 é o mesmo modelo (ERGO K860, layout dividido) e está MAIS BARATO que o ML.",
+    title: "Teclado Sem Fio Logitech Ergo K860 Com Layout Dividido Preto — Inglês US Qwerty",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_622563-MLA99529535854_122025-V.webp",
     price: 682.24,
     originalPrice: 847.6,
     offers: [
-      {
-        platform: "AMAZON",
-        url: "https://www.amazon.com.br/dp/B08ZRC6LP4?tag=dmagno04-20",
-        price: 609.9,
-      },
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B08ZRC6LP4?tag=dmagno04-20", price: 609.9 },
     ],
   },
   {
