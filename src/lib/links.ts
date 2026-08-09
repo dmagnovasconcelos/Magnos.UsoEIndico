@@ -72,6 +72,7 @@ export const links: LinkConfig[] = [
     originalPrice: 38.9,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0BM3ZDRRY?tag=dmagno04-20", price: 49.9 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/2qTdudiZ4q", price: 29.8, note: "cor caramelo" },
     ],
   },
   {
@@ -117,6 +118,7 @@ export const links: LinkConfig[] = [
     originalPrice: 59.9,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B075SKB5DH?tag=dmagno04-20", price: 42.99 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/2gADiKjCPp", price: 46.9 },
     ],
   },
   {
@@ -220,6 +222,7 @@ export const links: LinkConfig[] = [
     originalPrice: 49.99,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B09HSQBYY1?tag=dmagno04-20", price: 51.14 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/5VUP7JpZjr", price: 37.9, note: "cor caramelo" },
     ],
   },
   {
@@ -236,6 +239,7 @@ export const links: LinkConfig[] = [
     originalPrice: 78.28,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0D9WPRCH8?tag=dmagno04-20", price: 79.97 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/3B6UJFhIOw", price: 32.0 },
     ],
   },
   {
@@ -250,6 +254,7 @@ export const links: LinkConfig[] = [
     originalPrice: 369,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0DKJKTPWJ?tag=dmagno04-20", price: 219 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/30n46whvjv", price: 297.0, note: "cor azul" },
     ],
   },
   {
@@ -319,6 +324,7 @@ export const links: LinkConfig[] = [
     price: 24.9,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B07ZC346SK?tag=dmagno04-20", price: 27.69 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/3VjKhrg1j2", price: 23.9 },
     ],
   },
   {
@@ -347,6 +353,7 @@ export const links: LinkConfig[] = [
     originalPrice: 289.9,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0BK9YLKPM?tag=dmagno04-20", price: 239.18 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/1gHgWViL9j", price: 325.0, note: "cor preta" },
     ],
   },
   {
@@ -393,6 +400,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_898954-MLB78818567107_082024-V-cinturo-de-musculaco-rudel-rdl2-151-pride-red.webp",
     price: 144.65,
     originalPrice: 153.26,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/8fRQrNHgx6", price: 147.6 },
+    ],
   },
   {
     slug: "straps-fitness-rudel-h-8-204-preto",
@@ -406,6 +416,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_769827-MLB95776743023_102025-V.webp",
     price: 35.89,
     originalPrice: 37,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/8pkr3gH3c9", price: 35.89 },
+    ],
   },
   {
     slug: "protetor-de-punho-profissional-crossfit-munhequeir",
@@ -448,6 +461,7 @@ export const links: LinkConfig[] = [
     originalPrice: 129.9,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0GSHJYPCZ?tag=dmagno04-20", price: 109 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/50Y8WOrTkm", price: 78.65 },
     ],
   },
   {
@@ -504,6 +518,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_638064-MLA99489095824_112025-V.webp",
     price: 204.05,
     originalPrice: 454.36,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/904HFzGQHC", price: 250.04 },
+    ],
   },
   {
     slug: "kit-3-regata-oversized-machao-streetwear-lisa-casu",
@@ -560,6 +577,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_800509-MLA100008009715_122025-V.webp",
     price: 137.75,
     originalPrice: 259.63,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/9ANhSIFmwF", price: 145.0 },
+    ],
   },
   {
     slug: "footswitch-cabo-50cm-hxstomp-ampero-nux-loop-core",
@@ -612,6 +632,7 @@ export const links: LinkConfig[] = [
     originalPrice: 149,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0777QNWGL?tag=dmagno04-20", price: 159.9 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/5ArYihqqPp", price: 138.8, note: "90x60 cm" },
     ],
   },
   {
@@ -626,6 +647,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_878806-MLB92394662567_092025-V.webp",
     price: 253,
     originalPrice: 302.5,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/8KoaSm55Aq", price: 189.0 },
+    ],
   },
   {
     slug: "colete-corretor-postural-cervical-alinha-postura",
@@ -758,6 +782,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_NQ_NP_784857-MLA99625616614_122025-O.webp",
     price: 19,
     originalPrice: 29.9,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/8V80f54Rpt", price: 19.9 },
+    ],
   },
   {
     slug: "luva-academia-musculacao-max-grip-anti-calo",
@@ -770,6 +797,9 @@ export const links: LinkConfig[] = [
     title: "Luva Academia Musculação Treino Max Grip Protetor Anti Calo",
     image: "https://http2.mlstatic.com/D_NQ_NP_617838-MLB87260387792_072025-O-luva-academia-musculacao-treino-max-grip-protetor-anti-calo.webp",
     price: 19.11,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/80Bk4A6Lqo", price: 6.9 },
+    ],
   },
   {
     slug: "kit-5-faixa-elastica-mini-band-extensor",
@@ -879,6 +909,9 @@ export const links: LinkConfig[] = [
     title: "Multivitamínico 120 Cáps. Growth Supplements - Sabor Neutro",
     image: "https://http2.mlstatic.com/D_NQ_NP_723031-MLA98380453196_112025-O.webp",
     price: 49.9,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/8AVAGT5iVr", price: 79.69 },
+    ],
   },
   {
     slug: "hiper-mass-1kg-growth-chocolate",
@@ -891,6 +924,9 @@ export const links: LinkConfig[] = [
     title: "Hiper Mass 1kg Growth Supplements - Sabor Chocolate",
     image: "https://http2.mlstatic.com/D_NQ_NP_713346-MLA107082143625_022026-O.webp",
     price: 57.9,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/7fYtfY7cWm", price: 79.9 },
+    ],
   },
   {
     slug: "barra-de-proteina-cx-12-growth-cookies",
@@ -915,6 +951,9 @@ export const links: LinkConfig[] = [
     title: "Proteína Isolada de Soja Growth Supplements Chocolate 1kg",
     image: "https://http2.mlstatic.com/D_NQ_NP_751538-MLA111483935046_052026-O.webp",
     price: 94.9,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/2LXNJlNG2v", price: 149.9 },
+    ],
   },
   {
     slug: "power-arginine-120-caps-growth",
@@ -939,6 +978,9 @@ export const links: LinkConfig[] = [
     title: "Coenzima Q10 (100mg 60 Caps) Growth Supplements",
     image: "https://http2.mlstatic.com/D_NQ_NP_603983-MLA111195441771_052026-O.webp",
     price: 59.9,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/2BDx7SNtNu", price: 59.9 },
+    ],
   },
   {
     slug: "fita-led-neon-5m-rgb-ip65-bluetooth",
@@ -964,6 +1006,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_982902-MLA99561736536_122025-V.webp",
     price: 772.9,
     originalPrice: 1310,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/20uWv9OWit", price: 739.99 },
+    ],
   },
   {
     slug: "teclado-sem-fio-logitech-ergo-k860-layout-dividido",
@@ -979,6 +1024,7 @@ export const links: LinkConfig[] = [
     originalPrice: 847.6,
     offers: [
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B08ZRC6LP4?tag=dmagno04-20", price: 609.9 },
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/4fvI7mskQk", price: 1247.17 },
     ],
   },
   {
@@ -992,5 +1038,123 @@ export const links: LinkConfig[] = [
     title: "Microfone Lark A1 Hollyland Mini USB-C — Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_836376-MLA99418800236_112025-V.webp",
     price: 315,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/3B6UJIK5M8", price: 339.0 },
+    ],
+  },
+  {
+    slug: "esponja-banho-esfoliante-corporal-cordao-massagem",
+    url: "https://s.shopee.com.br/6L3W3G6DzP",
+    platform: "SHOPEE",
+    categories: ["Casa"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado).",
+    title: "Esponja Banho Esfoliante Pele 67.5x8x0.5cm Esponja Corporal Cordão Massagem Ferramenta Para Esfregar",
+    image: "https://down-br.img.susercontent.com/file/br-11134207-7r98o-ltcjl154uwakd9",
+    price: 14.99,
+    originalPrice: 23.99,
+  },
+  {
+    slug: "capa-vidro-fosco-ag-glass-premium-iphone",
+    url: "https://s.shopee.com.br/5q7FSL880M",
+    platform: "SHOPEE",
+    categories: ["Tech"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado).",
+    title: "Capa de Vidro Fosco AG Glass Premium Para iPhone 13/14/15/16/17",
+    image: "https://down-br.img.susercontent.com/file/br-11134207-81ztc-mjjwg9gidvra63",
+    price: 23.99,
+  },
+  {
+    slug: "cotoveleira-compressao-ajustavel-esporte-mbfit",
+    url: "https://s.shopee.com.br/50Y8SirBU5",
+    platform: "SHOPEE",
+    categories: ["Fitness"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado). TÍTULO NEUTRALIZADO a pedido do Danilo: o anúncio original traz condição médica no título (SEO do vendedor). Produto, imagem, preço e link de destino são exatamente os do anúncio — só o texto exibido foi reescrito de forma neutra.",
+    title: "Cotoveleira de Compressão Ajustável para Esporte Mbfit",
+    image: "https://down-br.img.susercontent.com/file/sg-11134201-7ra0o-m4z45i1taxge79",
+    price: 17.99,
+  },
+  {
+    slug: "shorts-bermuda-compressao-masculina-corrida-treino",
+    url: "https://s.shopee.com.br/4qEiGProp4",
+    platform: "SHOPEE",
+    categories: ["Fitness", "Vestuário"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado).",
+    title: "Shorts Masculino Bermuda Compressão Para Corrida Treino",
+    image: "https://down-br.img.susercontent.com/file/br-11134207-7r98o-mdbatuwr0lc1e5",
+    price: 22.96,
+    originalPrice: 59.99,
+  },
+  {
+    slug: "kit-10-topper-pedal-guitarra-botao-pedaleira",
+    url: "https://s.shopee.com.br/6L3W3JR0mb",
+    platform: "SHOPEE",
+    categories: ["Música"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado).",
+    title: "Kit 10 Topper Para Pedal de Guitarra — Botão de Pedaleira",
+    image: "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m4105ai4csht27",
+    price: 29.98,
+  },
+  {
+    slug: "cinta-colete-redutora-masculina-camisa-modeladora",
+    url: "https://s.shopee.com.br/5VUP3j9OgG",
+    platform: "SHOPEE",
+    categories: ["Fitness"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado). TÍTULO NEUTRALIZADO a pedido do Danilo: o anúncio original traz condição médica no título (SEO do vendedor). Produto, imagem, preço e link de destino são exatamente os do anúncio — só o texto exibido foi reescrito de forma neutra.",
+    title: "Cinta Colete Redutora Masculina Camisa Modeladora Slim Fit Postural",
+    image: "https://down-br.img.susercontent.com/file/sg-11134201-825zs-mjspwookzvur9f",
+    price: 35.99,
+  },
+  {
+    slug: "colete-modelador-masculino-compressivo-opta-corpus",
+    url: "https://s.shopee.com.br/4fvI46sSA3",
+    platform: "SHOPEE",
+    categories: ["Fitness"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado). TÍTULO NEUTRALIZADO a pedido do Danilo: o anúncio original traz condição médica no título (SEO do vendedor). Produto, imagem, preço e link de destino são exatamente os do anúncio — só o texto exibido foi reescrito de forma neutra.",
+    title: "Colete Modelador Masculino Compressivo Opta Corpus",
+    image: "https://down-br.img.susercontent.com/file/br-11134207-7r98o-m7tbpp9e2ateee",
+    price: 157.68,
+    originalPrice: 219,
+  },
+  {
+    slug: "colete-corretor-postural-unissex-mb-fit",
+    url: "https://s.shopee.com.br/5LAyrQA21F",
+    platform: "SHOPEE",
+    categories: ["Fitness"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado). Conferido contra o colete postural do ML já no catálogo: são produtos diferentes (o do ML é tira em 8 sobre os ombros; este é órtese com painel traseiro e ímãs) — por isso entrou como item novo, não como oferta.",
+    title: "Colete Corretor Postural Unissex Preto MB Fit",
+    image: "https://down-br.img.susercontent.com/file/c36285edf751a52b7db8f9d9c5da0539",
+    price: 46,
+  },
+  {
+    slug: "kit-2-cintas-modeladoras-masculinas-bodyshaper",
+    url: "https://s.shopee.com.br/5fnpG28lLL",
+    platform: "SHOPEE",
+    categories: ["Fitness"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado). Conferido contra a cinta abdominal do ML já no catálogo: são produtos diferentes (a do ML é cinta de cintura; esta é camiseta modeladora de torso inteiro) — por isso entrou como item novo, não como oferta.",
+    title: "Kit 2 Cintas Modeladoras Masculinas Bodyshaper Corretor Postural",
+    image: "https://down-br.img.susercontent.com/file/br-11134207-7r98o-lwsln2ldhl7629",
+    price: 64.9,
+    originalPrice: 99.9,
+  },
+  {
+    slug: "kit-3-cintas-modeladoras-postural-masculina-bodys",
+    url: "https://s.shopee.com.br/40fbGsuzVr",
+    platform: "SHOPEE",
+    categories: ["Fitness"],
+    verifiedAt: "2026-08-09",
+    verificationNote: "Verificado 2026-08-09 pela API oficial de produto da Shopee (get_pc) usando o item_id/shop_id exatos do pedido do Danilo — título, imagem e preço vêm do mesmo anúncio que ele comprou, sem ambiguidade de card de recomendação. Link de afiliado gerado no painel oficial (Link personalizado). Conferido contra a cinta abdominal do ML já no catálogo: são produtos diferentes (a do ML é cinta de cintura; esta é camiseta modeladora de torso inteiro) — por isso entrou como item novo, não como oferta.",
+    title: "Kit 3 Cintas Modeladoras Postural Masculina Compressão Bodyshaper",
+    image: "https://down-br.img.susercontent.com/file/br-11134207-7r98o-lofhzs3r9b2faa",
+    price: 91.9,
+    originalPrice: 149.9,
   },
 ];
