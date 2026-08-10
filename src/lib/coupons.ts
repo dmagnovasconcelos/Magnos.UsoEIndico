@@ -90,7 +90,6 @@ export const coupons: Coupon[] = [
     terms: [
       "Vale só em produtos da Dark Lab.",
       "Compra mínima de R$ 50.",
-      "Aplicado automaticamente no carrinho — não precisa ativar.",
       "1 uso por CPF.",
     ],
     picks: [

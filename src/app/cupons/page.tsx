@@ -207,12 +207,18 @@ function HowToUse({ coupon }: { coupon: Coupon }) {
       ),
     },
     {
-      title: "Cole no carrinho",
+      /*
+       * Alguns cupons do ML entram sozinhos no carrinho e outros exigem colar
+       * o código. Antes a página afirmava as duas coisas em telas vizinhas
+       * ("você digita" no passo a passo, "aplicado automaticamente" nas
+       * regras). Esta redação cobre os dois casos sem mentir em nenhum.
+       */
+      title: "Confira no carrinho",
       body: (
         <>
-          No checkout, procure{" "}
-          <strong className="text-white">“Inserir código de cupom”</strong> e
-          cole antes de pagar.
+          Às vezes o desconto já entra sozinho. Se não entrar, cole em{" "}
+          <strong className="text-white">“Inserir código de cupom”</strong>{" "}
+          antes de pagar.
         </>
       ),
     },
@@ -223,7 +229,7 @@ function HowToUse({ coupon }: { coupon: Coupon }) {
       <h2 className="mb-1 text-center text-lg font-bold">Como usar</h2>
       {/* O ponto que mais gera cupom "não funcionou": ele NÃO vem no link. */}
       <p className="mb-4 text-center text-sm text-muted">
-        O desconto não vem aplicado no link — você digita o código no carrinho.
+        O desconto não vem no link — ele acontece no carrinho.
       </p>
       <ol className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {steps.map((step, i) => (

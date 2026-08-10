@@ -173,14 +173,22 @@ export default async function Home({
       <main className="mx-auto max-w-5xl px-4 pb-10 pt-20 sm:pt-24">
         {/* Hero */}
         <header className="mb-10 flex flex-col items-center text-center">
-          <Image
-            src="/hero-wordmark.png"
-            alt="Uso e Indico"
-            width={1216}
-            height={71}
-            className="h-8 w-auto sm:h-10"
-            priority
-          />
+          {/*
+            O wordmark é imagem (a fonte Nebula não pode ser embutida — ver
+            CLAUDE.md), então o <h1> envolve a imagem em vez de repetir texto.
+            Sem isso a home não tinha nenhum h1: o Google via só os <h2> dos
+            produtos e nenhum título principal.
+          */}
+          <h1 className="leading-none">
+            <Image
+              src="/hero-wordmark.png"
+              alt={SITE_NAME}
+              width={1216}
+              height={71}
+              className="h-8 w-auto sm:h-10"
+              priority
+            />
+          </h1>
           <p className="mt-3 text-muted">{SITE_TAGLINE} ✦</p>
         </header>
 
@@ -205,13 +213,18 @@ export default async function Home({
 
         {/* Sobre o Danilo */}
         <section className="mb-10 flex flex-col items-center gap-4 rounded-2xl border border-border bg-surface p-6 text-center sm:flex-row sm:text-left">
-          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-accent/40 bg-surface-2">
+          {/*
+            A foto é escura e sobre o navy escuro virava um círculo vazio.
+            Anel de 2px + leve realce de brilho/contraste resolvem sem trocar
+            a imagem — o problema era contraste, não resolução (500x500).
+          */}
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-accent-soft/60 bg-surface-2 ring-2 ring-accent/20">
             <Image
               src="/danilo-avatar.jpg"
               alt="Danilo Magno"
               fill
               sizes="64px"
-              className="object-cover"
+              className="object-cover brightness-125 contrast-110"
             />
           </div>
           <p className="text-sm text-muted">
@@ -477,6 +490,11 @@ function KindBadge({ item }: { item: EnrichedLink }) {
   );
 }
 
+/*
+ * min-h-11 (44px) é alvo de toque mínimo. Estes botões tinham 36px e são 49
+ * na home — justamente os das ofertas multiplataforma, no mobile, que é de
+ * onde vem o tráfego. Alvo pequeno aqui é clique perdido.
+ */
 function OfferLinks({ item }: { item: EnrichedLink }) {
   if (!item.offers || item.offers.length === 0) return null;
   return (
@@ -487,7 +505,7 @@ function OfferLinks({ item }: { item: EnrichedLink }) {
           href={`/r/${item.slug}?p=${offer.platform}`}
           target="_blank"
           rel="noopener"
-          className="inline-flex min-h-9 items-center justify-between gap-2 rounded-lg border border-border bg-surface-2 px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent-soft hover:text-white"
+          className="inline-flex min-h-11 items-center justify-between gap-2 rounded-lg border border-border bg-surface-2 px-3 py-2 text-xs text-muted transition-colors hover:border-accent-soft hover:text-white"
         >
           <span className="inline-flex items-center gap-1.5">
             <PlatformIcon platform={offer.platform} />
@@ -505,12 +523,18 @@ function OfferLinks({ item }: { item: EnrichedLink }) {
   );
 }
 
+/*
+ * No mobile o card de destaque tinha ~600px (foto de 176px de altura + p-6),
+ * e com 5 destaques o primeiro produto do grid só aparecia depois de 5 telas.
+ * Compactado só no telefone: foto de 128px e padding menor. No desktop nada
+ * muda.
+ */
 function FeaturedCard({ item }: { item: EnrichedLink }) {
   const usage = usingFor(item.usingSince);
   return (
-    <article className="flex flex-col gap-5 rounded-2xl border border-accent/40 bg-gradient-to-br from-surface to-surface-2 p-6 sm:flex-row">
+    <article className="flex flex-col gap-4 rounded-2xl border border-accent/40 bg-gradient-to-br from-surface to-surface-2 p-4 sm:flex-row sm:gap-5 sm:p-6">
       {item.image && (
-        <div className="relative h-44 w-full shrink-0 overflow-hidden rounded-xl bg-surface-2 p-3 sm:w-44">
+        <div className="relative h-32 w-full shrink-0 overflow-hidden rounded-xl bg-surface-2 p-2 sm:h-44 sm:w-44 sm:p-3">
           <div className="relative h-full w-full overflow-hidden rounded-lg bg-[#f4f2ee]">
             <Image
               src={item.image}
