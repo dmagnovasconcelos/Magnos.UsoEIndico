@@ -5,6 +5,7 @@ import { enrichAll, type EnrichedLink } from "@/lib/enrich";
 import {
   PLATFORM_LABEL,
   formatPrice,
+  formatShortDate,
   usingFor,
   discountPercent,
   normalizeText,
@@ -352,6 +353,22 @@ export default async function Home({
             Links de afiliado — comprar por aqui apoia o meu trabalho, sem
             custo extra pra você. 💜
           </p>
+          {/*
+            Aviso de preço em letra visível, não em letra miúda. O valor de
+            cada card é o do dia da conferência (carimbado no próprio card);
+            o Mercado Livre muda preço sozinho, e é melhor o visitante saber
+            disso aqui do que estranhar no checkout.
+          */}
+          <p className="mx-auto mt-3 max-w-xl text-xs">
+            <strong className="text-white">Sobre os preços:</strong> cada card
+            mostra o valor que eu vi no dia em que conferi o anúncio — a data
+            está do lado do preço. O Mercado Livre muda preço e estoque
+            sozinho, então{" "}
+            <strong className="text-white">
+              confirme o valor no anúncio antes de fechar a compra
+            </strong>
+            .
+          </p>
           <p className="mt-3 flex items-center justify-center gap-1.5 text-xs">
             <Image
               src="/dmagno-emblem.png"
@@ -441,10 +458,20 @@ function PlatformBadge({ platform }: { platform: EnrichedLink["platform"] }) {
   );
 }
 
+/**
+ * Preço + a data em que ele foi visto.
+ *
+ * O preço do Mercado Livre muda sozinho, então o número aqui é um retrato do
+ * dia em que conferi o anúncio — não uma promessa. Em vez de um aviso genérico
+ * de rodapé ("valores sujeitos a alteração"), cada card carimba a própria
+ * data: o visitante vê na hora se aquele preço é de ontem ou de um mês atrás
+ * e sabe o quanto confiar nele.
+ */
 function PriceTag({ item }: { item: EnrichedLink }) {
   const price = formatPrice(item.price);
   const originalPrice = formatPrice(item.originalPrice);
   const discount = discountPercent(item.price, item.originalPrice);
+  const seenAt = formatShortDate(item.verifiedAt);
   if (!price) return null;
   return (
     <span className="inline-flex flex-wrap items-baseline gap-1.5">
@@ -457,6 +484,14 @@ function PriceTag({ item }: { item: EnrichedLink }) {
       {discount && (
         <span className="rounded bg-discount/15 px-1.5 py-0.5 text-[10px] font-bold text-discount">
           -{discount}%
+        </span>
+      )}
+      {seenAt && (
+        <span
+          className="text-[10px] text-muted"
+          title="O preço do Mercado Livre muda sozinho. Este é o valor que eu vi nessa data — confira no anúncio antes de comprar."
+        >
+          preço visto em {seenAt}
         </span>
       )}
     </span>

@@ -30,6 +30,24 @@ export function discountPercent(
   return Math.round((1 - price / originalPrice) * 100);
 }
 
+/**
+ * Data curta ("09/08") para carimbar quando o preço foi visto.
+ *
+ * O preço do ML muda sozinho — o valor no card é o do dia em que conferi o
+ * anúncio, não uma promessa. Mostrar a data ao lado transforma um número que
+ * pode estar velho numa informação honesta e datada.
+ */
+export function formatShortDate(iso?: string): string | undefined {
+  if (!iso) return undefined;
+  const d = new Date(`${iso}T12:00:00Z`);
+  if (isNaN(d.getTime())) return undefined;
+  return d.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    timeZone: "America/Sao_Paulo",
+  });
+}
+
 export function normalizeText(text: string): string {
   return text
     .normalize("NFD")

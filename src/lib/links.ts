@@ -92,18 +92,17 @@ export const links: LinkConfig[] = [
   },
   {
     slug: "suporte-notebook-360",
-    url: "https://meli.la/1Ua1tQD",
-    platform: "MERCADO_LIVRE",
+    url: "https://www.amazon.com.br/dp/B0FTHB3H48?tag=dmagno04-20",
+    platform: "AMAZON",
     categories: ["Setup"],
     featured: true,
     review: "Uma das melhores aquisições que fiz pro escritório — robusto, firme e versátil. Comprei um e, dias depois, já comprei o segundo: meus dois notebooks vivem nessas bases hoje.",
     usingSince: "2026-07-01",
-    title: "Suporte de Mesa para Notebook 360° Ajustável — Metal",
-    image: "https://http2.mlstatic.com/D_NQ_NP_877748-MLB105697398301_012026-O.webp",
-    price: 129.9,
-    offers: [
-      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0FTHB3H48?tag=dmagno04-20", price: 85.9 },
-    ],
+    verifiedAt: "2026-08-09",
+    verificationNote: "ANÚNCIO DO ML MORREU (2026-08-09): meli.la/1Ua1tQD passou a cair na página de listas do perfil, sem botão \"Ir para produto\" — e o item estava EM DESTAQUE na home. Em vez de remover, promovido para a Amazon, que já era oferta cadastrada e continua viva: mesmo produto (aço carbono, base giratória 360°, até 17\"), em estoque e mais barato (R$ 85,90 contra R$ 129,90 no ML). O review segue verdadeiro porque é o mesmo tipo de suporte que ele usa. Slug mantido pra preservar histórico de cliques.",
+    title: "Suporte para Notebook até 17\" Aço Carbono — Base Giratória 360°",
+    image: "https://m.media-amazon.com/images/I/51wmLU+u3cL._AC_SY450_.jpg",
+    price: 85.9,
   },
   {
     slug: "apoio-para-pes-ergonomico-descanso-resistente-escr",
@@ -732,16 +731,16 @@ export const links: LinkConfig[] = [
   },
   {
     slug: "kit-3-camiseta-regatas-masculinas-cavada-treino-musculacao",
-    url: "https://meli.la/1crhYbc",
+    url: "https://meli.la/2QgHLEc",
     platform: "MERCADO_LIVRE",
     categories: ["Vestuário", "Fitness"],
     featured: true,
     review: "Essa é a que eu uso pra treino pesado — bem cavada, libera o ombro e não incomoda em nenhum movimento.",
-    verifiedAt: "2026-07-29",
-    verificationNote: "SUBSTITUÍDO 2026-07-29: link trocado (era meli.la/2QgHLEc) por uma listagem do mesmo vendedor (Éved) com mais variações. Verificado 2x com o método do container do botão \"Ir para produto\" — destino MLB4595165300, título/preço/imagem batendo, estável. Slug mantido pra não quebrar links /r/ já compartilhados.",
-    title: "Kit 3 Camiseta Regata Masculina Cavadas Treino Machão",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_607928-MLB102164911064_122025-V-kit-3-camiseta-camisa-regata-masculina-cavadas-treino-macho.webp",
-    price: 76.22,
+    verifiedAt: "2026-08-09",
+    verificationNote: "ATUALIZADO 2026-08-09: voltou para meli.la/2QgHLEc (o link original, do mesmo vendedor Éved) a pedido do Danilo. Verificado 2x pelo método do container do botão \"Ir para produto\" — destino MLB-3240197154, título/imagem batendo, estável. Preço caiu de R$ 76,22 para R$ 70,66 (29% OFF sobre R$ 99,80). Slug mantido pra não quebrar links /r/ já compartilhados.",
+    title: "Kit 3 Camiseta Regatas Masculinas Cavada Treino Musculação",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_622500-MLB86947060374_072025-V-kit-3-camiseta-regatas-masculinas-cavada-treino-musculaco.webp",
+    price: 70.66,
     originalPrice: 99.8,
   },
   {
@@ -982,18 +981,20 @@ export const links: LinkConfig[] = [
       { platform: "SHOPEE", url: "https://s.shopee.com.br/2BDx7SNtNu", price: 59.9 },
     ],
   },
-  {
-    slug: "fita-led-neon-5m-rgb-ip65-bluetooth",
-    url: "https://meli.la/2dJPm3m",
-    platform: "MERCADO_LIVRE",
-    categories: ["Casa"],
-    verifiedAt: "2026-07-28",
-    verificationNote: "Verificado 2026-07-28 com o método do container do botão \"Ir para produto\" — destino MLB6763896520, título/preço/imagem batendo, confirmado 2x estável. Sem oferta Amazon: as fitas neon 5m de lá são listagens multi-variante ambíguas e mais caras que o ML — não há equivalente fiel e melhor.",
-    title: "Fita LED Neon 5m RGB IP65 À Prova d'Água Bluetooth + Fonte",
-    image: "https://http2.mlstatic.com/D_NQ_NP_962393-MLB110663147588_052026-O.webp",
-    price: 76,
-    originalPrice: 127.6,
-  },
+  /*
+   * REMOVIDO 2026-08-09 — "Fita LED Neon 5m RGB IP65 Bluetooth + Fonte"
+   * (era meli.la/2dJPm3m, R$ 76, categoria Casa).
+   *
+   * O anúncio saiu do ar: o link de afiliado passou a cair na página de listas
+   * do perfil, sem botão "Ir para produto". Diferente do suporte de notebook,
+   * este item não tinha oferta alternativa cadastrada.
+   *
+   * Substituto NÃO cadastrado de propósito: na Amazon a fita neon de 5m custa
+   * R$ 193 (2,5x o preço original) e a de R$ 42 não é neon, é fita comum —
+   * nenhum equivalente fiel e melhor, exatamente como a nota antiga do item já
+   * registrava. A busca do ML travou nesta sessão; quando voltar, procurar um
+   * substituto neon 5m IP65 com preferência por entrega Full.
+   */
   {
     slug: "microfone-hollyland-lark-m2s-duo-usb-c-2-pessoas",
     url: "https://meli.la/26sGXNK",
