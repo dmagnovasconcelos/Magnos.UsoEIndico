@@ -92,18 +92,25 @@ export const coupons: Coupon[] = [
       "Compra mínima de R$ 50.",
       "1 uso por CPF.",
     ],
+    /*
+     * REVISADO 2026-08-09: o achado deste cupom era o whey 1kg, mas o whey SAIU
+     * do container do cupom — quem manda na aplicação é a lista de produtos do
+     * container, não o vendedor. A página estava anunciando "whey por R$ 129,90
+     * com o cupom" e o carrinho recusaria. Trocado pelo Ômega 3, que é o produto
+     * que o container cobre hoje. Reconferir o container a cada divulgação.
+     */
     picks: [
       {
-        slug: "promo-whey-dark-lab-1kg-pacoca",
-        url: "https://meli.la/2DL7sqC",
+        slug: "promo-omega3-dark-lab-240caps",
+        url: "https://meli.la/2BTBnSf",
         platform: "MERCADO_LIVRE",
-        title: "Whey Protein Concentrado 1kg Dark Lab — Paçoca",
+        title: "Ômega 3 EPA DHA Dark Lab — 240 cápsulas",
         image:
-          "https://http2.mlstatic.com/D_Q_NP_2X_624287-MLA99416632622_112025-E.webp",
-        price: 169.9,
-        originalPrice: 349.9,
-        note: "4.9 ★ · +10 mil vendidos",
-        verifiedAt: "2026-08-04",
+          "https://http2.mlstatic.com/D_Q_NP_2X_876329-MLA99502619184_112025-E.webp",
+        price: 134.9,
+        originalPrice: 299.9,
+        note: "4.9 ★ · +5 mil vendidos",
+        verifiedAt: "2026-08-09",
       },
     ],
   },
