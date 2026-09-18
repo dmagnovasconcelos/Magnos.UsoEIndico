@@ -70,9 +70,10 @@ export default function CuponsPage() {
           </p>
         </header>
 
-        {active.length === 0 && expired.length > 0 && (
-          <NoActiveCoupons />
-        )}
+        {/* Sem cupom ativo, com ou sem histórico de expirados, a página
+            precisa explicar o vazio — antes ela ficava em branco quando não
+            havia nem ativo nem expirado. */}
+        {active.length === 0 && <NoActiveCoupons />}
 
         {active.map((coupon) => (
           <ActiveCoupon key={coupon.code} coupon={coupon} />

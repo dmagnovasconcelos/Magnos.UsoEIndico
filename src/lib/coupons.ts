@@ -78,96 +78,13 @@ export interface Coupon {
  * abrir "Condições do cupom" e ler o "Máximo de desconto" ANTES de cadastrar.
  */
 export const coupons: Coupon[] = [
-  {
-    code: "#DMAGNODARKLAB40",
-    platform: "MERCADO_LIVRE",
-    discountLabel: "R$ 40 OFF",
-    seller: "Dark Lab",
-    discountAmount: 40,
-    minPurchase: 50,
-    maxDiscount: 40,
-    validUntil: "2026-08-30",
-    terms: [
-      "Vale só em produtos da Dark Lab.",
-      "Compra mínima de R$ 50.",
-      "1 uso por CPF.",
-    ],
-    /*
-     * REVISADO 2026-08-09: o achado deste cupom era o whey 1kg, mas o whey SAIU
-     * do container do cupom — quem manda na aplicação é a lista de produtos do
-     * container, não o vendedor. A página estava anunciando "whey por R$ 129,90
-     * com o cupom" e o carrinho recusaria. Trocado pelo Ômega 3, que é o produto
-     * que o container cobre hoje. Reconferir o container a cada divulgação.
-     */
-    picks: [
-      {
-        slug: "promo-omega3-dark-lab-240caps",
-        url: "https://meli.la/2BTBnSf",
-        platform: "MERCADO_LIVRE",
-        title: "Ômega 3 EPA DHA Dark Lab — 240 cápsulas",
-        image:
-          "https://http2.mlstatic.com/D_Q_NP_2X_876329-MLA99502619184_112025-E.webp",
-        price: 134.9,
-        originalPrice: 299.9,
-        note: "4.9 ★ · +5 mil vendidos",
-        verifiedAt: "2026-08-09",
-      },
-    ],
-  },
-  {
-    code: "#DMAGNOMVP25",
-    platform: "MERCADO_LIVRE",
-    discountLabel: "R$ 25 OFF",
-    seller: "MVP Fitness",
-    discountAmount: 25,
-    // Mínimo alto (R$ 200), mas os três tênis passam folgado — conferido em
-    // "Condições do cupom", não deduzido do nome do container.
-    minPurchase: 200,
-    maxDiscount: 25,
-    validUntil: "2026-08-20",
-    terms: [
-      "Vale só em produtos da MVP Fitness.",
-      "Compra mínima de R$ 200.",
-      "Os R$ 25 são de verdade — o teto do cupom é o próprio valor.",
-      "1 uso por CPF.",
-    ],
-    picks: [
-      {
-        slug: "promo-tenis-crossfit-mvp-rx-fly-black-white",
-        url: "https://meli.la/21YTX39",
-        platform: "MERCADO_LIVRE",
-        title: "Tênis Crossfit MVP RX Fly Black/White — Treino e Academia",
-        image:
-          "https://http2.mlstatic.com/D_Q_NP_2X_903382-MLB82639769065_022025-E-tnis-para-crossfit-mvp-rx-fly-black-white-treino-academia.webp",
-        price: 357,
-        originalPrice: 670.8,
-        verifiedAt: "2026-08-04",
-      },
-      {
-        slug: "promo-tenis-crossfit-mvp-4x4-lpo-grip",
-        url: "https://meli.la/135X69m",
-        platform: "MERCADO_LIVRE",
-        title: "Tênis Crossfit MVP 4x4 LPO Grip — Rope Climb",
-        image:
-          "https://http2.mlstatic.com/D_Q_NP_2X_961194-MLB74330213005_012024-E-tnis-para-crossfit-mvp-4x4-lpo-grip-confortavel-rope-climb.webp",
-        price: 436.02,
-        originalPrice: 670.8,
-        note: "4.8 ★ · +100 vendidos",
-        verifiedAt: "2026-08-04",
-      },
-      {
-        slug: "promo-tenis-crossfit-mvp-6x6-white-lpo",
-        url: "https://meli.la/1KpQCu8",
-        platform: "MERCADO_LIVRE",
-        title: "Tênis Crossfit MVP Fitness 6x6 White LPO — Academia",
-        image:
-          "https://http2.mlstatic.com/D_Q_NP_2X_833779-MLB113362096263_062026-E--tenis-para-crossfit--mvp-fitness-6x6-white-lpo-academia.webp",
-        price: 529.28,
-        originalPrice: 790.8,
-        verifiedAt: "2026-08-04",
-      },
-    ],
-  },
+  /*
+   * Vazio em 2026-09-18. Os dois cupons anteriores (Dark Lab e MVP Fitness)
+   * já tinham expirado em 30/08 e 20/08 — e o de suplementação saiu também
+   * por causa do patrocínio, para não deixar marca concorrente no arquivo.
+   * Ao voltar a cadastrar: conferir TETO e COMPRA MÍNIMA em "Condições do
+   * cupom" antes de publicar, e reconferir o container de produtos.
+   */
 ];
 
 /**
