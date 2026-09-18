@@ -122,19 +122,17 @@ export const links: LinkConfig[] = [
   },
   {
     slug: "tripe-para-celular-portatil-1-7m-universal-bastao",
-    url: "https://meli.la/27dtUNA",
+    url: "https://meli.la/2faZCb9",
     platform: "MERCADO_LIVRE",
     categories: ["Tech"],
+    featured: true,
     review: "Prático e fácil de usar — uso em todos os treinos pra gravar com o celular, e evita que ele fique largado no chão da academia.",
-    verifiedAt: "2026-07-13",
-    verificationNote: "CORRIGIDO 2026-07-13: reverificado com método do container do botão \"Ir para produto\" (o método antigo por alt-text pegava produto desincronizado do destino real do link) — confirmado 2x, estável.",
-    title: "Tripé / Bastão Para Celular Portátil Até 1,70 M Com Controle Preto",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_921091-MLB109972041025_042026-V.webp",
-    price: 71.07,
-    originalPrice: 78.97,
-    offers: [
-      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0GSCCPL35?tag=dmagno04-20", price: 69.9 },
-    ],
+    verifiedAt: "2026-09-18",
+    verificationNote: "TROCADO 2026-09-18 a pedido do Danilo, para meli.la/2faZCb9. Verificado 2x pelo método do container do botão \"Ir para produto\" — destino MLB63944629, título/preço/imagem batendo. ATENÇÃO: é outro produto, não o mesmo anúncio mais barato — subiu de R$ 71,07 para R$ 159,08 e virou tripé de 1,8m em alumínio com controle bluetooth. Por isso a oferta Amazon antiga (B0GSCCPL35, R$ 69,90) foi REMOVIDA: ela apontava para o tripé simples anterior e viraria comparação falsa de preço. Slug mantido para preservar histórico de cliques.",
+    title: "Basike Tripé / Bastão 1,8m Alumínio 360° com Controle Bluetooth",
+    image: "https://http2.mlstatic.com/D_Q_NP_2X_729364-MLA111652938044_062026-V.webp",
+    price: 159.08,
+    originalPrice: 299,
   },
   {
     slug: "microfibra-pano-de-limpeza-para-iphone-macbook-cel",
@@ -405,19 +403,15 @@ export const links: LinkConfig[] = [
   },
   {
     slug: "straps-fitness-rudel-h-8-204-preto",
-    url: "https://meli.la/2Y5nFAX",
-    platform: "MERCADO_LIVRE",
+    url: "https://s.shopee.com.br/8pkr3gH3c9",
+    platform: "SHOPEE",
     categories: ["Fitness"],
     review: "Uso com menos frequência, mas é muito bom — ajuda bastante, só não pode virar muleta.",
-    verifiedAt: "2026-07-13",
-    verificationNote: "CORRIGIDO 2026-07-13: mesmo bug do \"cinto de fitness\" — texto/imagem antigos não batiam com o destino real do botão \"Ir para produto\". Slug também mudou (era \"silicone-spray\", produto real é outro).",
+    verifiedAt: "2026-09-18",
+    verificationNote: "ANÚNCIO DO ML MORREU (2026-09-18): meli.la/2Y5nFAX passou a cair na página de listas do perfil, sem botão \"Ir para produto\". Promovido para a Shopee, que já era oferta cadastrada e segue viva (HTTP 200) pelo mesmo preço de R$ 35,89 — mesmo produto, então o review continua válido. Substituto no ML já mapeado em `retiredLinks` para quando der: Strap Rudel H8 (MLB4687812325) por R$ 25. Slug mantido para preservar histórico de cliques.",
     title: "Straps Fitness Rudel H-8 204 Preto",
     image: "https://http2.mlstatic.com/D_Q_NP_2X_769827-MLB95776743023_102025-V.webp",
     price: 35.89,
-    originalPrice: 37,
-    offers: [
-      { platform: "SHOPEE", url: "https://s.shopee.com.br/8pkr3gH3c9", price: 35.89 },
-    ],
   },
   {
     slug: "protetor-de-punho-profissional-crossfit-munhequeir",
@@ -981,20 +975,6 @@ export const links: LinkConfig[] = [
       { platform: "SHOPEE", url: "https://s.shopee.com.br/2BDx7SNtNu", price: 59.9 },
     ],
   },
-  /*
-   * REMOVIDO 2026-08-09 — "Fita LED Neon 5m RGB IP65 Bluetooth + Fonte"
-   * (era meli.la/2dJPm3m, R$ 76, categoria Casa).
-   *
-   * O anúncio saiu do ar: o link de afiliado passou a cair na página de listas
-   * do perfil, sem botão "Ir para produto". Diferente do suporte de notebook,
-   * este item não tinha oferta alternativa cadastrada.
-   *
-   * Substituto NÃO cadastrado de propósito: na Amazon a fita neon de 5m custa
-   * R$ 193 (2,5x o preço original) e a de R$ 42 não é neon, é fita comum —
-   * nenhum equivalente fiel e melhor, exatamente como a nota antiga do item já
-   * registrava. A busca do ML travou nesta sessão; quando voltar, procurar um
-   * substituto neon 5m IP65 com preferência por entrega Full.
-   */
   {
     slug: "microfone-hollyland-lark-m2s-duo-usb-c-2-pessoas",
     url: "https://meli.la/26sGXNK",
@@ -1599,5 +1579,68 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_886448-MLB100384425217_122025-E--kit-growth-whey-protein-chocolate-1kg--multivitaminico-120-caps--creatina-250g-sem-sabor.webp",
     price: 254.9,
     originalPrice: 297.7,
+  },
+];
+
+/**
+ * Itens que saíram do ar — guardados para poder VOLTAR.
+ *
+ * Quando um anúncio morre (o link de afiliado passa a cair em
+ * /social/<user>/lists, sem botão "Ir para produto"), o item some do site para
+ * ninguém clicar em nada. Mas a curadoria por trás dele não se perde: fica
+ * aqui, com o motivo, o que entrou no lugar e — quando existe — o candidato
+ * já mapeado para reativar.
+ *
+ * Para trazer de volta: confirmar o anúncio pelo método do container, gerar
+ * link de afiliado novo e mover a entrada de volta para `links` acima,
+ * MANTENDO o slug original (é a chave do histórico de cliques no analytics).
+ */
+export interface RetiredLink {
+  slug: string;
+  /** Último link conhecido — pode estar morto, serve de rastro */
+  url: string;
+  title: string;
+  image?: string;
+  price?: number;
+  categories: string[];
+  /** Review original, preservado para quando o item voltar */
+  review?: string;
+  retiredAt: string;
+  reason: string;
+  /** Slug do item que ficou no lugar, quando houve substituição */
+  replacedBy?: string;
+  /** Candidato já pesquisado para reativar, com o que falta fazer */
+  candidate?: string;
+}
+
+export const retiredLinks: RetiredLink[] = [
+  {
+    slug: "fita-led-neon-5m-rgb-ip65-bluetooth",
+    url: "https://meli.la/2dJPm3m",
+    title: "Fita LED Neon 5m RGB IP65 À Prova d'Água Bluetooth + Fonte",
+    image:
+      "https://http2.mlstatic.com/D_NQ_NP_962393-MLB110663147588_052026-O.webp",
+    price: 76,
+    categories: ["Casa"],
+    retiredAt: "2026-08-09",
+    reason:
+      "Anúncio saiu do ar e o item não tinha oferta alternativa cadastrada.",
+    candidate:
+      "Nenhum equivalente honesto até agora: na Amazon a fita NEON de 5m custa R$ 193 (2,5x) e a de R$ 42 não é neon, é fita comum. Procurar neon 5m IP65 no ML com preferência por Full.",
+  },
+  {
+    slug: "straps-fitness-rudel-h-8-204-preto-ml",
+    url: "https://meli.la/2Y5nFAX",
+    title: "Straps Fitness Rudel H-8 204 Preto (anúncio ML)",
+    price: 35.89,
+    categories: ["Fitness"],
+    review:
+      "Uso com menos frequência, mas é muito bom — ajuda bastante, só não pode virar muleta.",
+    retiredAt: "2026-09-18",
+    reason:
+      "Anúncio do ML morreu. O item continua no site pela Shopee (mesmo produto, mesmo preço), então só o link do ML foi aposentado.",
+    replacedBy: "straps-fitness-rudel-h-8-204-preto",
+    candidate:
+      "Strap Rudel H8 (MLB4687812325) a R$ 25 no ML — mesmo modelo e R$ 10 mais barato. Falta gerar link de afiliado e reconferir pelo container.",
   },
 ];
