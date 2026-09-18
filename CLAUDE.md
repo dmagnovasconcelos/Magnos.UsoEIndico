@@ -237,6 +237,71 @@ calça + 1 regata. **Preferir destacar itens COM `review`** (o card grande
 mostra a frase pessoal; sem review fica um card vazio e fraco). Destaques
 respeitam a prateleira/categoria ativa (ver seção das prateleiras).
 
+## Patrocínio SouFit (2026-09-18) — e a regra que ele criou
+
+O Danilo fechou patrocínio de suplementação com a **SouFit** (backoffice
+`dash.mdt.global/divulgacao`, código de afiliado **18703**). Consequências
+permanentes para o catálogo:
+
+- **Nenhum suplemento concorrente no site.** Saíram 50 itens de uma vez
+  (Growth, Dark Lab, Adaptogen e os 36 Kits Growth). Antes de cadastrar
+  qualquer pó ou cápsula novo, checar se não conflita com o patrocinador.
+- **Fronteira definida por ele:** utensílio (coqueteleira) e alimento (pasta
+  de amendoim) NÃO são concorrentes e ficaram. Só pó e cápsula saíram.
+- **Categoria `Parceria SouFit`** isola a linha do patrocinador. O nome é a
+  própria divulgação — o visitante vê "Parceria" antes de clicar, em vez de
+  descobrir depois. Não renomear para algo que esconda a relação.
+- **Plataforma `SOUFIT`** foi criada em vez de reusar `OUTRO`, pro selo do
+  card dizer o nome do patrocinador.
+- **Dois formatos de link convivem** no backoffice e os dois são válidos:
+  wheys de 450g por `loja.modernitty.com.br/link/18703/produto/{id}/{slug}`,
+  o resto por `soufit.com/produtos/{id}/{slug}?afiliado=18703`. Guardar a URL
+  inteira item a item — deduzir padrão único manda comissão pro lugar errado.
+- Os links ficam atrás de um modal ("Obter link") que só injeta a URL no DOM
+  depois do clique. Para extrair em lote: clicar em todos os botões da página
+  e só então ler o `innerHTML` de cada card.
+
+## `retiredLinks` — itens fora do ar, guardados para voltar
+
+Item cujo anúncio morre **sai do site** (para ninguém clicar em nada) mas
+**não é deletado**: vai para `retiredLinks` em `links.ts` com slug, review,
+preço, imagem, motivo, o que entrou no lugar e o candidato já pesquisado.
+
+Para reativar: mover de volta para `links` **mantendo o slug** (é a chave do
+histórico de cliques no analytics) e reconferir link/preço pelo método do
+container. Use isso também para remoção temporária por decisão comercial —
+foi assim que a suplementação concorrente foi preservada.
+
+## Varredura de links mortos (rápida, sem abrir 100 páginas)
+
+Link de afiliado morto do ML **resolve para `/social/<usuario>/lists`** em vez
+da página com card de produto. Dá para varrer o catálogo inteiro com `curl`
+seguindo redirect e comparando a URL final:
+
+```bash
+curl -s -o /dev/null -w '%{url_effective}' -L -A 'Mozilla/5.0 (iPhone) Safari' "https://meli.la/CODIGO"
+```
+
+Confirmar no navegador (ausência do botão "Ir para produto") antes de agir —
+o sinal tem falso-negativo: um caso morto já resolveu para a URL normal.
+
+## Deploy — a automação já quebrou silenciosamente
+
+Em 2026-09-18 descobrimos que a Vercel estava **23 dias sem publicar**: os
+pushes chegavam ao GitHub e nada ia ao ar. `vercel git connect` reassentou a
+integração. Sintomas e diagnóstico:
+
+- `vercel ls <projeto>` mostra a idade do último deploy — se não bate com o
+  último push, a automação está quebrada.
+- O alias `uso-e-indico-git-main-*` serve a build do Git; comparar com o
+  domínio de produção revela promoção travada.
+- Fallback: `vercel --prod --yes` publica direto (o CLI está autenticado na
+  máquina do Danilo).
+
+**Sempre confirmar o deploy pelo conteúdo servido**, não pelo push. A rota
+`/r/[slug]` é dinâmica e atualiza na hora; a home é ISR e pode servir HTML
+velho por até 1h — checar as duas.
+
 ## Método de extração (script JS testado — método correto, baseado no botão)
 
 Rodar isso via `javascript_tool` na página carregada do link `meli.la/...`
