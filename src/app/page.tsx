@@ -113,9 +113,18 @@ export default async function Home({
       ? items.filter((i) => kindOf(i) === otherKind && matchesQuery(i)).length
       : 0;
 
-  const featured = filtered.filter((i) => i.featured);
+  /*
+   * Teto de 3 destaques renderizados. Com 9 itens marcados `featured` o topo
+   * do mobile virava um paredão de ~5000px e o primeiro item do grid só
+   * aparecia depois de 6 telas — destaque demais é destaque nenhum. O excedente
+   * NÃO some: cai no grid normal, então marcar `featured: true` continua sendo
+   * uma preferência do Danilo, não uma promessa de card gigante.
+   */
+  const MAX_FEATURED = 3;
+  const allFeatured = filtered.filter((i) => i.featured);
+  const featured = allFeatured.slice(0, MAX_FEATURED);
   const regular = sortItems(
-    filtered.filter((i) => !i.featured),
+    [...filtered.filter((i) => !i.featured), ...allFeatured.slice(MAX_FEATURED)],
     sort
   );
 
@@ -171,7 +180,7 @@ export default async function Home({
         </div>
       </div>
 
-      <main className="mx-auto max-w-5xl px-4 pb-10 pt-20 sm:pt-24">
+      <main id="topo" className="mx-auto max-w-5xl px-4 pb-10 pt-20 sm:pt-24">
         {/* Hero */}
         <header className="mb-10 flex flex-col items-center text-center">
           {/*
@@ -228,13 +237,40 @@ export default async function Home({
               className="object-cover brightness-125 contrast-110"
             />
           </div>
-          <p className="text-sm text-muted">
-            Sou o Danilo Magno — filho de Deus, marido e pai de dois filhos
-            lindos. Estou em constante transformação de espírito, alma e
-            corpo, organizando a vida e buscando viver com mais qualidade,
-            propósito e intenção. Esse site é a minha curadoria pessoal: o que
-            eu uso no dia a dia — e o que ainda está na minha lista pra comprar.
-          </p>
+          {/*
+            No mobile a bio inteira (7 linhas) empurrava o primeiro produto pra
+            fora da primeira tela — quem vem do Instagram chegava e não via
+            nenhum item. Agora só a primeira frase aparece, e o resto abre num
+            <details> nativo (sem JS, sem custo de hidratação). No desktop, onde
+            sobra espaço, o texto continua inteiro.
+          */}
+          <div className="text-sm text-muted">
+            <p>
+              Sou o Danilo Magno — filho de Deus, marido e pai de dois filhos
+              lindos.
+              <span className="hidden sm:inline">
+                {" "}
+                Estou em constante transformação de espírito, alma e corpo,
+                organizando a vida e buscando viver com mais qualidade,
+                propósito e intenção. Esse site é a minha curadoria pessoal: o
+                que eu uso no dia a dia — e o que ainda está na minha lista pra
+                comprar.
+              </span>
+            </p>
+            <details className="group mt-1 sm:hidden">
+              <summary className="inline-flex min-h-11 cursor-pointer list-none items-center text-xs font-semibold text-accent-soft">
+                <span className="group-open:hidden">ler mais</span>
+                <span className="hidden group-open:inline">ler menos</span>
+              </summary>
+              <p className="pb-1">
+                Estou em constante transformação de espírito, alma e corpo,
+                organizando a vida e buscando viver com mais qualidade,
+                propósito e intenção. Esse site é a minha curadoria pessoal: o
+                que eu uso no dia a dia — e o que ainda está na minha lista pra
+                comprar.
+              </p>
+            </details>
+          </div>
         </section>
 
         {/* Prateleira: eixo acima das categorias (só existe se as duas têm itens) */}
@@ -275,9 +311,15 @@ export default async function Home({
         )}
 
         {/* Filtro de categorias */}
+        {/*
+          Eram 8 pills quebrando em 4 linhas no telefone (~150px só de filtro,
+          antes de qualquer produto). Vira uma faixa de linha única com rolagem
+          horizontal — padrão de app de catálogo. No desktop volta a quebrar
+          linha e centralizar, que lá tem largura de sobra.
+        */}
         <nav
           aria-label="Categorias"
-          className="mb-4 flex flex-wrap justify-center gap-2"
+          className="-mx-4 mb-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0"
         >
           <CategoryPill
             label="Todos"
@@ -303,16 +345,24 @@ export default async function Home({
 
         {/* Destaques */}
         {featured.length > 0 && (
-          <section aria-label="Destaques" className="mb-10 space-y-4">
+          <section aria-labelledby="destaques" className="mb-10 space-y-4">
+            <h2
+              id="destaques"
+              className="text-xs font-bold uppercase tracking-widest text-muted"
+            >
+              Destaques
+            </h2>
             {featured.map((item) => (
               <FeaturedCard key={item.slug} item={item} />
             ))}
           </section>
         )}
 
-        {/* Grid */}
+        {/* Grid — 2 colunas no telefone: com 90 itens, 1 coluna dava um rolo de
+            mais de 40.000px e comparar dois produtos exigia ir e voltar. Duas
+            colunas é o padrão de todo catálogo mobile; o card encolhe junto. */}
         {regular.length > 0 ? (
-          <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <section className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
             {regular.map((item) => (
               <ProductCard key={item.slug} item={item} />
             ))}
@@ -380,6 +430,31 @@ export default async function Home({
             por DMAGNO
           </p>
         </footer>
+        {/*
+          Com 90 itens a página passa de 20.000px mesmo em duas colunas, e no
+          telefone não existe atalho de "Home" como no teclado. Âncora simples
+          em vez de botão com JS: não custa hidratação e funciona sem script.
+          Só aparece no telefone, onde o problema existe.
+        */}
+        <a
+          href="#topo"
+          className="fixed bottom-4 right-4 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface/90 text-muted shadow-lg backdrop-blur transition-colors hover:border-accent-soft hover:text-white sm:hidden"
+          aria-label="Voltar ao topo"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <path d="M12 19V5M5 12l7-7 7 7" />
+          </svg>
+        </a>
       </main>
     </>
   );
@@ -400,7 +475,7 @@ function CategoryPill({
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`min-h-11 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors ${
+      className={`inline-flex min-h-11 shrink-0 snap-start items-center gap-1 whitespace-nowrap rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors ${
         active
           ? "border-accent bg-accent text-white"
           : "border-border text-muted hover:border-accent-soft hover:text-white"
@@ -540,15 +615,23 @@ function OfferLinks({ item }: { item: EnrichedLink }) {
           href={`/r/${item.slug}?p=${offer.platform}`}
           target="_blank"
           rel="noopener"
-          className="inline-flex min-h-11 items-center justify-between gap-2 rounded-lg border border-border bg-surface-2 px-3 py-2 text-xs text-muted transition-colors hover:border-accent-soft hover:text-white"
+          className="inline-flex min-h-11 items-center justify-between gap-2 rounded-lg border border-border bg-surface-2 px-2 py-2 text-[11px] text-muted transition-colors hover:border-accent-soft hover:text-white sm:px-3 sm:text-xs"
         >
-          <span className="inline-flex items-center gap-1.5">
+          {/*
+            "Também na Amazon" quebrava em 3 linhas dentro da coluna de 171px do
+            grid de telefone. No mobile fica só o nome da loja (o ícone já diz
+            que é outra plataforma); a frase inteira volta a partir do sm.
+          */}
+          <span className="inline-flex min-w-0 items-center gap-1.5">
             <PlatformIcon platform={offer.platform} />
-            Também na {PLATFORM_LABEL[offer.platform].label}
-            {offer.note ? ` · ${offer.note}` : ""}
+            <span className="truncate">
+              <span className="hidden sm:inline">Também na </span>
+              {PLATFORM_LABEL[offer.platform].label}
+              {offer.note ? ` · ${offer.note}` : ""}
+            </span>
           </span>
           {offer.price != null && (
-            <span className="font-bold text-white">
+            <span className="shrink-0 font-bold text-white">
               {formatPrice(offer.price)}
             </span>
           )}
@@ -586,7 +669,7 @@ function FeaturedCard({ item }: { item: EnrichedLink }) {
           ★ DESTAQUE
         </span>
         <KindBadge item={item} />
-        <h2 className="text-xl font-bold">{item.title}</h2>
+        <h3 className="text-xl font-bold">{item.title}</h3>
         {item.review && (
           <p className="mt-1 italic text-accent-soft">“{item.review}”</p>
         )}
@@ -618,7 +701,7 @@ function ProductCard({ item }: { item: EnrichedLink }) {
   const usage = usingFor(item.usingSince);
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-border bg-surface transition-colors hover:border-accent-soft/50">
-      <div className="relative h-40 bg-surface-2 p-3">
+      <div className="relative h-28 bg-surface-2 p-2 sm:h-40 sm:p-3">
         {item.image ? (
           <div className="relative h-full w-full overflow-hidden rounded-lg bg-[#f4f2ee]">
             <Image
@@ -638,11 +721,18 @@ function ProductCard({ item }: { item: EnrichedLink }) {
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-3 sm:p-4">
         <KindBadge item={item} />
-        <h2 className="font-semibold leading-snug">{item.title}</h2>
+        {/*
+          Em duas colunas o título de um produto de marketplace (que costuma ter
+          15 palavras) tomava o card inteiro. Cortado em 3 linhas no telefone —
+          o nome completo continua no atributo e na página de destino.
+        */}
+        <h3 className="line-clamp-3 text-sm font-semibold leading-snug sm:line-clamp-none sm:text-base">
+          {item.title}
+        </h3>
         {item.review && (
-          <p className="mt-1 text-sm italic text-accent-soft">
+          <p className="mt-1 line-clamp-4 text-xs italic text-accent-soft sm:line-clamp-none sm:text-sm">
             “{item.review}”
           </p>
         )}
@@ -659,9 +749,9 @@ function ProductCard({ item }: { item: EnrichedLink }) {
               href={`/r/${item.slug}`}
               target="_blank"
               rel="noopener"
-              className="flex min-h-11 flex-1 items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              className="flex min-h-11 flex-1 items-center justify-center whitespace-nowrap rounded-lg bg-accent px-2 py-2.5 text-xs font-semibold text-white transition-opacity hover:opacity-90 sm:px-4 sm:text-sm"
             >
-              Quero esse →
+              Quero esse <span aria-hidden className="ml-1">→</span>
             </a>
             <ShareButton title={item.title} slug={item.slug} />
           </div>
