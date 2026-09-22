@@ -68,9 +68,19 @@ esses nomes, sem acento/variação nova):
 | `Casa` | itens domésticos gerais (copo térmico, mesa dobrável, fita adesiva) |
 | `Música` | instrumentos, pedaleiras, cabos de áudio, acessórios musicais |
 | `Acessórios` | relógios, joias, itens pessoais que não cabem nas outras |
+| `Gravação` | o kit de gravar vídeo: microfones, tripés, suporte de tripé, luz de preenchimento (criada 2026-09-22 a pedido do Danilo) |
+| `Parceria SouFit` | linha do patrocinador — ver a seção do patrocínio |
 
 Antes de criar uma categoria nova, checar se um item parecido já existe
 numa dessas — evita fragmentar em "Vestuario" vs "Roupas" vs "Moda" etc.
+
+**`Gravação` é categoria de USO, não de tipo de produto** (criada em
+2026-09-22). Os itens continuam em `Tech`/`Setup` também — é justamente pra
+isso que `categories` é array. A pergunta pra decidir se um item entra é "eu
+pego isso quando vou gravar?", e não "isso é eletrônico?". Por isso o suporte
+de mesa do celular e o suporte de notebook **não** entraram: são de escritório,
+não do kit de gravação.
+
 
 ## Duas prateleiras: "Eu uso" e "Na minha lista" (`kind`, criado 2026-07-24)
 
