@@ -327,9 +327,8 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_727350-MLA100087934009_122025-V.webp",
     price: 22.2,
     originalPrice: 28.9,
-    offers: [
-      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0D5BXC1JL?tag=dmagno04-20", price: 25.78 },
-    ],
+    verifiedAt: "2026-09-22",
+    verificationNote: "OFERTA AMAZON REMOVIDA 2026-09-22: o ASIN B0D5BXC1JL (R$ 25,78) aparece na Amazon como \"Não disponível, não temos previsão\". Anunciar uma alternativa que ninguém consegue comprar é pior que não ter alternativa. O link principal do Mercado Livre segue vivo e conferido.",
   },
   {
     slug: "cabo-ugreen-quick-charge-4-0-usb-c-1m-blindado-cin",
@@ -346,17 +345,16 @@ export const links: LinkConfig[] = [
   },
   {
     slug: "ugreen-organizador-cabo-2-metros-40354",
-    url: "https://meli.la/1fjWsJZ",
-    platform: "MERCADO_LIVRE",
+    url: "https://www.amazon.com.br/dp/B07ZC346SK?tag=dmagno04-20",
+    platform: "AMAZON",
     categories: ["Tech"],
     review: "Solução prática pra manter os cabos enrolados e organizados.",
-    verifiedAt: "2026-07-13",
-    verificationNote: "CORRIGIDO 2026-07-13: produto/imagem/slug antigos não batiam com o destino real do botão \"Ir para produto\". Reverificado 2x, estável.",
-    title: "Ugreen - Organizador Cabo 2 Metros - 40354 Preto",
-    image: "https://http2.mlstatic.com/D_Q_NP_2X_626476-MLB92317605521_092025-V.webp",
-    price: 24.9,
+    verifiedAt: "2026-09-22",
+    verificationNote: "TROCADO PARA AMAZON 2026-09-22: o link do ML (meli.la/1fjWsJZ) morreu — resolve para /social/<usuario>/lists e a página não tem mais o botão \"Ir para produto\" (confirmado no navegador, não só pelo redirect). Como o item já tinha oferta Amazon do MESMO produto, a Amazon virou a principal em vez de aposentar o item: página aberta e conferida (Ugreen Organizador Braçadeira De Cabos Pc E Instrumentos 2m, em estoque, R$ 28,99). Título, imagem e preço passaram a ser os do anúncio da Amazon, que agora é o destino do clique. Slug mantido para preservar histórico de cliques.",
+    title: "Ugreen Organizador Braçadeira De Cabos Pc E Instrumentos 2m",
+    image: "https://m.media-amazon.com/images/I/61w5aPlP40L._AC_SX425_.jpg",
+    price: 28.99,
     offers: [
-      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B07ZC346SK?tag=dmagno04-20", price: 27.69 },
       { platform: "SHOPEE", url: "https://s.shopee.com.br/3VjKhrg1j2", price: 23.9 },
     ],
   },
@@ -678,7 +676,7 @@ export const links: LinkConfig[] = [
     price: 33.7,
     originalPrice: 47.9,
     offers: [
-      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0F74P6KNR?tag=dmagno04-20", price: 42.99 },
+      { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0F74P6KNR?tag=dmagno04-20", price: 49.99 },
     ],
   },
   {
@@ -1297,13 +1295,14 @@ export const links: LinkConfig[] = [
   },
   {
     slug: "soufit-kit-3-sabores-oh-cha",
-    url: "https://loja.modernitty.com.br/link/18703/produto/434/kit-3-sabores-oh-cha",
+    url: "https://soufit.com/produtos/434/kit-3-sabores-oh-cha?afiliado=18703",
     platform: "SOUFIT",
     categories: ["Parceria SouFit", "Fitness"],
-    verifiedAt: "2026-09-18",
+    verifiedAt: "2026-09-22",
+    verificationNote: "CORRIGIDO 2026-09-22: o link no formato loja.modernitty.com.br dava 404 (era o único dos 31 itens SouFit quebrado). O mesmo produto responde 200 no outro formato do backoffice, soufit.com/produtos/{id}/{slug}?afiliado=18703, com o código de afiliado preservado no destino final. Preço também estava defasado: a página mostra R$ 507,03, não os R$ 569,70 cadastrados.",
     title: "Kit 3 Sabores Oh! chá",
     image: "https://static.mdt.global/products/Y6TdPZaHZwCgKcJe1AttEczv8FvLQHw3UBzmWWpR.webp",
-    price: 569.70,
+    price: 507.03,
   },
   {
     slug: "soufit-oh-cha-abacaxi",
