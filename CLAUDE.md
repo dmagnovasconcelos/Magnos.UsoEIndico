@@ -235,6 +235,36 @@ acumulado, sem data) são legado — não usar.
   o store → REPL). Executa com **Cmd/Ctrl+Enter** (Enter só quebra linha), e
   **Safe Mode bloqueia `DEL`** — desligar o toggle antes.
 
+## Performance: o `enrich` NUNCA pode ir à rede numa visita normal
+
+Em 22/09/2026 a home estava levando **16,6s de TTFB em toda requisição**
+(medido 3x seguidas em produção — não era cache frio). Sintomas que o Danilo
+relatou: site lento, botão de categoria "sem funcionar" (era outra
+renderização de 16s a cada clique), timeout e 500, e travamento no celular.
+
+**Causa:** `needsScraping` no `enrich.ts` incluía `!link.description`. Nenhum
+item tem `description` preenchida — ela não aparece na tela, serve só pra
+casar busca e pra um campo opcional do JSON-LD. Com isso a condição dava
+`true` para 100% do catálogo, e como a home é **dinâmica** (lê `searchParams`,
+então `export const revalidate` não vale), cada visitante disparava ~97
+requisições ao Mercado Livre e à SouFit, que bloqueiam bot e só respondem
+quando estoura o timeout.
+
+**Regra:** o `enrich` só vai à rede quando falta algo que a página REALMENTE
+mostra — título, imagem ou preço. Hoje nenhum item precisa. Se for mexer nessa
+condição, medir antes e depois com:
+
+```bash
+curl -s -o /dev/null -w 'ttfb=%{time_starttransfer}s\n' https://uso-e-indico.vercel.app/
+```
+
+Alvo: abaixo de 1s. Qualquer coisa acima de 2s significa que voltou a ir à
+rede por visita.
+
+**Cuidado relacionado:** a home lê `searchParams`, logo é sempre dinâmica.
+Não adianta confiar em `revalidate` pra proteger trabalho caro no render —
+o que for caro tem que sair do caminho da requisição.
+
 ## Destaque (`featured`) — poucos, ou vira "destaque de nada"
 
 `featured: true` joga o item na seção "Destaques" do topo como um card
