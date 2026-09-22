@@ -708,7 +708,9 @@ function ProductCard({ item }: { item: EnrichedLink }) {
               src={item.image}
               alt={item.title}
               fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              /* O grid virou 2 colunas no telefone: dizer 100vw aqui faz o
+                 navegador baixar imagem do dobro do necessário em cada card. */
+              sizes="(max-width: 640px) 45vw, (max-width: 1024px) 45vw, 30vw"
               className="object-contain p-2"
             />
           </div>

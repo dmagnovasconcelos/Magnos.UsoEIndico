@@ -82,7 +82,7 @@ async function fetchPage(url: string): Promise<string | undefined> {
         Accept: "text/html,application/xhtml+xml",
         "Accept-Language": "pt-BR,pt;q=0.9",
       },
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(4000),
       // cache de 24h — scraping roda no build/revalidação, nunca por visitante
       next: { revalidate: 86400 },
     });
@@ -147,8 +147,20 @@ function parsePriceMeta(raw?: string): number | undefined {
  * o scraper completa o que faltar; se tudo falhar, fallback com o slug.
  */
 export async function enrichLink(link: LinkConfig): Promise<EnrichedLink> {
-  const needsScraping =
-    !link.title || !link.image || !link.description || link.price == null;
+  /*
+   * Só vale ir na rede quando falta algo que a página REALMENTE mostra:
+   * título, imagem ou preço.
+   *
+   * `description` estava nessa conta e derrubava o site: nenhum dos 97 itens
+   * tem description preenchida (ela não é exibida em lugar nenhum — serve só
+   * pra casar busca e pra um campo opcional do JSON-LD), então a condição dava
+   * true para 100% do catálogo. Resultado: cada visita à home disparava 97
+   * requisições ao Mercado Livre/SouFit, que bloqueiam bot e só respondem no
+   * timeout de 8s. A home levava 16s de TTFB, cada clique em categoria
+   * re-renderizava tudo de novo (parecia botão quebrado) e a coisa estourava
+   * em timeout/500 sob carga. Medido em produção em 22/09/2026.
+   */
+  const needsScraping = !link.title || !link.image || link.price == null;
 
   let scraped: ScrapedMeta = {};
   if (needsScraping) {
