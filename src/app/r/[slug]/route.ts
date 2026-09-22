@@ -19,9 +19,21 @@ export async function GET(
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
 
-  // Só conta acesso humano — crawler/preview de link (WhatsApp, Telegram,
-  // indexadores) não infla a contagem.
-  if (!isBot(req.headers.get("user-agent"))) {
+  /*
+   * Só conta acesso humano — crawler/preview de link (WhatsApp, Telegram,
+   * indexadores) não infla a contagem.
+   *
+   * E não conta quando o próprio Danilo (ou eu, verificando link) está
+   * abrindo: `?nt=1` na URL, ou o cookie `nt`. O filtro de user-agent pega
+   * curl e crawler, mas NÃO pega navegador de verdade — foi assim que a
+   * conferência de links inflou o histórico (93 produtos distintos "clicados"
+   * em jul-ago, com só 118 visitas). Ver a seção de analytics no CLAUDE.md.
+   */
+  const optedOut =
+    req.nextUrl.searchParams.get("nt") === "1" ||
+    req.cookies.get("nt")?.value === "1";
+
+  if (!optedOut && !isBot(req.headers.get("user-agent"))) {
     after(() => trackRedirect(slug));
   }
 

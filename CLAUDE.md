@@ -222,6 +222,15 @@ acumulado, sem data) são legado — não usar.
 - **Envs:** `KV_REST_API_URL` + `KV_REST_API_TOKEN`, injetadas pela
   integração Upstash na Vercel. Sem elas, tudo é best-effort silencioso
   (site funciona, `getStats` retorna null → página mostra "indisponível").
+- **Opt-out do dono (`/nt`, criado 2026-09-22):** o filtro de bot corta
+  crawler e `curl` pelo user-agent, mas **não corta navegador de verdade**.
+  Toda vez que o Danilo abre o próprio site, ou que eu abro pra conferir um
+  link, aquilo entra como visita/clique real — foi assim que jul-ago ficou com
+  **93 produtos distintos "clicados" para apenas 118 visitas**, número que não
+  é comportamento de público. Agora: abrir `/nt` uma vez grava o cookie `nt=1`
+  (1 ano, por navegador) e esse navegador para de contar; `/nt?off=1` desfaz.
+  `/r/{slug}?nt=1` também não conta, sem precisar de cookie — **usar isso em
+  toda verificação de link feita pelo navegador.**
 - **Reset dos contadores:** REPL do store no painel Upstash (Storage →
   o store → REPL). Executa com **Cmd/Ctrl+Enter** (Enter só quebra linha), e
   **Safe Mode bloqueia `DEL`** — desligar o toggle antes.
