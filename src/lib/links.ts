@@ -263,6 +263,7 @@ export const links: LinkConfig[] = [
     price: 124.42,
     originalPrice: 299,
     offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/80Cu2Qfi3E", price: 129.5 },
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B07G5691LJ?tag=dmagno04-20", price: 107.9 },
     ],
   },
@@ -323,6 +324,7 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_866279-MLA99513179228_112025-V.webp",
     price: 594.15,
     offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/2qUnso6nvy", price: 799.0 },
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B0B8C31YXR?tag=dmagno04-20", price: 529.99 },
     ],
   },
@@ -392,6 +394,7 @@ export const links: LinkConfig[] = [
     price: 533.22,
     originalPrice: 579.9,
     offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/6q0wdxetRP", price: 630.9 },
       { platform: "AMAZON", url: "https://www.amazon.com.br/dp/B07PNKGKBX?tag=dmagno04-20", price: 479.9 },
     ],
   },
@@ -639,6 +642,9 @@ export const links: LinkConfig[] = [
     image: "https://http2.mlstatic.com/D_Q_NP_2X_895564-MLB84762878925_052025-V.webp",
     price: 123.18,
     originalPrice: 126.99,
+    offers: [
+      { platform: "SHOPEE", url: "https://s.shopee.com.br/4Vd1s8Bnh2", price: 126.99 },
+    ],
   },
   {
     slug: "fita-gaffer-tape-opcao-cores-12mm-x-5mts-fluoresce",
