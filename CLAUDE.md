@@ -231,11 +231,34 @@ Decisões:
 - O rodapé diz "N de M itens do catálogo estão na Shopee", pra página ser
   honesta sobre ser um recorte.
 
-**Cobertura em 23/09/2026: 29 de 99 itens.** O gargalo pra crescer é que a
-Shopee bloqueia automação, então cada link vem à mão. **O painel de afiliado
-tem uma Open API (GraphQL) que resolveria isso em lote** — em
-`affiliate.shopee.com.br/open_api` — mas o acesso precisa ser solicitado e o
-Danilo ainda não tem.
+**Cobertura: 33 de 99 itens** (23/09/2026).
+
+**Como cadastrar item novo da Shopee — a API NÃO é necessária.** A busca de
+produtos do painel (`/offer/product_offer`) funciona normalmente; quem bloqueia
+bot é a loja pública. O "Obter link" de cada card entrega o `s.shopee.com.br`
+pronto, e existe "Obter Link em Massa" (até 100). Detalhes que custaram tempo:
+`elemento.click()` não dispara o handler do Vue — despachar
+`pointerdown, mousedown, pointerup, mouseup, click` como `MouseEvent` com
+`bubbles:true`; o campo de busca precisa do setter nativo de `value` + evento
+`input`; e o "Pesquisar" não é um `<button>`.
+
+**Critério para o item entrar (não afrouxar):** tem que ser **o mesmo
+produto**, não um equivalente — mesma regra que deixou 11 itens sem oferta
+Amazon. Item com marca/modelo (Logitech, Ugreen, D'Addario) permite casamento;
+**conferir também a variante de cor**. Commodity (regata canelada, munhequeira,
+suporte genérico) **não tem "mesmo produto" entre marketplaces** — não
+cadastrar. Medido: dos 36 itens que ele usa e não estavam na Shopee, só 10
+tinham identidade de marca e nenhum era fitness ou escritório; 4 entraram, 6
+caíram (cor diferente, marca diferente ou inexistência).
+
+**O feed de produtos em CSV não serve** para casar com o catálogo: 100 mil
+produtos genéricos, 187 MB, e casar por título é a armadilha do "produto
+parecido". A URL do feed carrega credencial da conta — tratar como segredo.
+
+**Antigo: cobertura em 23/09/2026 era 29 de 99 itens.** A Open API existe
+(`affiliate.shopee.com.br/open_api`) mas o botão "Aplicar" está `disabled` —
+acesso só por contato com o suporte. Com o método acima, ela deixou de ser
+bloqueio.
 
 ## Analytics (`src/lib/analytics.ts`, Upstash Redis — histórico por dia)
 
