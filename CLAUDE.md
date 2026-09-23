@@ -204,6 +204,39 @@ Outras decisões:
   é porta de entrada pros 66 produtos, não vitrine de 4.
 - Urgência é derivada da data real (`isLastDay`/`daysLeft`), nunca inventada.
 
+## Vitrine da Shopee (`/shopee`, criada 2026-09-23)
+
+Página que lista **só os itens do catálogo que têm link da Shopee** — o Danilo
+divulga a URL como "minha seleção na Shopee". O catálogo continua sendo um só:
+isto é um recorte, não um segundo catálogo.
+
+**Por que existe:** no programa de afiliados da Shopee, "loja" é coisa de
+vendedor — afiliado não ganha vitrine lá dentro. Então a vitrine fica aqui, no
+site que é dele, e o clique vai pro link de afiliado da Shopee.
+
+Decisões:
+- Entra item com `platform: "SHOPEE"` (principal) **ou** com oferta
+  `{ platform: "SHOPEE" }`. Sem link cadastrado, o item não aparece — nunca
+  mandar pra busca da Shopee ou pra "produto parecido".
+- O clique passa pelo `/r/{slug}?p=SHOPEE` de sempre, então o tracking é o
+  mesmo. Para item cuja plataforma principal já é a Shopee, o `?p=` não acha
+  oferta e cai no `link.url`, que é o link certo — conferido: os 29 destinos
+  resolvem para `shopee.com.br`.
+- **O preço exibido é o da Shopee**, não o do item. E o selo de desconto só
+  aparece quando a Shopee é a plataforma principal: cruzar o `originalPrice`
+  (que é do anúncio do ML) com o preço da Shopee **inventaria um desconto que
+  a Shopee não está dando**.
+- As duas prateleiras são respeitadas — "eu uso" primeiro, "na minha lista"
+  numa seção separada com o mesmo texto de contexto da home.
+- O rodapé diz "N de M itens do catálogo estão na Shopee", pra página ser
+  honesta sobre ser um recorte.
+
+**Cobertura em 23/09/2026: 29 de 99 itens.** O gargalo pra crescer é que a
+Shopee bloqueia automação, então cada link vem à mão. **O painel de afiliado
+tem uma Open API (GraphQL) que resolveria isso em lote** — em
+`affiliate.shopee.com.br/open_api` — mas o acesso precisa ser solicitado e o
+Danilo ainda não tem.
+
 ## Analytics (`src/lib/analytics.ts`, Upstash Redis — histórico por dia)
 
 Contador de pageviews/cliques **sem banco relacional**, no Upstash Redis

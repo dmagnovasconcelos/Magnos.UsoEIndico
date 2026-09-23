@@ -419,6 +419,19 @@ export default async function Home({
             </strong>
             .
           </p>
+          {/*
+            A vitrine da Shopee tem URL própria pra ser divulgada solta no
+            Instagram, mas quem chega pela home também precisa achar — daí o
+            link aqui, discreto, sem competir com o catálogo.
+          */}
+          <p className="mt-4 text-xs">
+            <Link
+              href="/shopee"
+              className="inline-flex min-h-11 items-center justify-center font-semibold text-accent-soft transition-colors hover:text-white"
+            >
+              Ver minha seleção na Shopee →
+            </Link>
+          </p>
           <p className="mt-3 flex items-center justify-center gap-1.5 text-xs">
             <Image
               src="/dmagno-emblem.png"
