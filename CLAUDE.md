@@ -297,6 +297,16 @@ acumulado, sem data) são legado — não usar.
   (1 ano, por navegador) e esse navegador para de contar; `/nt?off=1` desfaz.
   `/r/{slug}?nt=1` também não conta, sem precisar de cookie — **usar isso em
   toda verificação de link feita pelo navegador.**
+- **Origem do clique (`?s=`, criado 2026-09-24):** o contador por produto diz
+  O QUE foi clicado, mas não DE ONDE veio — que é a pergunta de quem vende com
+  a própria audiência. Agora `/r/{slug}?s=story` e `/?s=bio` gravam a origem em
+  `av:cs:{data}` (cliques) e `av:ps:{data}` (visitas), e `/estatisticas` mostra
+  "Por origem" **antes** de "Por produto". Sem `?s=` o acesso conta como
+  `direto` — nada se perde.
+  **`normalizeSource()` é peça de segurança:** sem ela qualquer um encheria o
+  Redis de chaves chamando `?s=<lixo>`. Corta pra minúsculas, remove acento,
+  aceita só `[a-z0-9-]` e limita a 24 caracteres (testado: `../../etc` vira
+  `etc`, emoji vira `direto`). Não afrouxar.
 - **Reset dos contadores:** REPL do store no painel Upstash (Storage →
   o store → REPL). Executa com **Cmd/Ctrl+Enter** (Enter só quebra linha), e
   **Safe Mode bloqueia `DEL`** — desligar o toggle antes.

@@ -33,8 +33,15 @@ export async function GET(
     req.nextUrl.searchParams.get("nt") === "1" ||
     req.cookies.get("nt")?.value === "1";
 
+  /*
+   * `?s=` diz DE ONDE veio o clique (ex: /r/slug?s=story). Sem isso dá pra
+   * saber qual produto foi clicado, mas não qual post trouxe o clique — que
+   * é a pergunta que interessa pra quem vende com a própria audiência.
+   */
+  const source = req.nextUrl.searchParams.get("s");
+
   if (!optedOut && !isBot(req.headers.get("user-agent"))) {
-    after(() => trackRedirect(slug));
+    after(() => trackRedirect(slug, source));
   }
 
   // ?p=AMAZON etc. escolhe uma oferta alternativa; sem ?p= vai pro link principal

@@ -7,6 +7,8 @@
  *   av:pv:{YYYY-MM-DD}   -> visitas na home no dia            (INCR)
  *   av:ck:{YYYY-MM-DD}   -> cliques em produto no dia         (INCR)
  *   av:it:{YYYY-MM-DD}   -> hash slug->cliques no dia         (HINCRBY)
+ *   av:cs:{YYYY-MM-DD}   -> hash origem->cliques no dia        (HINCRBY)
+ *   av:ps:{YYYY-MM-DD}   -> hash origem->visitas no dia        (HINCRBY)
  *   av:days              -> sorted set dos dias com dado      (ZADD)
  *   av:lastUpdated       -> ISO do último evento              (SET)
  *
@@ -31,6 +33,10 @@ export interface RangeStats {
   clicks: number;
   /** slug -> cliques no período */
   byItem: Record<string, number>;
+  /** origem (?s=) -> cliques no período */
+  clicksBySource: Record<string, number>;
+  /** origem (?s=) -> visitas no período */
+  viewsBySource: Record<string, number>;
   /** intervalo efetivamente somado (YYYY-MM-DD) */
   from: string;
   to: string;
@@ -98,12 +104,13 @@ export function isBot(userAgent: string | null | undefined): boolean {
 }
 
 /** Visita na home — 1 evento por pageview real (client chama /api/track). */
-export async function trackPageview() {
+export async function trackPageview(source?: string | null) {
   if (!isConfigured()) return;
   try {
     const day = getToday();
     const p = redis().pipeline();
     p.incr(`av:pv:${day}`);
+    p.hincrby(`av:ps:${day}`, normalizeSource(source), 1);
     p.zadd(KEY_DAYS, { score: score(day), member: day });
     p.set(KEY_LAST, new Date().toISOString());
     await p.exec();
@@ -113,16 +120,35 @@ export async function trackPageview() {
 }
 
 /**
+ * Normaliza o `?s=` da URL antes de virar chave no Redis.
+ *
+ * Sem isso, qualquer um poderia inflar o banco com chaves infinitas só
+ * chamando /r/slug?s=<lixo aleatório>. Corta pra minúsculas, só letras,
+ * números e hífen, no máximo 24 caracteres. Sem `?s=` vira "direto".
+ */
+export function normalizeSource(raw?: string | null): string {
+  if (!raw) return "direto";
+  const s = raw
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9-]/g, "")
+    .slice(0, 24);
+  return s || "direto";
+}
+
+/**
  * Um redirect = 1 clique no produto (sempre completa se chegou aqui).
  * Uma escrita atômica por dia, sem race nem subcontagem.
  */
-export async function trackRedirect(itemSlug: string) {
+export async function trackRedirect(itemSlug: string, source?: string | null) {
   if (!isConfigured()) return;
   try {
     const day = getToday();
     const p = redis().pipeline();
     p.incr(`av:ck:${day}`);
     p.hincrby(`av:it:${day}`, itemSlug, 1);
+    p.hincrby(`av:cs:${day}`, normalizeSource(source), 1);
     p.zadd(KEY_DAYS, { score: score(day), member: day });
     p.set(KEY_LAST, new Date().toISOString());
     await p.exec();
@@ -159,29 +185,56 @@ export async function getStats(range?: {
 
     const perDay = await Promise.all(
       daysInRange.map(async (d) => {
-        const [pv, ck, items] = await Promise.all([
+        const [pv, ck, items, cs, ps] = await Promise.all([
           r.get<number>(`av:pv:${d}`),
           r.get<number>(`av:ck:${d}`),
           r.hgetall<Record<string, number>>(`av:it:${d}`),
+          r.hgetall<Record<string, number>>(`av:cs:${d}`),
+          r.hgetall<Record<string, number>>(`av:ps:${d}`),
         ]);
-        return { pv: toNum(pv), ck: toNum(ck), items: items ?? {} };
+        return {
+          pv: toNum(pv),
+          ck: toNum(ck),
+          items: items ?? {},
+          cs: cs ?? {},
+          ps: ps ?? {},
+        };
       })
     );
 
     let pageviews = 0;
     let clicks = 0;
     const byItem: Record<string, number> = {};
-    for (const { pv, ck, items } of perDay) {
+    const clicksBySource: Record<string, number> = {};
+    const viewsBySource: Record<string, number> = {};
+    for (const { pv, ck, items, cs, ps } of perDay) {
       pageviews += pv;
       clicks += ck;
       for (const [slug, n] of Object.entries(items)) {
         byItem[slug] = (byItem[slug] ?? 0) + toNum(n);
       }
+      for (const [src, n] of Object.entries(cs)) {
+        clicksBySource[src] = (clicksBySource[src] ?? 0) + toNum(n);
+      }
+      for (const [src, n] of Object.entries(ps)) {
+        viewsBySource[src] = (viewsBySource[src] ?? 0) + toNum(n);
+      }
     }
 
     const lastUpdated = (await r.get<string>(KEY_LAST)) ?? null;
 
-    return { pageviews, clicks, byItem, from, to, firstDay, today, lastUpdated };
+    return {
+      pageviews,
+      clicks,
+      byItem,
+      clicksBySource,
+      viewsBySource,
+      from,
+      to,
+      firstDay,
+      today,
+      lastUpdated,
+    };
   } catch {
     return null;
   }

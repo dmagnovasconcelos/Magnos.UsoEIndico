@@ -66,6 +66,19 @@ export default async function Estatisticas({
     })
     .sort((a, b) => b.clicks - a.clicks);
 
+  // União das duas hashes: uma origem pode ter visita sem clique e vice-versa.
+  const origens = new Set([
+    ...Object.keys(stats.viewsBySource ?? {}),
+    ...Object.keys(stats.clicksBySource ?? {}),
+  ]);
+  const porOrigem = [...origens]
+    .map((origem) => ({
+      origem,
+      visitas: stats.viewsBySource?.[origem] ?? 0,
+      cliques: stats.clicksBySource?.[origem] ?? 0,
+    }))
+    .sort((a, b) => b.cliques - a.cliques || b.visitas - a.visitas);
+
   const rangeLabel =
     preset === "hoje"
       ? "Hoje"
@@ -169,6 +182,56 @@ export default async function Estatisticas({
           <div className="text-xs text-muted">Produtos clicados</div>
         </div>
       </div>
+
+      {/*
+        "Por origem" vem ANTES de "Por produto" de propósito: sabendo qual
+        produto foi clicado você não sabe o que fazer amanhã; sabendo qual
+        canal trouxe o clique, sabe. A origem vem do `?s=` no link.
+      */}
+      <h2 className="mt-10 text-lg font-bold">Por origem</h2>
+      {porOrigem.length === 0 ? (
+        <div className="mt-2 rounded-xl border border-border bg-surface p-4 text-sm text-muted">
+          <p>
+            Nenhum link com origem ainda. Para medir de onde vem o clique,
+            acrescente <code className="text-white">?s=</code> no fim do link
+            que você divulga:
+          </p>
+          <ul className="mt-2 space-y-1">
+            <li>
+              Story: <code className="text-white">/r/{"{produto}"}?s=story</code>
+            </li>
+            <li>
+              Link da bio: <code className="text-white">/?s=bio</code>
+            </li>
+            <li>
+              Reels: <code className="text-white">/?s=reels</code>
+            </li>
+          </ul>
+          <p className="mt-2">
+            Sem <code className="text-white">?s=</code> o acesso é contado como
+            “direto” — não se perde nada, só não dá pra saber a procedência.
+          </p>
+        </div>
+      ) : (
+        <table className="mt-4 w-full text-sm">
+          <thead>
+            <tr className="border-b border-border text-left text-muted">
+              <th className="py-2">Origem</th>
+              <th className="py-2 text-right">Visitas</th>
+              <th className="py-2 text-right">Cliques</th>
+            </tr>
+          </thead>
+          <tbody>
+            {porOrigem.map((row) => (
+              <tr key={row.origem} className="border-b border-border">
+                <td className="py-2">{row.origem}</td>
+                <td className="py-2 text-right tabular-nums">{row.visitas}</td>
+                <td className="py-2 text-right tabular-nums">{row.cliques}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       <h2 className="mt-10 text-lg font-bold">Por produto</h2>
       {byItem.length === 0 ? (
